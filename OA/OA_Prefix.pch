@@ -1,0 +1,64 @@
+//
+//  OA_Prefix.pch
+//  OA
+//
+//  Created by llc on 16/4/13.
+//  Copyright (c) 2016年 xinpingTech. All rights reserved.
+//
+#ifdef __OBJC__
+#ifndef OA_OA_Prefix_pch
+#define OA_OA_Prefix_pch
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "BaseViewController.h"
+#import "AdaptInterface.h"
+#import "NSString+Extend.h"
+#import "SVProgressHUD.h"
+#import "Masonry.h"
+
+// 标准系统状态栏高度
+#define APP_STATUSBAR_HEIGHT [UIApplication sharedApplication].statusBarFrame.size.height
+// 标准系统状态栏高度
+#define SYS_STATUSBAR_HEIGHT                20
+// 热点栏高度
+#define HOTSPOT_STATUSBAR_HEIGHT            20
+#define IS_HOTSPOT_CONNECTED     (APP_STATUSBAR_HEIGHT==(SYS_STATUSBAR_HEIGHT+HOTSPOT_STATUSBAR_HEIGHT)?YES:NO)
+
+#define IOS7_OR_LATER	( [[[UIDevice currentDevice] systemVersion] compare:@"7.0"] != NSOrderedAscending )
+#define IOS8_OR_LATER	( [[[UIDevice currentDevice] systemVersion] compare:@"8.0"] != NSOrderedAscending )
+
+#define kTextFornt [UIFont systemFontOfSize:14.0f]
+
+#define currentViewHeight [UIScreen mainScreen].bounds.size.height
+#define currentViewWidth [UIScreen mainScreen].bounds.size.width
+#define kRequestURL @"http://172.16.0.1/mdffx/web/Admin/File/uploadPicture";//上传实名认证图片测试链接
+#define iphone6Width 375.f
+#define iphone6Height 667.f
+
+#define kTipLogin @1
+
+//项目访问路径
+#define kRequestIP @"http://119.254.166.213/mobile"
+
+#define kThemeColor colorWithHexString(@"#ebefed")
+#define kSystemFontOfSize(A) [UIFont systemFontOfSize:A]
+#define iosVersion [[[UIDevice currentDevice] systemVersion] floatValue]
+
+#define  colorWithRGB(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
+#define  colorWithHexString(a) [AdaptInterface colorWithHexString1:a]
+//字符串不为空
+#define IS_NOT_EMPTY(string) (string && ![[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] isEqualToString:@""]&&![string isKindOfClass:[NSNull class]])
+
+#define iPhone4 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#define iPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? (CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) || CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size)) : NO)
+
+#define iPhone6p ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? (CGSizeEqualToSize(CGSizeMake(1125, 2001), [[UIScreen mainScreen] currentMode].size) || CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size)) : NO)
+
+#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? (CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) || CGSizeEqualToSize(CGSizeMake(375, 812), [UIScreen mainScreen].bounds.size)) : NO)
+
+#endif
+#endif
