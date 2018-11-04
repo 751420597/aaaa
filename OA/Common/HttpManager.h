@@ -18,6 +18,17 @@ typedef void(^StopRequestBlock)();
 
 @interface HttpManager : NSObject
 
+//专门本次工程
++ (NSURLSessionDataTask *)requestDataWithURL2:(NSString *)urlString
+                               hasHttpHeaders:(BOOL)hasHeader
+                                       params:(NSDictionary *)params
+                               withController:(BaseViewController *)controller
+                                   httpMethod:(NSString *)method
+                                   completion:(CompletionBlock)block
+                                        error:(ErrorBlock)errorblock
+                                      failure:(FailureBlock)failureBlock;
+
++ (NSURLSessionDownloadTask *)downloadFromUrl:(NSString *)urlString success:(CompletionBlock)success faile:(ErrorBlock)faile;
 /**
  *    请求数据
  *  @param urlString     接口地址(不完整)

@@ -53,12 +53,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = kThemeColor;
-    self.navigationController.navigationBar.hidden = YES;
-    self.title =@"更多";
     
     [self creatTopView];
     [self createTradView];
     [self createMyWalletView];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+    [self loadData];
 }
 
 -(void)creatTopView{
@@ -310,5 +313,14 @@
     
   return YES;
     
+}
+-(void)loadData{
+    [HttpManager requestDataWithURL2:@"mobile/user/index" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
+        
+    } error:^(id result) {
+        
+    } failure:^(id result) {
+        
+    }];
 }
 @end

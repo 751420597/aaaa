@@ -8,6 +8,7 @@
 
 #import "HomeController.h"
 #import"TopCollectionReusableView.h"
+#import "UIImageView+HighlightedWebCache.h"
 @interface HomeController ()<SDCycleScrollViewDelegate>
 {
     
@@ -15,22 +16,40 @@
     TopCollectionReusableView *topView;
     
     CGFloat height;
+    
 }
 /**
  展示的CollectionView
  */
 @property(nonatomic, strong) UICollectionView *homeCollectionView;
+@property(nonatomic, strong) NSArray *yanxuanArr;
+@property(nonatomic, strong) NSArray *favouriteGoodArr;
 @end
 
 @implementation HomeController
-
+-(NSArray *)yanxuanArr{
+    if(_yanxuanArr==nil){
+        self.yanxuanArr = [NSArray array];
+    }
+    return _yanxuanArr;
+}
+-(NSArray *)favouriteGoodArr{
+    if(_favouriteGoodArr==nil){
+        self.favouriteGoodArr = [NSArray array];
+    }
+    return _favouriteGoodArr;
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+    [self loadData];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.title =@"首页";
-    self.navigationController.navigationBar.hidden = YES;
-    
     [self initCollectionView];
+    
     
 }
 /*初始化CollectionView*/
@@ -99,7 +118,7 @@
 //每个分区上的元素个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return 10;
+    return self.favouriteGoodArr.count;
     
 }
 
@@ -107,7 +126,9 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     ProductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"home_cell" forIndexPath:indexPath];
-   
+//    NSDictionary *dic = self.favouriteGoodArr[indexPath];
+//    NSString *url = [NSString stringWithFormat:@"%@%@",kRequestIP,[@"original_img"]];
+//    [cell.commodityImg sd_setHighlightedImageWithURL:[NSURL URLWithString: ];
     return cell;
     
 }
@@ -164,5 +185,17 @@
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {
     NSLog(@"点击轮播图");
+}
+-(void)loadData{
+    [HttpManager requestDataWithURL2:@"Mobile/Index/index" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
+        self.yanxuanArr = result[@"data"][@"ad_list"];
+        self.favouriteGoodArr = result[@"data"][@"favourite_goods"];
+        topView.yanxuanArr = self.yanxuanArr;
+        [_homeCollectionView reloadData];
+    } error:^(id result) {
+        
+    } failure:^(id result) {
+        
+    }];
 }
 @end

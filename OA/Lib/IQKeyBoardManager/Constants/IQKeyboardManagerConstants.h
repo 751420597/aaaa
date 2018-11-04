@@ -41,7 +41,7 @@
 
 /* Set IQKEYBOARDMANAGER_DEBUG=1 in preprocessor macros under build settings to enable debugging.*/
 #if !IQKEYBOARDMANAGER_DEBUG
-#define NSLog(...)  //baozibaobao 删掉-->打印信息   保留--》不打印
+//#define NSLog(...)  //baozibaobao 删掉-->打印信息   保留--》不打印
 #endif
 
 /**

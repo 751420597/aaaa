@@ -35,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)PrefectureVie *pView1;
 @property(nonatomic,strong)PrefectureVie *pView2;
 
+@property(nonatomic,strong)NSArray *yanxuanArr;
+
 -(CGFloat)getHeight;
 
 @end

@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
-
+#import "LoginViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -19,11 +19,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [self.window makeKeyAndVisible];
-    
     self.window.backgroundColor = [UIColor whiteColor];
     [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
     
-    self.window.rootViewController = [[MainViewController alloc] init];
+    //UINavigationController *navc = [[UINavigationController alloc]initWithRootViewController:[[LoginViewController alloc] init]];
+    //UINavigationController *navc = [[UINavigationController alloc]initWithRootViewController:[[MainViewController alloc] init]];
+    MainViewController *navc = [[MainViewController alloc] init];
+    self.window.rootViewController = navc;
     
     return YES;
 }

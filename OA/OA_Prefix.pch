@@ -16,7 +16,8 @@
 #import "NSString+Extend.h"
 #import "SVProgressHUD.h"
 #import "Masonry.h"
-
+#import "HttpManager.h"
+#import "IQKeyboardManager.h"
 // 标准系统状态栏高度
 #define APP_STATUSBAR_HEIGHT [UIApplication sharedApplication].statusBarFrame.size.height
 // 标准系统状态栏高度
@@ -38,8 +39,10 @@
 
 #define kTipLogin @1
 
+#define kNavigationColor [UIColor redColor]
+
 //项目访问路径
-#define kRequestIP @"http://119.254.166.213/mobile"
+#define kRequestIP @"https://www.diyoupin.com/"
 
 #define kThemeColor colorWithHexString(@"#ebefed")
 #define kSystemFontOfSize(A) [UIFont systemFontOfSize:A]

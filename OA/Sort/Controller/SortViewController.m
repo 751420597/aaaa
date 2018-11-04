@@ -19,13 +19,14 @@
 @end
 
 @implementation SortViewController
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+    [self loadData];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor =kThemeColor;
-    self.navigationController.navigationBar.hidden = YES;
-    
-    
     [self initTopView];
     
     tableView = [[UITableView alloc]init];
@@ -174,5 +175,14 @@
 }
 -(void)searchAction:(UIButton *)btn{
     
+}
+-(void)loadData{
+    [HttpManager requestDataWithURL2:@"mobile/user/index" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
+        
+    } error:^(id result) {
+        
+    } failure:^(id result) {
+        
+    }];
 }
 @end

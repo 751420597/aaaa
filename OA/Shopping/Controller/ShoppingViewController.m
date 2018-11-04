@@ -22,7 +22,20 @@
     
     // Do any additional setup after loading the view.
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = NO;
+    [self loadData];
+}
+-(void)loadData{
+    [HttpManager requestDataWithURL2:@"mobile/user/index" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
+        
+    } error:^(id result) {
+        
+    } failure:^(id result) {
+        
+    }];
+}
 /*
 #pragma mark - Navigation
 

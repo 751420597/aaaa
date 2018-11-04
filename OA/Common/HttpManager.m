@@ -10,26 +10,15 @@
 #import "NSDate+InternetDateTime.h"
 @implementation HttpManager
 
-///////////////////////////////////////////////////////////////////////////////
-/**
- *    请求数据
- *  @param urlString     接口地址(不完整)
- *  @param headers       请求头信息{@"sessionId":@"value"}
- *  @param params        参数(字典)
- *  @param method        请求的方式
- *  @param completion    完成回调block
- *  @param failure       失败回调block
-
- */
-+ (AFHTTPRequestOperationManager *)requestDataWithURL:(NSString *)urlString
-                               httpHeaders:(NSString *)headers
-                                    params:(NSMutableDictionary *)params
-                                tipMessage:(UIView *)view
-                                httpMethod:(NSString *)method
-                                completion:(CompletionBlock)block
-                                failure:(FailureBlock)failureBlock
-
-{
+//普通的上传方式
++ (NSURLSessionDataTask *)requestDataWithURL2:(NSString *)urlString
+                               hasHttpHeaders:(BOOL)hasHeader
+                                       params:(NSDictionary *)params
+                               withController:(BaseViewController *)controller
+                                   httpMethod:(NSString *)method
+                                   completion:(CompletionBlock)block
+                                        error:(ErrorBlock)errorblock
+                                      failure:(FailureBlock)failureBlock{
     //1.拼接完整的网址
     //拼接完整URL
     NSString *fullURLString = [kRequestIP stringByAppendingString:urlString];
@@ -40,79 +29,196 @@
         params = [NSMutableDictionary dictionary];
     }
     
-    AFHTTPRequestOperationManager *manager =[AFHTTPRequestOperationManager manager];
+    NSURLSessionDataTask *operation;
+    
+    AFHTTPSessionManager *manager =[AFHTTPSessionManager manager];
     manager.requestSerializer.timeoutInterval = 15;//设置请求超时时间
-    if (IS_NOT_EMPTY(headers)) {
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *sessionId = [userDefaults objectForKey:@"sessionId"];
-        [manager.requestSerializer setValue:sessionId forHTTPHeaderField:headers];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];//申明请求的数据是json类型
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer ];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/zip",@"application/octet-stream",@"text/json",@"text/plain",@"application/msword",@"application/x-img",@"application/x-jpg",@"application/x-png",@"application/json",@"image/png", nil];//申明接收类型可能是json，可能是字符串
+    //[manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    //[manager.requestSerializer setValue:@"multipart/form-data" forHTTPHeaderField:@"Content-Type"];
+    
+    if (hasHeader) {
+        [manager.requestSerializer setValue:@"DAssist" forHTTPHeaderField:@"DTOAUTH"];
+        [manager.requestSerializer setValue:@"XMLHttpRequest" forHTTPHeaderField:@"X-Requested-With"];
+        [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"ACCEPT"];
+       
+        NSData *cookiesdata = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookie"];
+        if([cookiesdata length]) {
+            NSArray *cookies = [NSKeyedUnarchiver unarchiveObjectWithData:cookiesdata];
+            NSHTTPCookie *cookie;
+            for (cookie in cookies) {
+                [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+            }
+            
+        }
     }
+    // 安全策略
+    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    securityPolicy.allowInvalidCertificates = YES;
+    securityPolicy.validatesDomainName = NO;
     
     //5.发送请求
     if ([[method uppercaseString] isEqualToString:@"GET"])
     {
-
-        [manager GET:fullURLString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@提交的数据%@",fullURLString,params);
+        operation = [manager GET:fullURLString parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                block(responseObject);
+                
+                NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: [NSURL URLWithString:fullURLString]];
+                NSData *data = [NSKeyedArchiver archivedDataWithRootObject:cookies];
+                [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"cookie"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                id dict=[NSJSONSerialization  JSONObjectWithData:responseObject options:0 error:nil];
+                NSLog(@"获取到的数据为：%@",dict);;
+                int code0 = [dict[@"status"] intValue] ;
+                 int code1 = [dict[@"code"] intValue] ;
+                [SVProgressHUD dismiss];
+                if (code1 == 1||code0==1) {
+                    block(dict);
+                }
+                else{
+                    NSString *message =dict[@"msg"];
+                    if(message.length<=0){
+                        [AdaptInterface tipMessageTitle:@"未知错误" view:controller.view];
+                    }else{
+                        [AdaptInterface tipMessageTitle:message view:controller.view];
+                    }
+                    
+                    errorblock(dict);
+                }
+                
             });
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
             [SVProgressHUD dismiss];
             //这里用userDefaults这么做的目的是为了解决请求数据时调用这个方法的同时进行下拉刷新，解决请求超时时刷新时间改变的这一变态的可有可无的bug。
             NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
             [userDefaults setInteger:error.code forKey:@"kCFURLErrorTimedOut"];
             [userDefaults synchronize];
-
+            
             if (error.code == NSURLErrorCannotFindHost || error.code ==kCFURLErrorNotConnectedToInternet) {
                 
-                [AdaptInterface tipMessageTitle:@"请检查网络连接" view:view];
+                [AdaptInterface tipMessageTitle:@"请检查网络连接" view:controller.view];
             }
             else if(error.code == kCFURLErrorTimedOut){
                 
-                [AdaptInterface tipMessageTitle:@"网络连接失败" view:view];
+                [AdaptInterface tipMessageTitle:@"网络连接失败" view:controller.view];
+                
+            }
+            else if(error.code == kCFURLErrorCancelled){
+                
+                NSLog(@"请求已取消___");
             }
             else{
                 
-                [AdaptInterface tipMessageTitle:@"操作失败" view:view];
+                [AdaptInterface tipMessageTitle:@"操作失败" view:controller.view];
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 failureBlock(@"");
             });
         }];
-   
     }
-    else{ //post提交
-        
-       [manager POST:fullURLString  parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-           dispatch_async(dispatch_get_main_queue(), ^{
-               block(responseObject);
-           });
-       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    else{
+        //post提交
+        operation =[manager POST:fullURLString parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: [NSURL URLWithString:fullURLString]];
+                NSData *data = [NSKeyedArchiver archivedDataWithRootObject:cookies];
+                [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"cookie"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                id dict=[NSJSONSerialization  JSONObjectWithData:responseObject options:0 error:nil];
+                NSLog(@"获取到的数据为：%@",dict[@"data"]);
+                //[AdaptInterface tipMessageTitle:dict[@"data"][@"user_id"] view:controller.view];
+                int code0 = [dict[@"status"] intValue] ;
+                int code1 = [dict[@"code"] intValue] ;
+                [SVProgressHUD dismiss];
+                if (code1 == 1||code0==1) {
+                    block(dict);
+                }
+                else{
+                    NSString *message =dict[@"msg"];
+                    if(message.length<=0){
+                        [AdaptInterface tipMessageTitle:@"未知错误" view:controller.view];
+                    }else{
+                        [AdaptInterface tipMessageTitle:message view:controller.view];
+                    }
+                    
+                    errorblock(dict);
+                }
+                //
+            });
+        } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
             [SVProgressHUD dismiss];
-           //这里用userDefaults这么做的目的是为了解决请求数据时调用这个方法的同时进行下拉刷新，解决请求超时时刷新时间改变的这一变态的可有可无的bug。
-           NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
-           [userDefaults setInteger:error.code forKey:@"kCFURLErrorTimedOut"];
-           [userDefaults synchronize];
-
-           if (error.code == NSURLErrorCannotFindHost || error.code ==kCFURLErrorNotConnectedToInternet) {
-               
-               [AdaptInterface tipMessageTitle:@"请检查网络连接" view:view];
-           }
-           else if(error.code == kCFURLErrorTimedOut){
-               
-               [AdaptInterface tipMessageTitle:@"网络连接失败" view:view];
-           }
-           else{
-               
-               [AdaptInterface tipMessageTitle:@"操作失败" view:view];
-           }
-           dispatch_async(dispatch_get_main_queue(), ^{
-               failureBlock(@"");
-           });
-       }];
+            //这里用userDefaults这么做的目的是为了解决请求数据时调用这个方法的同时进行下拉刷新，解决请求超时时刷新时间改变的这一变态的可有可无的bug。
+            NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
+            [userDefaults setInteger:error.code forKey:@"kCFURLErrorTimedOut"];
+            [userDefaults synchronize];
+            
+            if (error.code == NSURLErrorCannotFindHost || error.code ==kCFURLErrorNotConnectedToInternet) {
+                
+                [AdaptInterface tipMessageTitle:@"请检查网络连接" view:controller.view];
+            }
+            else if(error.code == kCFURLErrorTimedOut){
+                
+                [AdaptInterface tipMessageTitle:@"网络连接失败" view:controller.view];
+                
+            }
+            else if(error.code == kCFURLErrorCancelled){
+                
+                NSLog(@"请求已取消___");
+            }
+            else{
+                
+                [AdaptInterface tipMessageTitle:@"操作失败" view:controller.view];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                failureBlock(@"");
+            });
+        }];
+        
+        
     }
+    return operation;
     
-    return manager;
+}
+
+/**
+ *  文件下载
+ */
++ (NSURLSessionDownloadTask *)downloadFromUrl:(NSString *)urlString success:(CompletionBlock)success faile:(ErrorBlock)faile{
+    
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.timeoutInterval = 15;//设置请求超时时间
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/zip",@"text/json",@"text/plain",@"application/msword",@"application/x-img",@"application/x-jpg",@"image/png",@"application/x-png",@"image/jpeg",@"application/ms-excel",@"application/octet-stream",@"application/pdf",@"text/css",@"text/xml",@"image/gif",@"application/vnd.ms-powerpoint",@"text/rtf", nil];//申明接收类型可能是json，可能是字符串,zip,word,jpg,png
+    
+    NSURL *urlpath = [NSURL URLWithString:urlString];
+    NSURLRequest *request = [NSURLRequest requestWithURL:urlpath];
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+        
+        NSURL *downloadURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+        return [downloadURL URLByAppendingPathComponent:[response suggestedFilename]];
+    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nonnull filePath, NSError * _Nonnull error) {
+       
+        
+        if (error) {
+             faile(error);
+        }else{
+            NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: [NSURL URLWithString:urlString]];
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:cookies];
+            [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"cookie"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            success(filePath);
+        }
+    }];
+    
+    [downloadTask resume];
+    return downloadTask;
+    
 }
 
 /**
@@ -614,9 +720,9 @@
     
     
     if (hasHeader) {
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *sessionId = [userDefaults objectForKey:@"sessionId"];
-        [manager.requestSerializer setValue:sessionId forHTTPHeaderField:@"loginSessionId"];
+        [manager.requestSerializer setValue:@"DAssist" forHTTPHeaderField:@"Dtoauth"];
+        [manager.requestSerializer setValue:@"XMLHttpRequest" forHTTPHeaderField:@"X_Requested_With"];
+        [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     }
     NSArray *array = [fullURLString componentsSeparatedByString:@"/"]; //为打印方法名
     //5.发送请求

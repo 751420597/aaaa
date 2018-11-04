@@ -49,14 +49,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = kThemeColor;
-    self.navigationController.navigationBar.hidden = YES;
     self.title =@"小店";
     
     [self creatTopView];
     [self createTradView];
     [self createMyWalletView];
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+    [self loadData];
+}
 -(void)creatTopView{
     topGroundView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, currentViewWidth, [AdaptInterface convertHeightWithHeight:130])];
     topGroundView.backgroundColor = [UIColor redColor];
@@ -231,5 +234,13 @@
     }
     return cell;
 }
-
+-(void)loadData{
+    [HttpManager requestDataWithURL2:@"mobile/user/index" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
+        
+    } error:^(id result) {
+        
+    } failure:^(id result) {
+        
+    }];
+}
 @end

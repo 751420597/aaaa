@@ -7,10 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F1AA368218DAB6C00CC2386 /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1AA367218DAB6C00CC2386 /* HomeModel.m */; };
 		5F6D99F62174DDC1005BAF52 /* StoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6D99F52174DDC1005BAF52 /* StoreViewController.m */; };
 		5F6D99FD2174DE2F005BAF52 /* ShoppingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6D99FC2174DE2F005BAF52 /* ShoppingViewController.m */; };
+		5F8A39002189EF3100C30E31 /* ForgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8A38FF2189EF3100C30E31 /* ForgetViewController.m */; };
+		5FA81F88218EDC0300F00DA4 /* GetPassWordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FA81F87218EDC0300F00DA4 /* GetPassWordController.m */; };
 		5FDC7CF6218186C800AAFD28 /* OderItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC7CF5218186C800AAFD28 /* OderItemView.m */; };
 		5FDC7CF92182117A00AAFD28 /* MoneyItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC7CF82182117A00AAFD28 /* MoneyItemView.m */; };
+		5FE77E30218741BC008AD1D3 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FE77E2D218741BC008AD1D3 /* LoginViewController.m */; };
+		5FE77E31218741BC008AD1D3 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FE77E2F218741BC008AD1D3 /* RegisterViewController.m */; };
+		5FE77E34218749E7008AD1D3 /* LoginCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FE77E33218749E7008AD1D3 /* LoginCell.m */; };
+		5FE77E37218750C5008AD1D3 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FE77E36218750C5008AD1D3 /* LoginView.m */; };
 		5FEAA470217F6D0F00BAD68B /* StoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEAA46F217F6D0F00BAD68B /* StoreCell.m */; };
 		5FEDA2342180B46200900EFD /* TopItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDA2332180B46200900EFD /* TopItemView.m */; };
 		5FFFA8782185CCB40024B975 /* CustomIDCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FFFA72C2185CCB30024B975 /* CustomIDCardView.m */; };
@@ -204,14 +211,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5F1AA366218DAB6C00CC2386 /* HomeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HomeModel.h; path = OA/Main/Controller/HomeModel.h; sourceTree = SOURCE_ROOT; };
+		5F1AA367218DAB6C00CC2386 /* HomeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HomeModel.m; path = OA/Main/Controller/HomeModel.m; sourceTree = SOURCE_ROOT; };
 		5F6D99F42174DDC1005BAF52 /* StoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoreViewController.h; sourceTree = "<group>"; };
 		5F6D99F52174DDC1005BAF52 /* StoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreViewController.m; sourceTree = "<group>"; };
 		5F6D99FB2174DE2F005BAF52 /* ShoppingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShoppingViewController.h; sourceTree = "<group>"; };
 		5F6D99FC2174DE2F005BAF52 /* ShoppingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShoppingViewController.m; sourceTree = "<group>"; };
+		5F8A38FE2189EF3100C30E31 /* ForgetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForgetViewController.h; sourceTree = "<group>"; };
+		5F8A38FF2189EF3100C30E31 /* ForgetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForgetViewController.m; sourceTree = "<group>"; };
+		5FA81F86218EDC0300F00DA4 /* GetPassWordController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetPassWordController.h; sourceTree = "<group>"; };
+		5FA81F87218EDC0300F00DA4 /* GetPassWordController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetPassWordController.m; sourceTree = "<group>"; };
 		5FDC7CF4218186C800AAFD28 /* OderItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OderItemView.h; path = OA/Store/View/OderItemView.h; sourceTree = SOURCE_ROOT; };
 		5FDC7CF5218186C800AAFD28 /* OderItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = OderItemView.m; path = OA/Store/View/OderItemView.m; sourceTree = SOURCE_ROOT; };
 		5FDC7CF72182117A00AAFD28 /* MoneyItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MoneyItemView.h; path = OA/Store/View/MoneyItemView.h; sourceTree = SOURCE_ROOT; };
 		5FDC7CF82182117A00AAFD28 /* MoneyItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MoneyItemView.m; path = OA/Store/View/MoneyItemView.m; sourceTree = SOURCE_ROOT; };
+		5FE77E2C218741BC008AD1D3 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisterViewController.h; path = OA/Main/Controller/RegisterViewController.h; sourceTree = SOURCE_ROOT; };
+		5FE77E2D218741BC008AD1D3 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = OA/Main/Controller/LoginViewController.m; sourceTree = SOURCE_ROOT; };
+		5FE77E2E218741BC008AD1D3 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = OA/Main/Controller/LoginViewController.h; sourceTree = SOURCE_ROOT; };
+		5FE77E2F218741BC008AD1D3 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegisterViewController.m; path = OA/Main/Controller/RegisterViewController.m; sourceTree = SOURCE_ROOT; };
+		5FE77E32218749E7008AD1D3 /* LoginCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginCell.h; sourceTree = "<group>"; };
+		5FE77E33218749E7008AD1D3 /* LoginCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginCell.m; sourceTree = "<group>"; };
+		5FE77E35218750C5008AD1D3 /* LoginView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginView.h; sourceTree = "<group>"; };
+		5FE77E36218750C5008AD1D3 /* LoginView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginView.m; sourceTree = "<group>"; };
 		5FEAA46E217F6D0F00BAD68B /* StoreCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoreCell.h; sourceTree = "<group>"; };
 		5FEAA46F217F6D0F00BAD68B /* StoreCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreCell.m; sourceTree = "<group>"; };
 		5FEDA2322180B46200900EFD /* TopItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TopItemView.h; path = OA/Store/View/TopItemView.h; sourceTree = SOURCE_ROOT; };
@@ -1399,6 +1420,14 @@
 			children = (
 				62E5284D1CBE476C0065EBE1 /* MainViewController.h */,
 				62E5284E1CBE476C0065EBE1 /* MainViewController.m */,
+				5FE77E2E218741BC008AD1D3 /* LoginViewController.h */,
+				5FE77E2D218741BC008AD1D3 /* LoginViewController.m */,
+				5FE77E2C218741BC008AD1D3 /* RegisterViewController.h */,
+				5FE77E2F218741BC008AD1D3 /* RegisterViewController.m */,
+				5F8A38FE2189EF3100C30E31 /* ForgetViewController.h */,
+				5F8A38FF2189EF3100C30E31 /* ForgetViewController.m */,
+				5FA81F86218EDC0300F00DA4 /* GetPassWordController.h */,
+				5FA81F87218EDC0300F00DA4 /* GetPassWordController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1419,6 +1448,10 @@
 				62E528541CBE476C0065EBE1 /* DockItem.m */,
 				62E528551CBE476C0065EBE1 /* VersionUpdateView.h */,
 				62E528561CBE476C0065EBE1 /* VersionUpdateView.m */,
+				5FE77E32218749E7008AD1D3 /* LoginCell.h */,
+				5FE77E33218749E7008AD1D3 /* LoginCell.m */,
+				5FE77E35218750C5008AD1D3 /* LoginView.h */,
+				5FE77E36218750C5008AD1D3 /* LoginView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1486,6 +1519,8 @@
 		62E52AA81CBE49B70065EBE1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5F1AA366218DAB6C00CC2386 /* HomeModel.h */,
+				5F1AA367218DAB6C00CC2386 /* HomeModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1714,6 +1749,7 @@
 				5FFFA91D2185CD3E0024B975 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				5FFFA8F22185CCB40024B975 /* UIImage+MultiFormat.m in Sources */,
 				5FFFA89F2185CCB40024B975 /* MJRefreshAutoStateFooter.m in Sources */,
+				5FE77E34218749E7008AD1D3 /* LoginCell.m in Sources */,
 				5FFFA9242185CD3E0024B975 /* MASConstraint.m in Sources */,
 				5FFFA8DD2185CCB40024B975 /* AFSecurityPolicy.m in Sources */,
 				5FFFA8B72185CCB40024B975 /* POPAnimationExtras.mm in Sources */,
@@ -1727,6 +1763,7 @@
 				5FFFA8A52185CCB40024B975 /* MJRefreshFooter.m in Sources */,
 				5FFFA8FE2185CCB40024B975 /* split.c in Sources */,
 				5FFFA9292185CF610024B975 /* SortViewCell.m in Sources */,
+				5F8A39002189EF3100C30E31 /* ForgetViewController.m in Sources */,
 				5FFFA9312185CF780024B975 /* ProductCollectionViewCell.m in Sources */,
 				5FFFA8E22185CCB40024B975 /* TADotView.m in Sources */,
 				5FFFA88E2185CCB40024B975 /* MJPhotoToolbar.m in Sources */,
@@ -1755,6 +1792,7 @@
 				62E52AC71CBE4E670065EBE1 /* JSONKit.m in Sources */,
 				5FFFA8ED2185CCB40024B975 /* SDWebImageManager.m in Sources */,
 				5FFFA8C02185CCB40024B975 /* POPAnimationRuntime.mm in Sources */,
+				5FA81F88218EDC0300F00DA4 /* GetPassWordController.m in Sources */,
 				5FFFA8FC2185CCB40024B975 /* bitstream.c in Sources */,
 				5FFFA8962185CCB40024B975 /* NSData+AES.m in Sources */,
 				5FFFA87E2185CCB40024B975 /* MJPropertyType.m in Sources */,
@@ -1802,7 +1840,9 @@
 				5FFFA8D02185CCB40024B975 /* IQUITextFieldView+Additions.m in Sources */,
 				5FDC7CF92182117A00AAFD28 /* MoneyItemView.m in Sources */,
 				5FFFA8BA2185CCB40024B975 /* POPAnimation.mm in Sources */,
+				5F1AA368218DAB6C00CC2386 /* HomeModel.m in Sources */,
 				5FFFA8892185CCB40024B975 /* MBProgressHUD.m in Sources */,
+				5FE77E31218741BC008AD1D3 /* RegisterViewController.m in Sources */,
 				5FFFA8EE2185CCB40024B975 /* SDWebImageDecoder.m in Sources */,
 				5FFFA8C92185CCB40024B975 /* IQTitleBarButtonItem.m in Sources */,
 				5FFFA8D42185CCB40024B975 /* IQKeyboardReturnKeyHandler.m in Sources */,
@@ -1811,6 +1851,7 @@
 				5FFFA8AD2185CCB40024B975 /* SVProgressHUD.m in Sources */,
 				5FFFA8912185CCB40024B975 /* SDWebImageManager+MJ.m in Sources */,
 				5F6D99F62174DDC1005BAF52 /* StoreViewController.m in Sources */,
+				5FE77E30218741BC008AD1D3 /* LoginViewController.m in Sources */,
 				5FFFA8AC2185CCB40024B975 /* SVRadialGradientLayer.m in Sources */,
 				5FFFA8922185CCB40024B975 /* MJPhotoBrowser.m in Sources */,
 				62E5282B1CBE46C50065EBE1 /* AppDelegate.m in Sources */,
@@ -1843,6 +1884,7 @@
 				5FDC7CF6218186C800AAFD28 /* OderItemView.m in Sources */,
 				5FFFA89A2185CCB40024B975 /* UIScrollView+MJExtension.m in Sources */,
 				5FFFA8F72185CCB40024B975 /* NSData+ImageContentType.m in Sources */,
+				5FE77E37218750C5008AD1D3 /* LoginView.m in Sources */,
 				5FFFA8DB2185CCB40024B975 /* AFHTTPRequestOperation.m in Sources */,
 				62E52ACA1CBE4E670065EBE1 /* NSString+SHA.m in Sources */,
 				5FFFA8E82185CCB40024B975 /* FMDatabase.m in Sources */,

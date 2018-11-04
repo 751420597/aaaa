@@ -7,7 +7,7 @@
 //
 
 #import "TopCollectionReusableView.h"
-
+#import "UIButton+WebCache.h"
 @implementation TopCollectionReusableView
 
 @synthesize hRAdview,cycleScrollView,activeBtn0,activeBtn1,activeBtn2,nameItem0,nameItem1,nameItem2,nameItem3,nameItem4,nameItem5,nameItem6,nameItem7;
@@ -223,5 +223,15 @@
 
 -(CGFloat)getHeight{
     return CGRectGetMaxY(self.pView2.frame)+4+[AdaptInterface convertHeightWithHeight:55];
+}
+-(void)setYanxuanArr:(NSArray *)yanxuanArr{
+//    [self.pView0.imgViewBtn sd_setBackgroundImageWithURL:[NSURL URLWithString:yanxuanArr[0]] forState:0];
+    self.pView0.titleLB.text =yanxuanArr[0][@"position_name"];
+     self.pView1.titleLB.text =yanxuanArr[1][@"position_name"];
+     self.pView2.titleLB.text =yanxuanArr[2][@"position_name"];
+    
+    self.pView0.contentLB.text =yanxuanArr[0][@"position_desc"];
+    self.pView1.contentLB.text =yanxuanArr[1][@"position_desc"];
+    self.pView2.contentLB.text =yanxuanArr[2][@"position_desc"];
 }
 @end
