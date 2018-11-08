@@ -23,11 +23,12 @@
 }
 -(void)creatView:(CGRect)frame{
     self.imgV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height-[AdaptInterface convertHeightWithHeight:25])];
-    self.imgV.backgroundColor =[UIColor blueColor];
+    self.imgV.backgroundColor =[UIColor clearColor];
+    self.imgV.contentMode = UIViewContentModeScaleAspectFit;
     [self.contentView addSubview:self.imgV];
     
     self.titleLB = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.imgV.frame), frame.size.width, [AdaptInterface convertHeightWithHeight:25])];
-    self.titleLB.text = @"英国";
+    self.titleLB.text = @"";
     self.titleLB.font = [UIFont systemFontOfSize:13.5f];
     self.titleLB.textAlignment = NSTextAlignmentCenter;
     [self.contentView addSubview:self.titleLB];

@@ -8,21 +8,28 @@
 
 #import "SortViewController.h"
 #import "SortViewCell.h"
+#import "SortModel.h"
+#import "SubSortModel.h"
 @interface SortViewController ()<UITableViewDelegate,UITableViewDataSource,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate>
 {
     UITableView *tableView;
     UILabel *nameLB;
     UIView * _topView;
+    NSDictionary *imageDic;
 }
 @property(nonatomic ,strong)UIButton *imgBtn;
 @property(nonatomic, strong) UICollectionView *homeCollectionView;
+@property(nonatomic,strong)NSMutableArray *categoryTreeArr;
+@property(nonatomic,strong)NSMutableArray *subCategoryArr;
 @end
 
 @implementation SortViewController
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
     [self loadData];
+    [self getDataforHDP];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,7 +45,9 @@
     
     self.imgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.imgBtn.frame = CGRectMake(CGRectGetMaxX(tableView.frame)+[AdaptInterface convertWidthWithWidth:7],CGRectGetMinY(tableView.frame)+1, currentViewWidth-CGRectGetMaxX(tableView.frame)-[AdaptInterface convertWidthWithWidth:14], [AdaptInterface convertHeightWithHeight:130]);
-    self.imgBtn.backgroundColor =[UIColor blueColor];
+    self.imgBtn.backgroundColor =[UIColor whiteColor];
+    self.imgBtn.userInteractionEnabled = NO;
+    [self.imgBtn addTarget:self action:@selector(linkAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.imgBtn];
     
     nameLB = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMinX(self.imgBtn.frame), CGRectGetMaxY(self.imgBtn.frame)+[AdaptInterface convertWidthWithWidth:5], CGRectGetWidth(self.imgBtn.frame), [AdaptInterface convertHeightWithHeight:40])];
@@ -79,7 +88,7 @@
     
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return self.categoryTreeArr.count;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return [AdaptInterface convertHeightWithHeight:40];
@@ -93,11 +102,15 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
     }
-    cell.textLabel.text = @"分类";
+    SortModel *model = self.categoryTreeArr[indexPath.row];
+    cell.textLabel.text = model.name;
+    cell.textLabel.font = [UIFont systemFontOfSize:13.5f];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     return cell;
 }
-
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self getSubMenu:indexPath];
+}
 
 
 #pragma mark - UICollectionViewDataSource
@@ -110,17 +123,17 @@
 //每个分区上的元素个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return 10;
-    
+    return self.subCategoryArr.count;
 }
 
 //设置元素内容
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     SortViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"home_cell" forIndexPath:indexPath];
-    
+    SubSortModel *model = self.subCategoryArr[indexPath.row];
+    cell.titleLB.text = model.name;
+    [cell.imgV sd_setImageWithURL:[NSURL URLWithString:model.imgeUrl]];
     return cell;
-    
 }
 
 //设置显示的位置
@@ -135,6 +148,11 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"+++++点击item响应的事件----");
+    SubSortModel *model = self.subCategoryArr[indexPath.row];
+    NSString *url = [NSString stringWithFormat:@"mobile/goods/goodsList/id/%@",model.id];
+    HelpCenterViewController *vc = [[HelpCenterViewController alloc]init];
+    vc.urlstring = url;
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 
@@ -177,12 +195,52 @@
     
 }
 -(void)loadData{
-    [HttpManager requestDataWithURL2:@"mobile/user/index" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
-        
+    [HttpManager requestDataWithURL2:@"mobile/goods/categoryList" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
+        NSDictionary *goodsCategoryTree = result[@"data"][@"goods_category_tree"];
+        NSArray *allKeys= goodsCategoryTree.allKeys;
+        self.categoryTreeArr = [NSMutableArray array];
+        for (NSString *key in allKeys) {
+            SortModel *model = [[SortModel alloc]initSortModelWithDic:goodsCategoryTree[key]];
+            [self.categoryTreeArr addObject:model];
+        }
+        [tableView reloadData];
+        [self getSubMenu:[NSIndexPath indexPathForRow:0 inSection:0]];
     } error:^(id result) {
         
     } failure:^(id result) {
         
     }];
+    
+}
+-(void)getSubMenu:(NSIndexPath *)index{
+    self.subCategoryArr =[NSMutableArray array];
+    SortModel *model = self.categoryTreeArr[index.row];
+    
+    NSDictionary *dic = model.tmenu[0];
+    nameLB.text = dic[@"name"];
+    
+    NSArray *arr =dic[@"sub_menu"];
+    for (NSDictionary *subDic in arr) {
+        SubSortModel *subModel = [[SubSortModel alloc]initSubSortModelWithDic:subDic];
+        [self.subCategoryArr addObject:subModel];
+    }
+    [_homeCollectionView reloadData];
+}
+//获取幻灯片
+-(void)getDataforHDP{
+    [HttpManager requestDataWithURL2:@"Home/Api/getAdData" hasHttpHeaders:YES params:@{@"pid":@(400),@"limit":@(1)} withController:self httpMethod:@"POST" completion:^(id result) {
+        imageDic =result[0];
+        [self.imgBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,imageDic[@"ad_code"]]] forState:0];
+        self.imgBtn.userInteractionEnabled = YES;
+    } error:^(id result) {
+        
+    } failure:^(id result) {
+        
+    }];
+}
+-(void)linkAction{
+    HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+    helpVC.urlstring =  imageDic[@"ad_link"];
+    [self.navigationController pushViewController:helpVC animated:YES];
 }
 @end

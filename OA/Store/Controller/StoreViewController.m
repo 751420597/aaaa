@@ -73,7 +73,7 @@
     [topGroundView addSubview:heardImgView];
     
     nameLB = [[UILabel alloc]init];
-    nameLB.text = @"371273793724";
+    nameLB.text = @"未开通";
     nameLB.font =[UIFont systemFontOfSize:17.5f];
     nameLB.textColor =[UIColor whiteColor];
     [topGroundView addSubview:nameLB];
@@ -85,7 +85,7 @@
     
     timeLB = [UILabel new];
     timeLB.textColor = [UIColor orangeColor];
-    timeLB.text = @"注册时间:2018-10-22";
+    timeLB.text = @"注册时间:";
     timeLB.font = [UIFont systemFontOfSize:16.5f];
     [topGroundView addSubview:timeLB];
     [timeLB mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -122,21 +122,21 @@
     
     moneyItemV0 =[[MoneyItemView alloc]initWithFrame:CGRectMake([AdaptInterface convertWidthWithWidth:15],35+ [AdaptInterface convertHeightWithHeight:15], (currentViewWidth-75)/3, [AdaptInterface convertHeightWithHeight:75])];
     moneyItemV0.textLB.text = @"本周期订单(笔)";
-    [moneyItemV0.numBT setTitle:@"22" forState:0];
+    [moneyItemV0.numBT setTitle:@"0" forState:0];
     moneyItemV0.numBT.titleLabel.font =[UIFont systemFontOfSize:23.f];
     [backView addSubview:moneyItemV0];
 
     
     moneyItemV1 =[[MoneyItemView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(moneyItemV0.frame)+[AdaptInterface convertWidthWithWidth:15], CGRectGetMinY(moneyItemV0.frame), CGRectGetWidth(moneyItemV0.frame), CGRectGetHeight(moneyItemV0.frame))];
     moneyItemV1.textLB.text = @"待入账(元)";
-    [moneyItemV1.numBT setTitle:@"22" forState:0];
+    [moneyItemV1.numBT setTitle:@"0" forState:0];
     moneyItemV1.numBT.titleLabel.font =[UIFont systemFontOfSize:23.f];
     [backView addSubview:moneyItemV1];
     
     
     moneyItemV2 =[[MoneyItemView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(moneyItemV1.frame)+[AdaptInterface convertWidthWithWidth:15], CGRectGetMinY(moneyItemV0.frame), CGRectGetWidth(moneyItemV0.frame), CGRectGetHeight(moneyItemV0.frame))];
     moneyItemV2.textLB.text = @"收入(元)";
-    [moneyItemV2.numBT setTitle:@"22" forState:0];
+    [moneyItemV2.numBT setTitle:@"0" forState:0];
     moneyItemV2.numBT.titleLabel.font =[UIFont systemFontOfSize:20.f];
     [backView addSubview:moneyItemV2];
     
@@ -235,8 +235,27 @@
     return cell;
 }
 -(void)loadData{
-    [HttpManager requestDataWithURL2:@"mobile/user/index" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
+    [HttpManager requestDataWithURL2:@"mobile/distribut/index" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
+        NSDictionary *userdDic = result[@"data"][@"user"];
         
+        NSString *level_name =result[@"data"][@"level_name"];
+        NSString *time =[NSString stringWithFormat:@"%@",userdDic[@"reg_time"]] ;
+        NSString *totalOrderNum =[NSString stringWithFormat:@"%@",result[@"data"][@"total"]] ;
+        NSString *run_money = [NSString stringWithFormat:@"%@",result[@"data"][@"run_money"]] ;
+        NSString *money = [NSString stringWithFormat:@"%@",result[@"data"][@"money"][@"achieve_money"]] ;
+        NSString *total_shop = [NSString stringWithFormat:@"%@",result[@"data"][@"total_shop"]] ;
+        NSString *jiFen = [NSString stringWithFormat:@"%@",result[@"data"][@"int"]] ;
+        nameLB.text = userdDic[@"nickname"];
+        timeLB.text =[NSString stringWithFormat:@"注册时间:%@",[AdaptInterface getDataByTimeStamp:time withFormatter:@"yyyy-MM-dd"]];
+        [moneyItemV0.numBT setTitle:totalOrderNum forState:0];
+        [moneyItemV1.numBT setTitle:run_money forState:0];
+        [moneyItemV2.numBT setTitle:money forState:0];
+        
+        StoreCell *cell0 = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        StoreCell *cell1 = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+        
+        cell0.numLB.text =total_shop;
+        cell1.numLB.text =jiFen;
     } error:^(id result) {
         
     } failure:^(id result) {

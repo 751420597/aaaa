@@ -12,8 +12,11 @@
 #import "HRAdView.h"
 #import "UIButton+WebCache.h"
 #import "PrefectureVie.h"
-NS_ASSUME_NONNULL_BEGIN
 
+typedef  void (^Block)(NSString *link,NSInteger index);
+typedef  void (^BlockLink)(NSString *link,NSInteger index);
+typedef  void (^BlockSudokuLink)(NSString *link,NSInteger index);
+typedef  void (^BlockADLink)(NSString *link,NSInteger index);
 @interface TopCollectionReusableView : UIView<SDCycleScrollViewDelegate>
 
 @property(nonatomic,strong) HRAdView * hRAdview;// 滚动字幕
@@ -36,9 +39,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)PrefectureVie *pView2;
 
 @property(nonatomic,strong)NSArray *yanxuanArr;
-
+@property(nonatomic,strong)NSArray *adArr;
+@property(nonatomic,strong)NSMutableArray *adImageArr;
+@property(nonatomic,strong)NSArray *iconeArr;
+@property(nonatomic,copy)Block block;
+@property(nonatomic,copy)BlockLink blockLink;
+@property(nonatomic,copy)BlockSudokuLink blockSudokuLink;
+@property(nonatomic,copy)NSString *info;
+@property(nonatomic,copy)BlockADLink blockAdLink;
 -(CGFloat)getHeight;
 
 @end
 
-NS_ASSUME_NONNULL_END
+

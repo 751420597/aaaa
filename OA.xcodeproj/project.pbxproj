@@ -12,6 +12,8 @@
 		5F6D99FD2174DE2F005BAF52 /* ShoppingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6D99FC2174DE2F005BAF52 /* ShoppingViewController.m */; };
 		5F8A39002189EF3100C30E31 /* ForgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F8A38FF2189EF3100C30E31 /* ForgetViewController.m */; };
 		5FA81F88218EDC0300F00DA4 /* GetPassWordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FA81F87218EDC0300F00DA4 /* GetPassWordController.m */; };
+		5FA81F8B218F393800F00DA4 /* SortModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FA81F8A218F393800F00DA4 /* SortModel.m */; };
+		5FA81F8E218F3E3800F00DA4 /* SubSortModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FA81F8D218F3E3800F00DA4 /* SubSortModel.m */; };
 		5FDC7CF6218186C800AAFD28 /* OderItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC7CF5218186C800AAFD28 /* OderItemView.m */; };
 		5FDC7CF92182117A00AAFD28 /* MoneyItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC7CF82182117A00AAFD28 /* MoneyItemView.m */; };
 		5FE77E30218741BC008AD1D3 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FE77E2D218741BC008AD1D3 /* LoginViewController.m */; };
@@ -20,6 +22,7 @@
 		5FE77E37218750C5008AD1D3 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FE77E36218750C5008AD1D3 /* LoginView.m */; };
 		5FEAA470217F6D0F00BAD68B /* StoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEAA46F217F6D0F00BAD68B /* StoreCell.m */; };
 		5FEDA2342180B46200900EFD /* TopItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDA2332180B46200900EFD /* TopItemView.m */; };
+		5FEE5A472191080F0078E36F /* HelpCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE5A452191080E0078E36F /* HelpCenterViewController.m */; };
 		5FFFA8782185CCB40024B975 /* CustomIDCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FFFA72C2185CCB30024B975 /* CustomIDCardView.m */; };
 		5FFFA8792185CCB40024B975 /* libLibCustomKeyBoardAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFFA72D2185CCB30024B975 /* libLibCustomKeyBoardAPI.a */; };
 		5FFFA87A2185CCB40024B975 /* CustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FFFA7302185CCB30024B975 /* CustomView.m */; };
@@ -221,6 +224,10 @@
 		5F8A38FF2189EF3100C30E31 /* ForgetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForgetViewController.m; sourceTree = "<group>"; };
 		5FA81F86218EDC0300F00DA4 /* GetPassWordController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetPassWordController.h; sourceTree = "<group>"; };
 		5FA81F87218EDC0300F00DA4 /* GetPassWordController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetPassWordController.m; sourceTree = "<group>"; };
+		5FA81F89218F393800F00DA4 /* SortModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SortModel.h; path = OA/Main/Controller/SortModel.h; sourceTree = SOURCE_ROOT; };
+		5FA81F8A218F393800F00DA4 /* SortModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SortModel.m; path = OA/Main/Controller/SortModel.m; sourceTree = SOURCE_ROOT; };
+		5FA81F8C218F3E3800F00DA4 /* SubSortModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SubSortModel.h; path = OA/Main/Controller/SubSortModel.h; sourceTree = SOURCE_ROOT; };
+		5FA81F8D218F3E3800F00DA4 /* SubSortModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SubSortModel.m; path = OA/Main/Controller/SubSortModel.m; sourceTree = SOURCE_ROOT; };
 		5FDC7CF4218186C800AAFD28 /* OderItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OderItemView.h; path = OA/Store/View/OderItemView.h; sourceTree = SOURCE_ROOT; };
 		5FDC7CF5218186C800AAFD28 /* OderItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = OderItemView.m; path = OA/Store/View/OderItemView.m; sourceTree = SOURCE_ROOT; };
 		5FDC7CF72182117A00AAFD28 /* MoneyItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MoneyItemView.h; path = OA/Store/View/MoneyItemView.h; sourceTree = SOURCE_ROOT; };
@@ -237,6 +244,8 @@
 		5FEAA46F217F6D0F00BAD68B /* StoreCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreCell.m; sourceTree = "<group>"; };
 		5FEDA2322180B46200900EFD /* TopItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TopItemView.h; path = OA/Store/View/TopItemView.h; sourceTree = SOURCE_ROOT; };
 		5FEDA2332180B46200900EFD /* TopItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TopItemView.m; path = OA/Store/View/TopItemView.m; sourceTree = SOURCE_ROOT; };
+		5FEE5A452191080E0078E36F /* HelpCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpCenterViewController.m; sourceTree = "<group>"; };
+		5FEE5A462191080F0078E36F /* HelpCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpCenterViewController.h; sourceTree = "<group>"; };
 		5FFFA72C2185CCB30024B975 /* CustomIDCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIDCardView.m; sourceTree = "<group>"; };
 		5FFFA72D2185CCB30024B975 /* libLibCustomKeyBoardAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libLibCustomKeyBoardAPI.a; sourceTree = "<group>"; };
 		5FFFA72E2185CCB30024B975 /* CustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomView.h; sourceTree = "<group>"; };
@@ -1358,14 +1367,16 @@
 		62E528241CBE46C50065EBE1 /* OA */ = {
 			isa = PBXGroup;
 			children = (
+				62E52AAA1CBE49C30065EBE1 /* Sort */,
 				5FFFA7292185CCB30024B975 /* Lib */,
 				62E5284B1CBE476C0065EBE1 /* Main */,
 				62E52AA21CBE49AC0065EBE1 /* Set */,
 				62E52AA61CBE49B70065EBE1 /* Home */,
-				62E52AAA1CBE49C30065EBE1 /* Sort */,
 				5F6D99F02174DD3C005BAF52 /* Store */,
 				5F6D99F72174DDE4005BAF52 /* Shopping */,
 				62E52AB21CBE4E670065EBE1 /* Common */,
+				5FEE5A462191080F0078E36F /* HelpCenterViewController.h */,
+				5FEE5A452191080E0078E36F /* HelpCenterViewController.m */,
 				62E528291CBE46C50065EBE1 /* AppDelegate.h */,
 				62E5282A1CBE46C50065EBE1 /* AppDelegate.m */,
 				62E52AAE1CBE4CAB0065EBE1 /* BaseViewController.h */,
@@ -1560,6 +1571,10 @@
 		62E52AAC1CBE49C30065EBE1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5FA81F89218F393800F00DA4 /* SortModel.h */,
+				5FA81F8A218F393800F00DA4 /* SortModel.m */,
+				5FA81F8C218F3E3800F00DA4 /* SubSortModel.h */,
+				5FA81F8D218F3E3800F00DA4 /* SubSortModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1823,6 +1838,7 @@
 				5FFFA8C42185CCB40024B975 /* UIColor+ImageGetColor.m in Sources */,
 				5FFFA8822185CCB40024B975 /* MJExtensionConst.m in Sources */,
 				5FFFA8E62185CCB40024B975 /* FMDatabaseQueue.m in Sources */,
+				5FEE5A472191080F0078E36F /* HelpCenterViewController.m in Sources */,
 				5FFFA88F2185CCB40024B975 /* MJPhotoProgressView.m in Sources */,
 				5FFFA9222185CD3E0024B975 /* NSArray+MASAdditions.m in Sources */,
 				62E52AB01CBE4CAB0065EBE1 /* BaseViewController.m in Sources */,
@@ -1833,6 +1849,7 @@
 				5FFFA8CD2185CCB40024B975 /* IQKeyboardManager.m in Sources */,
 				5FFFA87F2185CCB40024B975 /* NSObject+MJKeyValue.m in Sources */,
 				5FFFA89D2185CCB40024B975 /* MJRefreshBackStateFooter.m in Sources */,
+				5FA81F8E218F3E3800F00DA4 /* SubSortModel.m in Sources */,
 				5FFFA8C52185CCB40024B975 /* MenuLabel.m in Sources */,
 				5FFFA8B42185CCB40024B975 /* POPSpringAnimation.mm in Sources */,
 				5FFFA87D2185CCB40024B975 /* KDGoalBarPercentLayer.m in Sources */,
@@ -1882,6 +1899,7 @@
 				5FFFA8CF2185CCB40024B975 /* IQUIWindow+Hierarchy.m in Sources */,
 				5FFFA8E12185CCB40024B975 /* SDCollectionViewCell.m in Sources */,
 				5FDC7CF6218186C800AAFD28 /* OderItemView.m in Sources */,
+				5FA81F8B218F393800F00DA4 /* SortModel.m in Sources */,
 				5FFFA89A2185CCB40024B975 /* UIScrollView+MJExtension.m in Sources */,
 				5FFFA8F72185CCB40024B975 /* NSData+ImageContentType.m in Sources */,
 				5FE77E37218750C5008AD1D3 /* LoginView.m in Sources */,
@@ -2024,7 +2042,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OA/OA_Prefix.pch";
 				INFOPLIST_FILE = OA/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2057,7 +2075,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OA/OA_Prefix.pch";
 				INFOPLIST_FILE = OA/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

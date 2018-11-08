@@ -18,6 +18,11 @@
 #import "Masonry.h"
 #import "HttpManager.h"
 #import "IQKeyboardManager.h"
+#import "UIButton+WebCache.h"
+#import "UIImageView+WebCache.h"
+#import "HelpCenterViewController.h"
+#import "UINavigationController+FDFullscreenPopGesture.h"
+#import "MJRefresh.h"
 // 标准系统状态栏高度
 #define APP_STATUSBAR_HEIGHT [UIApplication sharedApplication].statusBarFrame.size.height
 // 标准系统状态栏高度
@@ -47,6 +52,7 @@
 #define kThemeColor colorWithHexString(@"#ebefed")
 #define kSystemFontOfSize(A) [UIFont systemFontOfSize:A]
 #define iosVersion [[[UIDevice currentDevice] systemVersion] floatValue]
+#define kNavigationTitleFont [UIFont systemFontOfSize:17]   // navigation title字体
 
 #define  colorWithRGB(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
 #define  colorWithHexString(a) [AdaptInterface colorWithHexString1:a]

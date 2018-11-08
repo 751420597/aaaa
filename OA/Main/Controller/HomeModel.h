@@ -11,7 +11,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HomeModel : NSObject
-
+@property(nonatomic,copy) NSString *comment;
+@property(nonatomic,copy) NSString *url;
+@property(nonatomic,copy) NSString *price;
+@property(nonatomic,copy) NSString *imageUrl;
+@property(nonatomic,copy) NSString *idStr;
+-(HomeModel *)initHomeModelWithDic:(NSDictionary *)dic;
 @end
 
 NS_ASSUME_NONNULL_END

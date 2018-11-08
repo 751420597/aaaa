@@ -86,11 +86,11 @@
     }
     return self;
 }
-//-(void)setAdTitles:(NSArray *)adTitles{
-//    if(adTitles!=self.adTitles){
-//        self.adTitles = adTitles;
-//    }
-//}
+-(void)setAdTitles:(NSArray *)adTitles{
+    if(adTitles!=_adTitles){
+        _adTitles = adTitles;
+    }
+}
 
 - (void)timeRepeat{
     if (self.adTitles.count <= 1) {

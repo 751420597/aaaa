@@ -20,15 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic,strong) UILabel *commodityNameLabel;
 
-/**
- 商品规格
- */
-@property(nonatomic,strong) UILabel *commoditySpecLabel;
-
-/**
- 最小批发数量
- */
-@property(nonatomic,strong) UILabel *minWholesaleQuanLabel;
 
 /**
  商品价格

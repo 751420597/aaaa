@@ -9,21 +9,25 @@
 #import "HomeController.h"
 #import"TopCollectionReusableView.h"
 #import "UIImageView+HighlightedWebCache.h"
+#import "HomeModel.h"
 @interface HomeController ()<SDCycleScrollViewDelegate>
 {
-    
-    
+ 
     TopCollectionReusableView *topView;
     
     CGFloat height;
     
+    int pageCount;
 }
 /**
  展示的CollectionView
  */
 @property(nonatomic, strong) UICollectionView *homeCollectionView;
 @property(nonatomic, strong) NSArray *yanxuanArr;
-@property(nonatomic, strong) NSArray *favouriteGoodArr;
+@property(nonatomic, strong) NSMutableArray *favouriteGoodArr;
+@property(nonatomic, strong) NSArray *adArr;//广告
+@property(nonatomic, strong) NSArray *iconeArr;//广告
+@property(nonatomic,strong) NSString *infoStr;
 @end
 
 @implementation HomeController
@@ -33,29 +37,67 @@
     }
     return _yanxuanArr;
 }
--(NSArray *)favouriteGoodArr{
+-(NSMutableArray *)favouriteGoodArr{
     if(_favouriteGoodArr==nil){
-        self.favouriteGoodArr = [NSArray array];
+        self.favouriteGoodArr = [NSMutableArray array];
     }
     return _favouriteGoodArr;
+}
+-(NSArray *)adArr{
+    if(_adArr==nil){
+        self.adArr = [NSArray array];
+    }
+    return _adArr;
+}
+-(NSArray *)iconeArr{
+    if(_iconeArr==nil){
+        self.iconeArr = [NSArray array];
+    }
+    return _iconeArr;
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
     [self loadData];
+   
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.title =@"首页";
     [self initCollectionView];
-    
+    [self getIconData];
+    [self getDataforHDP];
+    [self getCollections];
     
 }
 /*初始化CollectionView*/
 - (void)initCollectionView
 {
     topView = [[TopCollectionReusableView alloc]initWithFrame:CGRectZero];
+    __weak typeof(self) weakSelf = self;
+    topView.block = ^(NSString *link, NSInteger index) {
+        HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+        helpVC.urlstring = link;
+        [weakSelf.navigationController pushViewController:helpVC animated:YES];
+    };
+    topView.blockLink = ^(NSString *link, NSInteger index) {
+        HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+        helpVC.urlstring = link;
+        [weakSelf.navigationController pushViewController:helpVC animated:YES];
+    };
+    topView.blockSudokuLink = ^(NSString *link, NSInteger index) {
+        HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+        helpVC.urlstring = link;
+        [weakSelf.navigationController pushViewController:helpVC animated:YES];
+    };
+    
+    topView.blockAdLink= ^(NSString *link, NSInteger index) {
+        HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+        helpVC.urlstring = link;
+        [weakSelf.navigationController pushViewController:helpVC animated:YES];
+    };
+    
     height =  [topView getHeight];
     
     CGFloat tempHeight = 0;
@@ -99,12 +141,16 @@
 //    [_homeCollectionView registerClass:[TopCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header"];
     
     //下拉刷新
-//    _homeCollectionView.mj_header=[MJRefreshNormalHeader headerWithRefreshingBlock:^{
+//    _homeCollectionView.header=[MJRefreshNormalHeader headerWithRefreshingBlock:^{
 //        [self loadData];
 //
 //    }];
 //
-//    [_homeCollectionView.mj_header beginRefreshing];
+//    [_homeCollectionView.header beginRefreshing];
+    _homeCollectionView.footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        pageCount++;
+        [self getCollections];
+    }];
 }
 
 
@@ -129,6 +175,10 @@
 //    NSDictionary *dic = self.favouriteGoodArr[indexPath];
 //    NSString *url = [NSString stringWithFormat:@"%@%@",kRequestIP,[@"original_img"]];
 //    [cell.commodityImg sd_setHighlightedImageWithURL:[NSURL URLWithString: ];
+    HomeModel *model=  self.favouriteGoodArr[indexPath.row];
+    [cell.commodityImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,model.imageUrl]]];
+    cell.commodityNameLabel.text = model.comment;
+    cell.commodityPriceLabel.text = model.price;
     return cell;
     
 }
@@ -145,53 +195,57 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"+++++点击item响应的事件----");
-    
+    HomeModel *model=  self.favouriteGoodArr[indexPath.row];
+    HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+    helpVC.urlstring = [NSString stringWithFormat:@"mobile/goods/goodsList/id/%@",model.idStr];
+    [self.navigationController pushViewController:helpVC animated:YES];
 }
 
-//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
-//
-//{
-//    UICollectionReusableView *reusableview = nil;
-//    if ([kind isEqualToString:UICollectionElementKindSectionHeader])
-//    {
-//        //加载头视图
-//        topView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header" forIndexPath:indexPath];
-//        //_headerView.applictionTitles = _applictionTitles;
-//        //_headerView.applicationIconNames = _applicationIconNames;
-//        //topView.frame = CGRectMake(0, 0, currentViewWidth,  topView.height);
-//        topView.backgroundColor = [UIColor whiteColor];
-//        topView.cycleScrollView.delegate = self;
-//
-//        reusableview = topView;
-//    }
-//    return reusableview;
-//
-//}
-//
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
-//{
-//    CGSize size = CGSizeZero;
-//    CGFloat singleViewHeight = (currentViewWidth - [AdaptInterface convertWidthWithWidth:100]) / 4.0 + [AdaptInterface convertHeightWithHeight:10];
-//    NSInteger rowCount = (10 - 1) / 2.0 + 1;
-//    CGFloat itemViewHeight = singleViewHeight * rowCount;
-//
-//    CGFloat headerHeight = [AdaptInterface convertHeightWithHeight:160+8+42]+itemViewHeight;
-//    if (section == 0)
-//    {
-//        size = CGSizeMake(currentViewWidth, headerHeight);
-//    }
-//    return size;
-//}
-- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
-{
-    NSLog(@"点击轮播图");
-}
 -(void)loadData{
     [HttpManager requestDataWithURL2:@"Mobile/Index/index" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
         self.yanxuanArr = result[@"data"][@"ad_list"];
-        self.favouriteGoodArr = result[@"data"][@"favourite_goods"];
+        self.infoStr = result[@"data"][@"info"][@"info"];
         topView.yanxuanArr = self.yanxuanArr;
+        topView.info = self.infoStr;
+        
+    } error:^(id result) {
+        
+    } failure:^(id result) {
+        
+    }];
+}
+//获取幻灯片
+-(void)getDataforHDP{
+    [HttpManager requestDataWithURL2:@"Home/Api/getAdData" hasHttpHeaders:YES params:@{@"pid":@(2),@"limit":@(3)} withController:self httpMethod:@"POST" completion:^(id result) {
+        self.adArr = result;
+        topView.adArr = self.adArr;
+    } error:^(id result) {
+        
+    } failure:^(id result) {
+        
+    }];
+}
+//获取品牌
+-(void)getIconData{
+    [HttpManager requestDataWithURL2:@"Home/Api/getBrandList" hasHttpHeaders:YES params:@{@"limit":@(8)} withController:self httpMethod:@"POST" completion:^(id result) {
+        self.iconeArr = result;
+        topView.iconeArr = self.iconeArr;
+    } error:^(id result) {
+        
+    } failure:^(id result) {
+        
+    }];
+}
+//获取shangpin
+-(void)getCollections{
+    [HttpManager requestDataWithURL2:@"mobile/index/ajaxGetMore" hasHttpHeaders:YES params:@{@"p":@(pageCount)} withController:self httpMethod:@"POST" completion:^(id result) {
+        NSArray *array = result[@"data"][@"favourite_goods"];
+        for (NSDictionary *dic in array) {
+            HomeModel *model = [[HomeModel alloc]initHomeModelWithDic:dic];
+            [self.favouriteGoodArr addObject:model];
+        }
         [_homeCollectionView reloadData];
+        [_homeCollectionView.footer endRefreshing];
     } error:^(id result) {
         
     } failure:^(id result) {

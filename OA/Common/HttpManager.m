@@ -35,24 +35,21 @@
     manager.requestSerializer.timeoutInterval = 15;//设置请求超时时间
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];//申明请求的数据是json类型
     manager.responseSerializer = [AFHTTPResponseSerializer serializer ];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/zip",@"application/octet-stream",@"text/json",@"text/plain",@"application/msword",@"application/x-img",@"application/x-jpg",@"application/x-png",@"application/json",@"image/png", nil];//申明接收类型可能是json，可能是字符串
-    //[manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    //[manager.requestSerializer setValue:@"multipart/form-data" forHTTPHeaderField:@"Content-Type"];
-    
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/zip",@"application/octet-stream",@"text/json",@"text/plain",@"application/msword",@"application/x-img",@"application/x-jpg",@"application/x-png",@"application/json",@"image/png",@"text/javascript", nil];//申明接收类型可能是json，可能是字符串
     if (hasHeader) {
-        [manager.requestSerializer setValue:@"DAssist" forHTTPHeaderField:@"DTOAUTH"];
         [manager.requestSerializer setValue:@"XMLHttpRequest" forHTTPHeaderField:@"X-Requested-With"];
         [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"ACCEPT"];
-       
-        NSData *cookiesdata = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookie"];
-        if([cookiesdata length]) {
-            NSArray *cookies = [NSKeyedUnarchiver unarchiveObjectWithData:cookiesdata];
-            NSHTTPCookie *cookie;
-            for (cookie in cookies) {
-                [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
-            }
-            
+    }
+    
+    [manager.requestSerializer setValue:@"DAssist" forHTTPHeaderField:@"DTOAUTH"];
+    NSData *cookiesdata = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookie"];
+    if([cookiesdata length]) {
+        NSArray *cookies = [NSKeyedUnarchiver unarchiveObjectWithData:cookiesdata];
+        NSHTTPCookie *cookie;
+        for (cookie in cookies) {
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
         }
+        
     }
     // 安全策略
     AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
@@ -129,24 +126,29 @@
                 [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"cookie"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 id dict=[NSJSONSerialization  JSONObjectWithData:responseObject options:0 error:nil];
-                NSLog(@"获取到的数据为：%@",dict[@"data"]);
-                //[AdaptInterface tipMessageTitle:dict[@"data"][@"user_id"] view:controller.view];
-                int code0 = [dict[@"status"] intValue] ;
-                int code1 = [dict[@"code"] intValue] ;
-                [SVProgressHUD dismiss];
-                if (code1 == 1||code0==1) {
+                if ([dict isKindOfClass:[NSArray class]]) {
                     block(dict);
-                }
-                else{
-                    NSString *message =dict[@"msg"];
-                    if(message.length<=0){
-                        [AdaptInterface tipMessageTitle:@"未知错误" view:controller.view];
-                    }else{
-                        [AdaptInterface tipMessageTitle:message view:controller.view];
+                }else if([dict isKindOfClass:[NSDictionary class]]){
+                    NSLog(@"获取到的数据为：%@",dict[@"data"]);
+                    //[AdaptInterface tipMessageTitle:dict[@"data"][@"user_id"] view:controller.view];
+                    int code0 = [dict[@"status"] intValue] ;
+                    int code1 = [dict[@"code"] intValue] ;
+                    [SVProgressHUD dismiss];
+                    if (code1 == 1||code0==1) {
+                        block(dict);
                     }
-                    
-                    errorblock(dict);
+                    else{
+                        NSString *message =dict[@"msg"];
+                        if(message.length<=0){
+                            [AdaptInterface tipMessageTitle:@"未知错误" view:controller.view];
+                        }else{
+                            [AdaptInterface tipMessageTitle:message view:controller.view];
+                        }
+                        
+                        errorblock(dict);
+                    }
                 }
+                
                 //
             });
         } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {

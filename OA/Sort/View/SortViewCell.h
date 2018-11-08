@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,strong)UIImageView *imgV;
 @property(nonatomic,strong)UILabel *titleLB;
+
 @end
 
 NS_ASSUME_NONNULL_END
