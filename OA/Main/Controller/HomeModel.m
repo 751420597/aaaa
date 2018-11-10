@@ -14,7 +14,9 @@
         self.comment = dic[@"goods_name"];
         self.imageUrl = dic[@"original_img"];
         self.price = dic[@"shop_price"];
-        self.idStr = dic[@"extend_cat_id"];
+        self.idStr = dic[@"goods_id"];
+        self.idStr2 = dic[@"extend_cat_id"];
+        
     }
     return self;
 }

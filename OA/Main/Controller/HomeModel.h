@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy) NSString *price;
 @property(nonatomic,copy) NSString *imageUrl;
 @property(nonatomic,copy) NSString *idStr;
+@property(nonatomic,copy) NSString *idStr2;
 -(HomeModel *)initHomeModelWithDic:(NSDictionary *)dic;
 @end
 

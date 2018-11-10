@@ -22,6 +22,7 @@
     CGFloat width = frame.size.width;
     self.imgView = [[UIImageView alloc]init];
     self.imgView.frame = CGRectMake(0, 0, height,  height);
+    self.imgView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:self.imgView];
     
     self.keyBtn = [UIButton buttonWithType:UIButtonTypeCustom];

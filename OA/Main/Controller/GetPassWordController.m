@@ -25,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"找回密码";
-    
+    [self createBackItemWithTarget:self];
     self.view.backgroundColor = kThemeColor;
     
     UITapGestureRecognizer *tapGesture =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reclaimKeyboard)];

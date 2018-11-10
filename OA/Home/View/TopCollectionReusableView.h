@@ -12,6 +12,7 @@
 #import "HRAdView.h"
 #import "UIButton+WebCache.h"
 #import "PrefectureVie.h"
+#import "CBAutoScrollLabel.h"
 
 typedef  void (^Block)(NSString *link,NSInteger index);
 typedef  void (^BlockLink)(NSString *link,NSInteger index);
@@ -19,7 +20,7 @@ typedef  void (^BlockSudokuLink)(NSString *link,NSInteger index);
 typedef  void (^BlockADLink)(NSString *link,NSInteger index);
 @interface TopCollectionReusableView : UIView<SDCycleScrollViewDelegate>
 
-@property(nonatomic,strong) HRAdView * hRAdview;// 滚动字幕
+@property(nonatomic,strong)CBAutoScrollLabel * scrollLable;// 滚动字幕
 @property(nonatomic,strong)SDCycleScrollView *cycleScrollView;
 @property(nonatomic,strong)UIButton *activeBtn0;
 @property(nonatomic,strong)UIButton *activeBtn1;
@@ -47,6 +48,10 @@ typedef  void (^BlockADLink)(NSString *link,NSInteger index);
 @property(nonatomic,copy)BlockSudokuLink blockSudokuLink;
 @property(nonatomic,copy)NSString *info;
 @property(nonatomic,copy)BlockADLink blockAdLink;
+
+@property(nonatomic,strong)NSDictionary *dicYX1;
+@property(nonatomic,strong)NSDictionary *dicYX2;
+@property(nonatomic,strong)NSDictionary *dicYX3;
 -(CGFloat)getHeight;
 
 @end

@@ -35,7 +35,6 @@
     
     self.imgViewBtn =[UIButton buttonWithType:UIButtonTypeCustom];
     self.imgViewBtn.frame =CGRectMake(0, CGRectGetMaxY(self.contentLB.frame), width, height-CGRectGetMaxY(self.contentLB.frame));
-    self.imgViewBtn.backgroundColor = [UIColor redColor];
     [self addSubview:self.imgViewBtn];
    
 }

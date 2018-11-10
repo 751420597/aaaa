@@ -71,6 +71,24 @@
     topGroundView.userInteractionEnabled = YES;
     [self.view addSubview:topGroundView];
     
+    UIImageView *setImgeV = [[UIImageView alloc]init];
+    setImgeV.frame = CGRectMake(currentViewWidth-[AdaptInterface convertWidthWithWidth:35]*2-[AdaptInterface convertWidthWithWidth:20], [AdaptInterface convertHeightWithHeight:28], [AdaptInterface convertWidthWithWidth:35]*2+[AdaptInterface convertWidthWithWidth:5], [AdaptInterface convertWidthWithWidth:35]);
+    setImgeV.image = [UIImage imageNamed:@"set"];
+    setImgeV.userInteractionEnabled = YES;
+    [topGroundView addSubview:setImgeV];
+    
+    UIButton *setBtn =[UIButton buttonWithType:UIButtonTypeCustom];
+    setBtn.frame = CGRectMake(currentViewWidth-[AdaptInterface convertWidthWithWidth:35]*2-[AdaptInterface convertWidthWithWidth:20], [AdaptInterface convertHeightWithHeight:28], [AdaptInterface convertWidthWithWidth:35], [AdaptInterface convertWidthWithWidth:35]);
+    setBtn.tag = 11;
+    [setBtn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [topGroundView addSubview:setBtn];
+    
+    UIButton *messageBtn =[UIButton buttonWithType:UIButtonTypeCustom];
+    messageBtn.frame = CGRectMake(CGRectGetMaxX(setBtn.frame)+[AdaptInterface convertWidthWithWidth:5], [AdaptInterface convertHeightWithHeight:28], [AdaptInterface convertWidthWithWidth:35], [AdaptInterface convertWidthWithWidth:35]);
+    messageBtn.tag = 12;
+    [messageBtn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [topGroundView addSubview:messageBtn];
+    
     heardImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, [AdaptInterface convertWidthWithWidth:60], [AdaptInterface convertWidthWithWidth:60])];
     heardImgView.center = CGPointMake([AdaptInterface convertWidthWithWidth:60], topGroundView.frame.size.height/2);
     heardImgView.layer.cornerRadius = heardImgView.frame.size.width/2;
@@ -406,6 +424,20 @@
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
+        case 11:
+        {
+            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            helpVC.urlstring =  @"Mobile/User/userinfo";
+            [self.navigationController pushViewController:helpVC animated:YES];
+        }
+            break;
+        case 12:
+        {
+            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            helpVC.urlstring =  @"mobile/User/message";
+            [self.navigationController pushViewController:helpVC animated:YES];
+        }
+            break;
             
         default:
             break;
@@ -459,6 +491,12 @@
         self.view.userInteractionEnabled = YES;
         NSString *sign =  result[@"data"][@"sign"];
         NSDictionary *userDic = result[@"data"][@"user"];
+        if (userDic ==nil) {
+            //未登录
+            UINavigationController *navc = [[UINavigationController alloc]initWithRootViewController:[[LoginViewController alloc] init]];
+            [self presentViewController:navc animated:YES completion:nil];
+            return ;
+        }
         nameLB.text = userDic[@"nickname"];
         myCollectionBT.numberLB.text =[NSString stringWithFormat:@"%@",userDic[@"collect_count"]] ;
         btn2.redLB.text =[NSString stringWithFormat:@"%@",userDic[@"waitComment"]]; //待评论

@@ -33,7 +33,7 @@
     self.title = @"忘记密码";
     
     self.view.backgroundColor = kThemeColor;
-    
+    [self createBackItemWithTarget:self];
      [self _initMainView];
     
 }

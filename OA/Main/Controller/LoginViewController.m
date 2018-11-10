@@ -18,7 +18,8 @@
 {
     
     UITableView *_tableView;
-
+    LoginView *autoLoginView;
+    BOOL isSelect;
 }
 
 
@@ -40,23 +41,28 @@
     UITapGestureRecognizer *tapGesture =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reclaimKeyboard)];
     tapGesture.delegate= self;
     [self.view addGestureRecognizer:tapGesture];
-    
+    [self createBackItemWithTarget:self];
     [self _initMainView];
 }
-
+-(void)pop{
+    [[NSNotificationCenter defaultCenter] postNotificationName:kGotoHome object:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
 /**
  初始化视图
  */
 - (void)_initMainView
 {
     
-    UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((currentViewWidth-[AdaptInterface convertWidthWithWidth:336/2])/2, [AdaptInterface convertHeightWithHeight:107], [AdaptInterface convertWidthWithWidth:336/2], [AdaptInterface convertHeightWithHeight:108/2])];
+    UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((currentViewWidth-[AdaptInterface convertWidthWithWidth:336/2])/2, [AdaptInterface convertHeightWithHeight:30], [AdaptInterface convertWidthWithWidth:336/2], [AdaptInterface convertHeightWithHeight:108/2])];
     iconImageView.contentMode = UIViewContentModeScaleAspectFit;
-    iconImageView.image = [UIImage imageNamed:@"login_logo"];
+    iconImageView.image = [UIImage imageNamed:@"logo-login"];
     [self.view addSubview:iconImageView];
     
     _tableView =[[UITableView alloc]init];
-    _tableView.frame = CGRectMake(0, CGRectGetMaxY(iconImageView.frame), currentViewWidth, [AdaptInterface convertHeightWithHeight:180]);
+    _tableView.frame = CGRectMake(0, CGRectGetMaxY(iconImageView.frame)+[AdaptInterface convertHeightWithHeight:20], currentViewWidth, [AdaptInterface convertHeightWithHeight:180]);
     _tableView.backgroundColor =[UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -73,23 +79,32 @@
     [self.view addSubview:self.loginBtn];
     
     
-    LoginView *autoLoginView =[[LoginView alloc]initWithFrame:CGRectMake(CGRectGetMinX(self.loginBtn.frame), CGRectGetMaxY(self.loginBtn.frame)+[AdaptInterface convertHeightWithHeight:40], [AdaptInterface convertWidthWithWidth:120], [AdaptInterface convertHeightWithHeight:30])];
-    autoLoginView.imgView.image = [UIImage imageNamed:@""];
+    autoLoginView =[[LoginView alloc]initWithFrame:CGRectMake(CGRectGetMinX(self.loginBtn.frame), CGRectGetMaxY(self.loginBtn.frame)+[AdaptInterface convertHeightWithHeight:40], [AdaptInterface convertWidthWithWidth:120], [AdaptInterface convertHeightWithHeight:20])];
+    autoLoginView.imgView.image = [UIImage imageNamed:@"checkbox_unsel"];
     [autoLoginView.keyBtn setTitle:@"自动登录" forState:0];
+    [autoLoginView.keyBtn addTarget:self action:@selector(change) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:autoLoginView];
     
-    LoginView *resignView =[[LoginView alloc]initWithFrame:CGRectMake(CGRectGetMinX(self.loginBtn.frame), CGRectGetMaxY(autoLoginView.frame)+[AdaptInterface convertHeightWithHeight:40], [AdaptInterface convertWidthWithWidth:120], [AdaptInterface convertHeightWithHeight:30])];
-    resignView.imgView.image = [UIImage imageNamed:@""];
+    LoginView *resignView =[[LoginView alloc]initWithFrame:CGRectMake(CGRectGetMinX(self.loginBtn.frame), CGRectGetMaxY(autoLoginView.frame)+[AdaptInterface convertHeightWithHeight:40], [AdaptInterface convertWidthWithWidth:120], [AdaptInterface convertHeightWithHeight:20])];
+    resignView.imgView.image = [UIImage imageNamed:@"not"];
     [resignView.keyBtn addTarget:self action:@selector(registerAction) forControlEvents:UIControlEventTouchUpInside];
     [resignView.keyBtn setTitle:@"快速注册" forState:0];
     [self.view addSubview:resignView];
     
-    LoginView *forgetView =[[LoginView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.loginBtn.frame)-[AdaptInterface convertWidthWithWidth:130], CGRectGetMaxY(autoLoginView.frame)+[AdaptInterface convertHeightWithHeight:40], [AdaptInterface convertWidthWithWidth:120], [AdaptInterface convertHeightWithHeight:30])];
-    forgetView.imgView.image = [UIImage imageNamed:@""];
+    LoginView *forgetView =[[LoginView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.loginBtn.frame)-[AdaptInterface convertWidthWithWidth:130], CGRectGetMaxY(autoLoginView.frame)+[AdaptInterface convertHeightWithHeight:40], [AdaptInterface convertWidthWithWidth:120], [AdaptInterface convertHeightWithHeight:20])];
+    forgetView.imgView.image = [UIImage imageNamed:@"ru"];
     [forgetView.keyBtn setTitle:@"忘记密码" forState:0];
     [forgetView.keyBtn addTarget:self action:@selector(forgetAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:forgetView];
     
+}
+-(void)change{
+    isSelect = !isSelect;
+    if(isSelect){
+        autoLoginView.imgView.image = [UIImage imageNamed:@"check_box"];
+    }else{
+        autoLoginView.imgView.image = [UIImage imageNamed:@"checkbox_unsel"];
+    }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 3;
@@ -115,6 +130,7 @@
         case 1:
             cell.keyLB.text = @"密码";
             cell.valueTF.placeholder = @"请输入密码";
+            cell.valueTF.secureTextEntry = YES;
             cell.btn.hidden = YES;
             break;
             
@@ -167,8 +183,8 @@
         NSDictionary *param = @{@"username":phone,@"password":passWord,@"verify_code":code};
         [HttpManager requestDataWithURL2:@"mobile/user/do_login" hasHttpHeaders:YES params:param withController:self httpMethod:@"POST" completion:^(id result) {
             NSDictionary *data = result[@"result"];
-            NSString *token =data[@"token"];
-            [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"token"];
+            NSString *userID = data[@"user_id"];
+            [[NSUserDefaults standardUserDefaults] setObject:userID forKey:@"userID"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             [UIApplication sharedApplication].delegate.window.rootViewController = [[MainViewController alloc] init];

@@ -67,6 +67,11 @@
     lineView.backgroundColor = colorWithHexString(@"e1e1e1");
     [_dockView addSubview:lineView];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectIndex) name:kGotoHome object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectIndexList) name:kGotoList object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectIndexShop) name:kGotoShopping object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectIndexStore) name:kGotoStore object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectIndexUser) name:kGotoUser object:nil];
     
     __weak MainViewController *main = self;
     __block int select = Selected;
@@ -89,6 +94,21 @@
     [self createChildViewController];
     // 4.版本检测
     //[self checkVersion];
+}
+-(void)selectIndex{
+    [self selectedControllerAtIndex:0];
+}
+-(void)selectIndexList{
+     [self selectedControllerAtIndex:1];
+}
+-(void)selectIndexShop{
+     [self selectedControllerAtIndex:3];
+}
+-(void)selectIndexStore{
+     [self selectedControllerAtIndex:2];
+}
+-(void)selectIndexUser{
+     [self selectedControllerAtIndex:4];
 }
 -(void) selectedControllerAtIndex:(int)index
 {

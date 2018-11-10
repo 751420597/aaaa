@@ -23,6 +23,7 @@
 #import "HelpCenterViewController.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 #import "MJRefresh.h"
+#import "LoginViewController.h"
 // 标准系统状态栏高度
 #define APP_STATUSBAR_HEIGHT [UIApplication sharedApplication].statusBarFrame.size.height
 // 标准系统状态栏高度
@@ -43,7 +44,11 @@
 #define iphone6Height 667.f
 
 #define kTipLogin @1
-
+#define kGotoHome @"gotoHome"
+#define kGotoList @"gotolist"
+#define kGotoStore @"gotoStore"
+#define kGotoUser @"gotouser"
+#define kGotoShopping @"gotoShopping"
 #define kNavigationColor [UIColor redColor]
 
 //项目访问路径

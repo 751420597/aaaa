@@ -7,10 +7,12 @@
 //
 
 #import "BaseViewController.h"
+#import <WebKit/WebKit.h>
+#import "NJKWebViewProgress.h"
+#import "NJKWebViewProgressView.h"
 
-
-@interface ShoppingViewController : BaseViewController
-
+@interface ShoppingViewController : BaseViewController<UIWebViewDelegate,WKUIDelegate,WKNavigationDelegate,NJKWebViewProgressDelegate>
+@property (nonatomic, strong) NSString *urlstring;
 @end
 
 

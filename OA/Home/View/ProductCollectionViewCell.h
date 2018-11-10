@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
+typedef  void (^Block)(NSString *link,NSInteger index);
 @interface ProductCollectionViewCell : UICollectionViewCell
 /**
  商品图片
@@ -35,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
  线
  */
 @property(nonatomic,strong) UIView *lineView;
+
+@property(nonatomic,copy)Block block;
 @end
 
 NS_ASSUME_NONNULL_END

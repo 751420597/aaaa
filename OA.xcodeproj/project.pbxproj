@@ -1668,6 +1668,7 @@
 				TargetAttributes = {
 					62E528211CBE46C50065EBE1 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 7H2F44APL3;
 						ProvisioningStyle = Manual;
 					};
 					62E5283A1CBE46C50065EBE1 = {
@@ -2033,16 +2034,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7H2F44APL3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OA/Lib/UMSDk/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OA/OA_Prefix.pch";
 				INFOPLIST_FILE = OA/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2057,8 +2059,9 @@
 					"$(PROJECT_DIR)/OA/Lib/UMSDk/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/OA/Lib/UMSDk/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.taotao.ceshi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = 333;
 			};
 			name = Debug;
 		};
@@ -2066,16 +2069,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7H2F44APL3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OA/Lib/UMSDk/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OA/OA_Prefix.pch";
 				INFOPLIST_FILE = OA/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2090,8 +2094,9 @@
 					"$(PROJECT_DIR)/OA/Lib/UMSDk/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/OA/Lib/UMSDk/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.taotao.ceshi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = 333;
 			};
 			name = Release;
 		};

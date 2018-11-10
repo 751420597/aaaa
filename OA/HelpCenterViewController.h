@@ -7,9 +7,11 @@
 //
 
 #import "BaseViewController.h"
-#import <WebKit/WebKit.h>
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
+#import <WebKit/WebKit.h>
+
 @interface HelpCenterViewController : BaseViewController<UIWebViewDelegate,WKUIDelegate,WKNavigationDelegate,NJKWebViewProgressDelegate>
 @property (nonatomic, strong) NSString *urlstring;
+@property(nonatomic,strong) NSString *tag;
 @end

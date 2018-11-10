@@ -46,19 +46,15 @@
     [self.btn addTarget:self action:@selector(changeImage) forControlEvents:UIControlEventTouchUpInside];
 }
 -(void)changeImage{
-    
-    
+    NSHTTPCookie *cookie;
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (cookie in [storage cookies])
+    {
+        [storage deleteCookie:cookie];
+    }
+    //缓存web清除
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
         
-        NSHTTPCookie *cookie;
-        NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-        for (cookie in [storage cookies])
-        {
-            [storage deleteCookie:cookie];
-        }
-        //缓存web清除
-        [[NSURLCache sharedURLCache] removeAllCachedResponses];
-        
-    
     int x = arc4random() % 100000;
     NSString *url = [NSString stringWithFormat:@"https://www.diyoupin.com/Mobile/User/verify/rand/%d.html",x];
     [HttpManager downloadFromUrl:url success:^(id result) {

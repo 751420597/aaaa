@@ -16,7 +16,7 @@
     if (self)
     {
         [self creatView];
-        self.contentView.backgroundColor = kThemeColor;
+        self.contentView.backgroundColor = [UIColor whiteColor];
         
         
     }
@@ -42,7 +42,7 @@
     //商品价格
     _commodityPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, height-30,width/2, 30)];
     _commodityPriceLabel.font = kSystemFontOfSize(14);
-    _commodityPriceLabel.textColor = [UIColor blueColor];
+    _commodityPriceLabel.textColor = [UIColor redColor];
     [self.contentView addSubview:_commodityPriceLabel];
     
     //购物车按钮
@@ -50,8 +50,9 @@
     _shoppingCartBtn.frame = CGRectMake(CGRectGetMaxX(_commodityPriceLabel.frame), height-30, width/2, 30);
     [_shoppingCartBtn addTarget:self action:@selector(shoppingCartBtn) forControlEvents:UIControlEventTouchUpInside];
     [_shoppingCartBtn setTitle:@"找相似" forState:0];
+    _shoppingCartBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     _shoppingCartBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    [_shoppingCartBtn setTitleColor:[UIColor whiteColor] forState:0];
+    [_shoppingCartBtn setTitleColor:[UIColor orangeColor] forState:0];
     [self.contentView addSubview:_shoppingCartBtn];
     
     //线
@@ -60,6 +61,8 @@
     [self.contentView addSubview:_lineView];
 }
 -(void)shoppingCartBtn{
-    
+    if(self.block){
+        self.block(@"", 0);
+    }
 }
 @end

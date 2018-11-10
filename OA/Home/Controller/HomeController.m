@@ -27,6 +27,9 @@
 @property(nonatomic, strong) NSMutableArray *favouriteGoodArr;
 @property(nonatomic, strong) NSArray *adArr;//广告
 @property(nonatomic, strong) NSArray *iconeArr;//广告
+@property(nonatomic, strong) NSDictionary *dicYX1;
+@property(nonatomic, strong) NSDictionary *dicYX2;
+@property(nonatomic, strong) NSDictionary *dicYX3;
 @property(nonatomic,strong) NSString *infoStr;
 @end
 
@@ -59,6 +62,9 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
     [self loadData];
+    [self getDataforYX1];
+    [self getDataforYX2];
+    [self getDataforYX3];
    
 }
 - (void)viewDidLoad {
@@ -97,12 +103,16 @@
         helpVC.urlstring = link;
         [weakSelf.navigationController pushViewController:helpVC animated:YES];
     };
-    
+    topView.blockAdLink= ^(NSString *link, NSInteger index) {
+        HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+        helpVC.urlstring = link;
+        [weakSelf.navigationController pushViewController:helpVC animated:YES];
+    };
     height =  [topView getHeight];
     
     CGFloat tempHeight = 0;
-    if (iPhoneX) {
-        tempHeight = 58;
+    if (iPhoneX||self.view.bounds.size.height>=896) {
+        tempHeight = 25;
     }
     //创建布局对象
     UICollectionViewFlowLayout *flowLayOut = [[UICollectionViewFlowLayout alloc] init];
@@ -117,7 +127,7 @@
     flowLayOut.minimumInteritemSpacing = 5;
     
     //创建collectionView
-    _homeCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, -20, currentViewWidth, currentViewHeight-48-tempHeight+20) collectionViewLayout:flowLayOut];
+    _homeCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, -20-tempHeight, currentViewWidth, currentViewHeight-48+20+tempHeight) collectionViewLayout:flowLayOut];
     //_homeCollectionView.backgroundColor = kThemeColor;
     _homeCollectionView.backgroundColor = colorWithHexString(@"#f4f4f4");
     
@@ -179,6 +189,12 @@
     [cell.commodityImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,model.imageUrl]]];
     cell.commodityNameLabel.text = model.comment;
     cell.commodityPriceLabel.text = model.price;
+     __weak typeof(self) weakSelf = self;
+    cell.block = ^(NSString * _Nonnull link, NSInteger index) {
+        HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+        helpVC.urlstring =[NSString stringWithFormat:@"Mobile/Goods/goodsList/id/%@", model.idStr2];
+        [weakSelf.navigationController pushViewController:helpVC animated:YES];
+    };
     return cell;
     
 }
@@ -197,7 +213,7 @@
     NSLog(@"+++++点击item响应的事件----");
     HomeModel *model=  self.favouriteGoodArr[indexPath.row];
     HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
-    helpVC.urlstring = [NSString stringWithFormat:@"mobile/goods/goodsList/id/%@",model.idStr];
+    helpVC.urlstring = [NSString stringWithFormat:@"mobile/Goods/goodsInfo/id/%@",model.idStr];
     [self.navigationController pushViewController:helpVC animated:YES];
 }
 
@@ -246,6 +262,40 @@
         }
         [_homeCollectionView reloadData];
         [_homeCollectionView.footer endRefreshing];
+    } error:^(id result) {
+        
+    } failure:^(id result) {
+        
+    }];
+}
+//获取严选
+-(void)getDataforYX1{
+    [HttpManager requestDataWithURL2:@"Home/Api/getAdData" hasHttpHeaders:YES params:@{@"pid":@(303)} withController:self httpMethod:@"POST" completion:^(id result) {
+        self.dicYX1 =[NSDictionary dictionary] ;
+        self.dicYX1 = result[0];
+        topView.dicYX1 = self.dicYX1;
+    } error:^(id result) {
+        
+    } failure:^(id result) {
+        
+    }];
+}
+-(void)getDataforYX2{
+    [HttpManager requestDataWithURL2:@"Home/Api/getAdData" hasHttpHeaders:YES params:@{@"pid":@(304)} withController:self httpMethod:@"POST" completion:^(id result) {
+        self.dicYX2 =[NSDictionary dictionary] ;
+        self.dicYX2 = result[0];
+        topView.dicYX2 = self.dicYX2;
+    } error:^(id result) {
+        
+    } failure:^(id result) {
+        
+    }];
+}
+-(void)getDataforYX3{
+    [HttpManager requestDataWithURL2:@"Home/Api/getAdData" hasHttpHeaders:YES params:@{@"pid":@(305)} withController:self httpMethod:@"POST" completion:^(id result) {
+        self.dicYX3 =[NSDictionary dictionary] ;
+        self.dicYX3= result[0];
+        topView.dicYX3 = self.dicYX3;
     } error:^(id result) {
         
     } failure:^(id result) {

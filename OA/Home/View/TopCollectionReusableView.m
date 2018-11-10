@@ -11,7 +11,7 @@
 
 @implementation TopCollectionReusableView
 
-@synthesize hRAdview,cycleScrollView,activeBtn0,activeBtn1,activeBtn2,nameItem0,nameItem1,nameItem2,nameItem3,nameItem4,nameItem5,nameItem6,nameItem7;
+@synthesize scrollLable,cycleScrollView,activeBtn0,activeBtn1,activeBtn2,nameItem0,nameItem1,nameItem2,nameItem3,nameItem4,nameItem5,nameItem6,nameItem7;
 -(instancetype)initWithFrame:(CGRect)frame{
     if([super initWithFrame:frame]){
         self.backgroundColor =[UIColor whiteColor];
@@ -19,6 +19,20 @@
         [self creatSubView];
         [self createSudokuView];
         [self creatActivityView];
+        //创建搜索框
+        UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        searchBtn.frame = CGRectMake([AdaptInterface convertWidthWithWidth:40], [AdaptInterface convertHeightWithHeight:20], currentViewWidth-[AdaptInterface convertWidthWithWidth:80], [AdaptInterface convertHeightWithHeight:30]);
+        [searchBtn setBackgroundColor:[UIColor whiteColor]];
+        [searchBtn setImage:[UIImage imageNamed:@"home_search"] forState:UIControlStateNormal];
+//        [searchBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -CGRectGetWidth(searchBtn.frame)/2-[AdaptInterface convertWidthWithWidth:110],0, 0)];
+        searchBtn.layer.cornerRadius = [AdaptInterface convertHeightWithHeight:15];
+        //searchBtn.alpha = 0.5;
+        [searchBtn setTitle:@"请输入您所搜索的商品" forState:0];
+        [searchBtn setTitleColor:[UIColor lightGrayColor] forState:0];
+        searchBtn.titleLabel.font =[UIFont systemFontOfSize:14.5];
+        searchBtn.tag = 111;
+        [searchBtn addTarget:self action:@selector(adAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:searchBtn];
     }
     return self;
 }
@@ -38,6 +52,7 @@
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
     NSDictionary *dic = self.adArr[index];
     NSString *linkStr = dic[@"ad_link"];
+     linkStr = [linkStr stringByReplacingOccurrencesOfString:@"https://www.diyoupin.com/" withString:@""];
     if (self.block) {
         _block(linkStr,index);
     }
@@ -113,25 +128,18 @@
     notificationLb.font = [UIFont systemFontOfSize:13.f];
     [self addSubview:notificationLb];
     
-    hRAdview = [[HRAdView alloc]initWithTitles:@[@"通知",@"通知"]];
-    hRAdview.frame = CGRectMake(CGRectGetMaxX(notificationLb.frame), CGRectGetMinY(notificationLb.frame), currentViewWidth-[AdaptInterface convertWidthWithWidth:30]*2 , [AdaptInterface convertHeightWithHeight:35]);
-    hRAdview.textAlignment = NSTextAlignmentLeft;//默认
-    hRAdview.isHaveTouchEvent = YES;
-    hRAdview.labelFont = [UIFont systemFontOfSize:14.f];
-    hRAdview.backgroundColor = [UIColor clearColor];
-    hRAdview.time = 3.0f;
-    hRAdview.color = colorWithHexString(@"#787878");
-    //hRAdview.edgeInsets = UIEdgeInsetsMake(8, 8,8, 0);
-    __weak typeof(self) weakself = self;
-    
-    hRAdview.clickAdBlock = ^(NSUInteger index){
-        
-    };
-    [self addSubview:hRAdview];
-    [hRAdview beginScroll];
+    scrollLable =[[CBAutoScrollLabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(notificationLb.frame), CGRectGetMinY(notificationLb.frame), currentViewWidth-[AdaptInterface convertWidthWithWidth:30]*2 , [AdaptInterface convertHeightWithHeight:35])];
+    scrollLable.font = [UIFont systemFontOfSize:13.f];
+    scrollLable.labelSpacing=30;
+    scrollLable.pauseInterval=.5;
+    scrollLable.scrollSpeed=30;
+    scrollLable.fadeLength=12.0f;
+    scrollLable.scrollDirection = CBAutoScrollDirectionLeft;
+    [scrollLable observeApplicationNotifications];
+    [self addSubview:scrollLable];
     
     UILabel *line2 = [UILabel new];
-    line2.frame = CGRectMake(0, CGRectGetMaxY(hRAdview.frame)+1, currentViewWidth, 2);
+    line2.frame = CGRectMake(0, CGRectGetMaxY(scrollLable.frame)+1, currentViewWidth, 2);
     line2.backgroundColor = kThemeColor;
     [self addSubview:line2];
     
@@ -139,9 +147,9 @@
 -(void)creatActivityView{
     
     activeBtn0 =[UIButton buttonWithType:UIButtonTypeCustom];
-    activeBtn0.frame = CGRectMake([AdaptInterface convertWidthWithWidth:15], CGRectGetMaxY(hRAdview.frame)+3+[AdaptInterface convertHeightWithHeight:5], (currentViewWidth-[AdaptInterface convertWidthWithWidth:60])/3, [AdaptInterface convertHeightWithHeight:120]);
+    activeBtn0.frame = CGRectMake([AdaptInterface convertWidthWithWidth:15], CGRectGetMaxY(scrollLable.frame)+3+[AdaptInterface convertHeightWithHeight:5], (currentViewWidth-[AdaptInterface convertWidthWithWidth:60])/3, [AdaptInterface convertHeightWithHeight:150]);
     activeBtn0.tag = 100;
-    activeBtn0.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    //activeBtn0.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [activeBtn0 setImage:[UIImage imageNamed:@"indexc1"] forState:0];
     [activeBtn0 addTarget:self action:@selector(adAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:activeBtn0];
@@ -149,7 +157,7 @@
     activeBtn1 =[UIButton buttonWithType:UIButtonTypeCustom];
     activeBtn1.frame = CGRectMake([AdaptInterface convertWidthWithWidth:15]+CGRectGetMaxX(activeBtn0.frame), CGRectGetMinY(activeBtn0.frame), CGRectGetWidth(activeBtn0.frame), CGRectGetHeight(activeBtn0.frame));
     activeBtn1.tag = 101;
-    activeBtn1.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    //activeBtn1.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [activeBtn1 setImage:[UIImage imageNamed:@"indexc2"] forState:0];
     [activeBtn1 addTarget:self action:@selector(adAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:activeBtn1];
@@ -158,7 +166,7 @@
     activeBtn2.frame = CGRectMake([AdaptInterface convertWidthWithWidth:15]+CGRectGetMaxX(activeBtn1.frame), CGRectGetMinY(activeBtn0.frame), CGRectGetWidth(activeBtn0.frame), CGRectGetHeight(activeBtn0.frame));
 
     [activeBtn2 setImage:[UIImage imageNamed:@"indexc3"] forState:0];
-    activeBtn2.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    //activeBtn2.imageView.contentMode = UIViewContentModeScaleAspectFit;
     activeBtn2.tag = 102;
     [activeBtn2 addTarget:self action:@selector(adAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:activeBtn2];
@@ -239,12 +247,18 @@
     
     
     self.pView0 = [[PrefectureVie alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(line1.frame), currentViewWidth, [AdaptInterface convertHeightWithHeight:200])];
+    self.pView0.imgViewBtn.tag = 9;
+    [self.pView0.imgViewBtn addTarget:self action:@selector(pushActionYX:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.pView0];
     
     self.pView1 = [[PrefectureVie alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_pView0.frame), currentViewWidth, [AdaptInterface convertHeightWithHeight:200])];
+    self.pView1.imgViewBtn.tag = 10;
+    [self.pView1.imgViewBtn addTarget:self action:@selector(pushActionYX:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.pView1];
     
     self.pView2 = [[PrefectureVie alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_pView1.frame), currentViewWidth, [AdaptInterface convertHeightWithHeight:200])];
+    self.pView2.imgViewBtn.tag = 11;
+    [self.pView2.imgViewBtn addTarget:self action:@selector(pushActionYX:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.pView2];
     
     
@@ -279,6 +293,18 @@
     self.pView1.contentLB.text =yanxuanArr[1][@"position_desc"];
     self.pView2.contentLB.text =yanxuanArr[2][@"position_desc"];
 }
+-(void)setDicYX1:(NSDictionary *)dicYX1{
+    _dicYX1 = dicYX1;
+    [self.pView0.imgViewBtn sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,dicYX1[@"ad_code"]]] forState:0];
+}
+-(void)setDicYX2:(NSDictionary *)dicYX2{
+    _dicYX2 = dicYX2;
+    [self.pView1.imgViewBtn sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,dicYX2[@"ad_code"]]] forState:0];
+}
+-(void)setDicYX3:(NSDictionary *)dicYX3{
+    _dicYX3 = dicYX3;
+    [self.pView2.imgViewBtn sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,dicYX3[@"ad_code"]]] forState:0];
+}
 -(void)setAdArr:(NSArray *)adArr{
     _adArr = adArr;
     self.adImageArr = [NSMutableArray array];
@@ -312,6 +338,27 @@
         self.blockLink(self.iconeArr[btn.tag -1][@"url"], btn.tag);
     }
 }
+-(void)pushActionYX:(UIButton*)btn{
+    NSString *url = @"";
+    switch (btn.tag) {
+        case 9:
+            url = [self.dicYX1[@"ad_link"] stringByReplacingOccurrencesOfString:@"https://www.diyoupin.com/" withString:@""];
+            break;
+        case 10:
+            url = [self.dicYX2[@"ad_link"] stringByReplacingOccurrencesOfString:@"https://www.diyoupin.com/" withString:@""];
+            break;
+        case 11:
+            url = [self.dicYX3[@"ad_link"] stringByReplacingOccurrencesOfString:@"https://www.diyoupin.com/" withString:@""];
+            break;
+            
+        default:
+            break;
+    }
+    if(self.blockSudokuLink){
+        self.blockSudokuLink(url, btn.tag);
+    }
+    
+}
 -(void)pushSudoku:(UIButton*)btn{
     NSString *url = @"";
     switch (btn.tag) {
@@ -322,7 +369,10 @@
             url = @"mobile/User/mobilemoney";
             break;
         case 3:
-            url = @"mobile/Shop/share/id/{}";
+        {
+            NSString *idStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"userID"];
+            url =[NSString stringWithFormat:@"mobile/Shop/share/id/%@",idStr] ;
+        }
             break;
         case 4:
             url = @"Mobile/Goods/goodsList/id/1080";
@@ -360,6 +410,9 @@
         case 102:
             url = @"/Mobile/Goods/goodsList/id/1117";
             break;
+        case 111:
+            url = @"mobile/Goods/ajaxSearch";
+            break;
             
         default:
             break;
@@ -370,6 +423,6 @@
 }
 -(void)setInfo:(NSString *)info{
     
-   
+    scrollLable.text = info;
 }
 @end

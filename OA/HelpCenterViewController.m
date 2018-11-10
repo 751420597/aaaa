@@ -7,7 +7,8 @@
 //
 
 #import "HelpCenterViewController.h"
-
+#import "NJKWebViewProgress.h"
+#import "NJKWebViewProgressView.h"
 @interface HelpCenterViewController ()
 {
     UIWebView *_webViews;
@@ -30,7 +31,7 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+    [SVProgressHUD dismiss];
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
@@ -52,13 +53,55 @@
         [progressView removeFromSuperview];
     }
 }
+-(void)back{
+    [_webViews goBack];
+}
+-(void)popAction{
+    if (IS_NOT_EMPTY(self.tag)) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kGotoHome object:nil];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+-(void)creatBackBtn{
+    int tempHeight = 0;
+
+    if (iPhoneX||self.view.bounds.size.height>=896) {
+        tempHeight = 20;
+    }
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectZero;
+    [button addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake([AdaptInterface convertWidthWithWidth:5], [AdaptInterface convertHeightWithHeight:(44-30)/2], [AdaptInterface convertWidthWithWidth:20], [AdaptInterface convertHeightWithHeight:20])];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    imageView.image = [UIImage imageNamed:@"return"];
+    //imageView.userInteractionEnabled = YES;
+    [button addSubview:imageView];
+    button.frame = CGRectMake(0, [AdaptInterface convertHeightWithHeight:5]+2*tempHeight, [AdaptInterface convertWidthWithWidth:60], [AdaptInterface convertHeightWithHeight:44]);
+    [button sizeToFit];
+    [_webViews addSubview:button];
+    
+    UIButton *button2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    button2.frame = CGRectZero;
+    [button2 addTarget:self action:@selector(popAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIImageView *imageView2 = [[UIImageView alloc] initWithFrame:CGRectMake([AdaptInterface convertWidthWithWidth:0], [AdaptInterface convertHeightWithHeight:(44-30)/2], [AdaptInterface convertWidthWithWidth:20], [AdaptInterface convertHeightWithHeight:20])];
+    imageView2.contentMode = UIViewContentModeScaleAspectFit;
+    imageView2.image = [UIImage imageNamed:@"tuichu"];
+    //imageView.userInteractionEnabled = YES;
+    [button2 addSubview:imageView2];
+    button2.frame = CGRectMake(CGRectGetMaxX(button.frame)-3, CGRectGetMinY(button.frame), CGRectGetWidth(button.frame), CGRectGetHeight(button.frame));
+    [button2 sizeToFit];
+    [_webViews addSubview:button2];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = colorWithHexString(@"#f2f2f2");
+    self.view.backgroundColor = [UIColor whiteColor];
     // 导航栏左侧按钮
-    [self createBackItemWithTarget:self];
-    
+    [self creatBackBtn];
+    [SVProgressHUD showWithStatus:@"请稍后..."];
     //[self createRightItemWithTitle:nil withImageName:@"More_feedback" highlightedImageName:nil action:@selector(gotoFeedBack) target:self];
    
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.html",kRequestIP,_urlstring]]];
@@ -86,6 +129,7 @@
         NSHTTPCookie*cookieuser = [NSHTTPCookie cookieWithProperties:cookieProperties];
         [[NSHTTPCookieStorage sharedHTTPCookieStorage]setCookie:cookieuser];
     }
+    
 //    //配置对象
 //    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 //    {
@@ -124,10 +168,21 @@
 //    }
 //    else
 //    {
-    _webViews = [[UIWebView alloc]initWithFrame:CGRectMake(0, 20, currentViewWidth, currentViewHeight  -20- (iPhoneX ? 58 : 0))];
+    int tempHeight = 0;
+    if (iPhoneX||self.view.bounds.size.height>=896) {
+        tempHeight = 25;
+    }
+    
+    _webViews = [[UIWebView alloc]initWithFrame:CGRectMake(0, 20-tempHeight, currentViewWidth, currentViewHeight  -20-tempHeight)];
         
         _webViews.scalesPageToFit = YES;
-        
+    NSString *userAgent = [_webViews stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    if(![userAgent containsString:@"native/app"]){
+        NSString *newUserAgent = [userAgent stringByAppendingString:@" native/app"];//自定义需要拼接的字符串
+        NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:newUserAgent, @"UserAgent", nil];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+    }
+    
         //隐藏拖拽UIWebView时上下的两个阴影效果
         UIScrollView *scrollView = [_webViews.subviews objectAtIndex:0];
         if (scrollView)
@@ -168,9 +223,11 @@
         }
         else
         {
+            [SVProgressHUD dismiss];
             [AdaptInterface tipMessageTitle:NSLocalizedString(@"无网络连接", nil) view:self.view];
         }
 //    }
+    [self creatBackBtn];
 }
 
 - (void)setUrlString:(NSString *)urlString
@@ -191,10 +248,12 @@
 {
     [_progressView setProgress:progress animated:YES];
 }
-
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    [SVProgressHUD dismiss];
+}
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    //[SVProgressHUD dismiss];
+    [SVProgressHUD dismiss];
     if ([self.title isEqualToString:@"<null>"] || self.title ==nil)
     {
         [UIApplication sharedApplication].networkActivityIndicatorVisible =NO;
@@ -258,28 +317,56 @@
     }
     return nil;
 }
-
+-(void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error{
+    [SVProgressHUD dismiss];
+}
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString *requestSt=[[request URL] absoluteString];
     //将":"前后字符串切割为数组
-    NSArray  *components=[requestSt componentsSeparatedByString:@":"];
-    
-    if([components count]>1 && [(NSString*)[components objectAtIndex:0] isEqualToString:@"http"])
+   
+   
+    if([requestSt isEqualToString:@"forapphome"])
     {
         
-        if([(NSString *)[components objectAtIndex:1] isEqualToString:@"//download/"])
-        {
-            
-            [_webViews removeFromSuperview];
-            NSLog(@"+++++hahhahahh+");
-           
-            
-            
-        }
-        return NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kGotoHome object:nil];
         
+        [self.navigationController popViewControllerAnimated:YES];
+       
+        return NO;
+    }else if([requestSt isEqualToString:@"forappstore"])
+    {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kGotoStore object:nil];
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        
+        return NO;
+    }else if([requestSt isEqualToString:@"forapplist"])
+    {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kGotoList object:nil];
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        
+        return NO;
+    }else if([requestSt isEqualToString:@"forappshopping"])
+    {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kGotoShopping object:nil];
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        
+        return NO;
+    }else if([requestSt isEqualToString:@"forappuser"])
+    {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kGotoUser object:nil];
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        
+        return NO;
     }
     
     
@@ -287,6 +374,7 @@
 }
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
+    [SVProgressHUD dismiss];
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,_urlstring]]];
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:cookies];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"cookie"];

@@ -57,7 +57,7 @@
     UITapGestureRecognizer *tapGesture =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(reclaimKeyboard)];
     tapGesture.delegate= self;
     [self.view addGestureRecognizer:tapGesture];
-    
+    [self createBackItemWithTarget:self];
     [self _initMainView];
 }
 
@@ -88,7 +88,7 @@
 - (void)_initMainView
 {
     //手机号
-    _phoneTF = [[UITextField alloc] initWithFrame:CGRectMake((currentViewWidth-[AdaptInterface convertWidthWithWidth:300])/2,  [AdaptInterface convertHeightWithHeight:50]+65, [AdaptInterface convertWidthWithWidth:300], [AdaptInterface convertHeightWithHeight:45])];
+    _phoneTF = [[UITextField alloc] initWithFrame:CGRectMake((currentViewWidth-[AdaptInterface convertWidthWithWidth:300])/2,  [AdaptInterface convertHeightWithHeight:50], [AdaptInterface convertWidthWithWidth:300], [AdaptInterface convertHeightWithHeight:45])];
     _phoneTF.layer.cornerRadius = [AdaptInterface convertWidthWithWidth:5];
     _phoneTF.backgroundColor =[UIColor whiteColor];
     _phoneTF.returnKeyType = UIReturnKeyDone;
@@ -114,6 +114,7 @@
     //UITextField设置placeholder颜色
     _passWordTF.placeholder = @"请设置6-20位登录密码";
     _passWordTF.textAlignment = NSTextAlignmentLeft;
+   _passWordTF.secureTextEntry = YES;
     _passWordTF.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [AdaptInterface convertWidthWithWidth:15], 0)];
     //设置显示模式为永远显示(默认不显示)
     _passWordTF.leftViewMode = UITextFieldViewModeAlways;
@@ -129,6 +130,7 @@
     _comitPassWordTF.font = [UIFont fontWithName:@"Helvetica" size:16.f];
     //UITextField设置placeholder颜色
     _comitPassWordTF.placeholder = @"确认密码";
+    _comitPassWordTF.secureTextEntry = YES;
     _comitPassWordTF.textAlignment = NSTextAlignmentLeft;
     _comitPassWordTF.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [AdaptInterface convertWidthWithWidth:15], 0)];
     //设置显示模式为永远显示(默认不显示)

@@ -21,9 +21,9 @@
     self.view.backgroundColor = kThemeColor;
         // 设置导航栏主题
     [self setNavigationBarTheme];
-    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];//黑色底部
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];//黑色底部
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];//进度轮转动的类型
-    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
     /** 添加手势滑动返回 */
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
@@ -33,28 +33,27 @@
 {
     UINavigationBar *bar =[UINavigationBar appearance];
     [bar setShadowImage:[[UIImage alloc]init]];
-    [bar setBackgroundImage:[AdaptInterface createImageWithColor:colorWithHexString(@"#38414f")] forBarMetrics:UIBarMetricsDefault];
-    
+    [bar setBackgroundImage:[AdaptInterface createImageWithColor:[UIColor whiteColor]] forBarMetrics:UIBarMetricsDefault];
     
     NSShadow *shadow = [[NSShadow alloc] init];
     shadow.shadowOffset = CGSizeZero;
         //设置文字风格
-    [bar setTitleTextAttributes:@{
-                                  NSForegroundColorAttributeName:[UIColor whiteColor],
-                                  NSShadowAttributeName:shadow
-                                  }];
+//    [bar setTitleTextAttributes:@{
+//                                  NSForegroundColorAttributeName:[UIColor whiteColor],
+//                                  NSShadowAttributeName:shadow
+//                                  }];
         // 2.设置导航栏上的按钮样式
     UIBarButtonItem *barItem=[[UIBarButtonItem alloc] init];
         //设置背景图片
     [barItem setTitleTextAttributes:@{
-                                      NSForegroundColorAttributeName:[UIColor whiteColor],
+                                      NSForegroundColorAttributeName:[UIColor blackColor],
                                       NSShadowAttributeName:shadow,
-                                      NSFontAttributeName:kNavigationTitleFont
+                                      NSFontAttributeName:kNavigationTitleFont,
                                       } forState:UIControlStateNormal];
     [barItem setTitleTextAttributes:@{
                                       NSForegroundColorAttributeName:[UIColor whiteColor],
                                       NSShadowAttributeName:shadow,
-                                      NSFontAttributeName:kNavigationTitleFont
+                                      NSFontAttributeName:kNavigationTitleFont,
                                       } forState:UIControlStateHighlighted];
     
     
@@ -64,7 +63,7 @@
 -(void)createBackItemWithTarget:(id)target
 {
     // 导航栏左侧按钮
-    [self createLeftItemWithImage:@"common_back" highlightedImageName:@"" target:target action:@selector(pop)];
+    [self createLeftItemWithImage:@"return" highlightedImageName:@"" target:target action:@selector(pop)];
 }
 /*!
  @method

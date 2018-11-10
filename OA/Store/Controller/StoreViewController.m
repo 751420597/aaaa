@@ -45,6 +45,7 @@
     UILabel *integralLB;
     
     UITableView *_tableView;
+    UIButton *chuangKeBTn ;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -62,8 +63,24 @@
 }
 -(void)creatTopView{
     topGroundView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, currentViewWidth, [AdaptInterface convertHeightWithHeight:130])];
-    topGroundView.backgroundColor = [UIColor redColor];
+    topGroundView.backgroundColor = colorWithHexString(@"#f94f50");
+    topGroundView.userInteractionEnabled = YES;
     [self.view addSubview:topGroundView];
+    
+    chuangKeBTn =[UIButton buttonWithType:UIButtonTypeCustom];
+    chuangKeBTn.frame =CGRectMake(currentViewWidth-[AdaptInterface convertWidthWithWidth:100], [AdaptInterface convertHeightWithHeight:28], [AdaptInterface convertWidthWithWidth:100], [AdaptInterface convertWidthWithWidth:28]);
+    chuangKeBTn.backgroundColor = colorWithHexString(@"#f94f50");
+    chuangKeBTn.layer.cornerRadius =CGRectGetHeight(chuangKeBTn.frame)/2;
+    chuangKeBTn.layer.masksToBounds=YES;
+    [chuangKeBTn setTitle:@"创客" forState:0];
+    chuangKeBTn.titleLabel.font = [UIFont systemFontOfSize:13.5];
+    chuangKeBTn.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
+    [chuangKeBTn setImage:[UIImage imageNamed:@"chuangke"] forState:0];
+    chuangKeBTn.imageEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0);
+    chuangKeBTn.tag = 102;
+    [chuangKeBTn addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
+    [topGroundView addSubview:chuangKeBTn];
+    
     
     heardImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, [AdaptInterface convertWidthWithWidth:60], [AdaptInterface convertWidthWithWidth:60])];
     heardImgView.center = CGPointMake([AdaptInterface convertWidthWithWidth:60], topGroundView.center.y+10);
@@ -84,7 +101,7 @@
     }];
     
     timeLB = [UILabel new];
-    timeLB.textColor = [UIColor orangeColor];
+    timeLB.textColor = [UIColor colorWithRed:128 green:128 blue:128 alpha:0.2];
     timeLB.text = @"注册时间:";
     timeLB.font = [UIFont systemFontOfSize:16.5f];
     [topGroundView addSubview:timeLB];
@@ -111,7 +128,9 @@
     
     UIButton *allTradBT =[UIButton buttonWithType:UIButtonTypeCustom];
     [allTradBT setTitle:@"更多 >"forState:0];
+    allTradBT.tag = 101;
     allTradBT.titleLabel.font = kTextFornt;
+    [allTradBT addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
     [allTradBT setTitleColor:[UIColor redColor] forState:0];
     [backView addSubview:allTradBT];
     [allTradBT mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -123,6 +142,8 @@
     moneyItemV0 =[[MoneyItemView alloc]initWithFrame:CGRectMake([AdaptInterface convertWidthWithWidth:15],35+ [AdaptInterface convertHeightWithHeight:15], (currentViewWidth-75)/3, [AdaptInterface convertHeightWithHeight:75])];
     moneyItemV0.textLB.text = @"本周期订单(笔)";
     [moneyItemV0.numBT setTitle:@"0" forState:0];
+    moneyItemV0.numBT.tag = 5;
+    [moneyItemV0.numBT addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
     moneyItemV0.numBT.titleLabel.font =[UIFont systemFontOfSize:23.f];
     [backView addSubview:moneyItemV0];
 
@@ -130,6 +151,8 @@
     moneyItemV1 =[[MoneyItemView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(moneyItemV0.frame)+[AdaptInterface convertWidthWithWidth:15], CGRectGetMinY(moneyItemV0.frame), CGRectGetWidth(moneyItemV0.frame), CGRectGetHeight(moneyItemV0.frame))];
     moneyItemV1.textLB.text = @"待入账(元)";
     [moneyItemV1.numBT setTitle:@"0" forState:0];
+    moneyItemV1.numBT.tag = 6;
+    [moneyItemV1.numBT addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
     moneyItemV1.numBT.titleLabel.font =[UIFont systemFontOfSize:23.f];
     [backView addSubview:moneyItemV1];
     
@@ -137,6 +160,8 @@
     moneyItemV2 =[[MoneyItemView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(moneyItemV1.frame)+[AdaptInterface convertWidthWithWidth:15], CGRectGetMinY(moneyItemV0.frame), CGRectGetWidth(moneyItemV0.frame), CGRectGetHeight(moneyItemV0.frame))];
     moneyItemV2.textLB.text = @"收入(元)";
     [moneyItemV2.numBT setTitle:@"0" forState:0];
+    moneyItemV2.numBT.tag = 7;
+    [moneyItemV2.numBT addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
     moneyItemV2.numBT.titleLabel.font =[UIFont systemFontOfSize:20.f];
     [backView addSubview:moneyItemV2];
     
@@ -158,8 +183,10 @@
     
     UIButton *allTradBT =[UIButton buttonWithType:UIButtonTypeCustom];
     [allTradBT setTitle:@"更多 >"forState:0];
+    allTradBT.tag = 100;
     allTradBT.titleLabel.font = kTextFornt;
     [allTradBT setTitleColor:[UIColor redColor] forState:0];
+    [allTradBT addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
     [backView2 addSubview:allTradBT];
     [allTradBT mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(backView.mas_right).mas_offset(-38);
@@ -170,17 +197,23 @@
     
     btn0 =[[OderItemView alloc]initWithFrame:CGRectMake([AdaptInterface convertWidthWithWidth:15], 35 +[AdaptInterface convertHeightWithHeight:15], (currentViewWidth-75)/4, backView2.frame.size.height-35-[AdaptInterface convertHeightWithHeight:15])];
     [btn0.imgView setImage:[UIImage imageNamed:@"邀请创客"] forState:0];
+    btn0.imgView.tag = 1;
+    [btn0.imgView addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
     btn0.textLB.text = @"邀请创客";
     [backView2 addSubview:btn0];
     
     btn1 =[[OderItemView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(btn0.frame)+[AdaptInterface convertWidthWithWidth:15], CGRectGetMinY(btn0.frame), CGRectGetWidth(btn0.frame), CGRectGetHeight(btn0.frame))];
     [btn1.imgView setImage:[UIImage imageNamed:@"邀请云店"] forState:0];
     btn1.textLB.text = @"邀请云店";
+    btn1.imgView.tag = 2;
+    [btn1.imgView addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
     [backView2 addSubview:btn1];
     
     
     btn2 =[[OderItemView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(btn1.frame)+[AdaptInterface convertWidthWithWidth:15], CGRectGetMinY(btn0.frame), CGRectGetWidth(btn0.frame), CGRectGetHeight(btn0.frame))];
     [btn2.imgView setImage:[UIImage imageNamed:@"推广海报"] forState:0];
+    btn2.imgView.tag = 3;
+    [btn2.imgView addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
     btn2.textLB.text = @"推广海报";
     [backView2 addSubview:btn2];
     
@@ -188,6 +221,8 @@
     btn3 =[[OderItemView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(btn2.frame)+[AdaptInterface convertWidthWithWidth:15], CGRectGetMinY(btn0.frame), CGRectGetWidth(btn0.frame), CGRectGetHeight(btn0.frame))];
     [btn3.imgView setImage:[UIImage imageNamed:@"商城物料"] forState:0];
     btn3.textLB.text = @"商城物料";
+    btn3.imgView.tag = 4;
+    [btn3.imgView addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
     [backView2 addSubview:btn3];
     
     _tableView =[[UITableView alloc]init];
@@ -199,6 +234,47 @@
     _tableView.scrollEnabled = NO;
     [self.view addSubview:_tableView];
     
+}
+-(void)pushAction:(UIButton *)btn{
+    NSString *url = @"";
+    switch (btn.tag) {
+        case 1:
+            url =@"mobile/Shop/share/id/1";
+            break;
+        case 2:
+            url =@"mobile/Shop/share/id/2";
+            break;
+        case 3:
+            url =@"mobile/Shop/share/id/3";
+            break;
+        case 4:
+            url =@"mobile/Goods/goodsList/id/12";
+            break;
+        case 5:
+            url =@"mobile/Shop/ordIncome";
+            break;
+        case 6:
+            url =@"mobile/Shop/ordIncome";
+            break;
+        case 7:
+            url =@"mobile/Shop/incDetails";
+            break;
+        case 100:
+            url =@"mobile/shop/promotion";
+            break;
+        case 101:
+            url =@"mobile/Shop/inCome";
+            break;
+        case 102:
+            url =@"mobile/User/level_add";
+            break;
+            
+        default:
+            break;
+    }
+    HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+    helpVC.urlstring = url;
+    [self.navigationController pushViewController:helpVC animated:YES];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 3;
@@ -234,17 +310,52 @@
     }
     return cell;
 }
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSString *url = @"";
+    switch (indexPath.row) {
+        case 0:
+                url = @"mobile/shop/branch";
+            break;
+        case 1:
+                url=@"mobile/shop/integral";
+            break;
+        case 2:
+                url = @"mobile/Distribut/must_see";
+            break;
+            
+        default:
+            break;
+    }
+    
+    HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+    helpVC.urlstring = url;
+    [self.navigationController pushViewController:helpVC animated:YES];
+}
 -(void)loadData{
     [HttpManager requestDataWithURL2:@"mobile/distribut/index" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
         NSDictionary *userdDic = result[@"data"][@"user"];
-        
+        if(userdDic==nil){
+            //未登录
+            UINavigationController *navc = [[UINavigationController alloc]initWithRootViewController:[[LoginViewController alloc] init]];
+            [self presentViewController:navc animated:YES completion:nil];
+            return ;
+        }
         NSString *level_name =result[@"data"][@"level_name"];
         NSString *time =[NSString stringWithFormat:@"%@",userdDic[@"reg_time"]] ;
         NSString *totalOrderNum =[NSString stringWithFormat:@"%@",result[@"data"][@"total"]] ;
+        if ([totalOrderNum isEqualToString:@"(null)"]) {
+            HelpCenterViewController *vc = [[HelpCenterViewController alloc]init];
+            vc.urlstring = @"Mobile/User/level_add";
+            vc.tag = @"store";
+            [self.navigationController pushViewController:vc animated:YES];
+            return;
+        }
         NSString *run_money = [NSString stringWithFormat:@"%@",result[@"data"][@"run_money"]] ;
         NSString *money = [NSString stringWithFormat:@"%@",result[@"data"][@"money"][@"achieve_money"]] ;
         NSString *total_shop = [NSString stringWithFormat:@"%@",result[@"data"][@"total_shop"]] ;
         NSString *jiFen = [NSString stringWithFormat:@"%@",result[@"data"][@"int"]] ;
+        
+        [chuangKeBTn setTitle:level_name forState:0];
         nameLB.text = userdDic[@"nickname"];
         timeLB.text =[NSString stringWithFormat:@"注册时间:%@",[AdaptInterface getDataByTimeStamp:time withFormatter:@"yyyy-MM-dd"]];
         [moneyItemV0.numBT setTitle:totalOrderNum forState:0];

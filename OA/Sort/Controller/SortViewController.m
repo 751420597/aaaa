@@ -169,30 +169,32 @@
     
     //创建搜索框
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    searchBtn.frame = CGRectMake([AdaptInterface convertWidthWithWidth:40], 44/2-[AdaptInterface convertHeightWithHeight:30/2], currentViewWidth-[AdaptInterface convertWidthWithWidth:100], [AdaptInterface convertHeightWithHeight:30]);
+    searchBtn.frame = CGRectMake([AdaptInterface convertWidthWithWidth:40], 44/2-[AdaptInterface convertHeightWithHeight:30/2], currentViewWidth-[AdaptInterface convertWidthWithWidth:80], [AdaptInterface convertHeightWithHeight:30]);
     [searchBtn setBackgroundColor:[UIColor whiteColor]];
     [searchBtn setImage:[UIImage imageNamed:@"home_search"] forState:UIControlStateNormal];
-    [searchBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -CGRectGetWidth(searchBtn.frame)/2-[AdaptInterface convertWidthWithWidth:110],0, 0)];
+    //[searchBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -CGRectGetWidth(searchBtn.frame)/2-[AdaptInterface convertWidthWithWidth:110],0, 0)];
     searchBtn.layer.cornerRadius = [AdaptInterface convertHeightWithHeight:15];
     //searchBtn.alpha = 0.5;
     [searchBtn setTitle:@"请输入您所搜索的商品" forState:0];
-    [searchBtn setTitleColor:[UIColor blackColor] forState:0];
+    [searchBtn setTitleColor:[UIColor lightGrayColor] forState:0];
     searchBtn.titleLabel.font =[UIFont systemFontOfSize:14.5];
     [searchBtn addTarget:self action:@selector(searchAction:) forControlEvents:UIControlEventTouchUpInside];
     [_topView addSubview:searchBtn];
     
-    UIButton *screenButton =[UIButton buttonWithType:UIButtonTypeCustom];
-    screenButton.frame = CGRectMake(CGRectGetMaxX(searchBtn.frame)+[AdaptInterface convertWidthWithWidth:5], CGRectGetMinY(searchBtn.frame), [AdaptInterface convertWidthWithWidth:40], [AdaptInterface convertHeightWithHeight:30]);
-    screenButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    [screenButton setTitle:@"搜索" forState:0];
-    [screenButton addTarget:self action:@selector(searchAction:) forControlEvents:UIControlEventTouchUpInside];
-    screenButton.titleLabel.font =[UIFont systemFontOfSize:14.5];
-    [screenButton setTitleColor:[UIColor blackColor] forState:0];
-    [_topView addSubview:screenButton];
+//    UIButton *screenButton =[UIButton buttonWithType:UIButtonTypeCustom];
+//    screenButton.frame = CGRectMake(CGRectGetMaxX(searchBtn.frame)+[AdaptInterface convertWidthWithWidth:5], CGRectGetMinY(searchBtn.frame), [AdaptInterface convertWidthWithWidth:40], [AdaptInterface convertHeightWithHeight:30]);
+//    screenButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+//    [screenButton setTitle:@"搜索" forState:0];
+//    [screenButton addTarget:self action:@selector(searchAction:) forControlEvents:UIControlEventTouchUpInside];
+//    screenButton.titleLabel.font =[UIFont systemFontOfSize:14.5];
+//    [screenButton setTitleColor:[UIColor blackColor] forState:0];
+//    [_topView addSubview:screenButton];
     
 }
 -(void)searchAction:(UIButton *)btn{
-    
+    HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+    helpVC.urlstring =  @"mobile/Goods/ajaxSearch";
+    [self.navigationController pushViewController:helpVC animated:YES];
 }
 -(void)loadData{
     [HttpManager requestDataWithURL2:@"mobile/goods/categoryList" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
@@ -230,7 +232,7 @@
 -(void)getDataforHDP{
     [HttpManager requestDataWithURL2:@"Home/Api/getAdData" hasHttpHeaders:YES params:@{@"pid":@(400),@"limit":@(1)} withController:self httpMethod:@"POST" completion:^(id result) {
         imageDic =result[0];
-        [self.imgBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,imageDic[@"ad_code"]]] forState:0];
+        [self.imgBtn sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,imageDic[@"ad_code"]]] forState:0];
         self.imgBtn.userInteractionEnabled = YES;
     } error:^(id result) {
         
