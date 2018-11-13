@@ -10,12 +10,14 @@
 #import"TopCollectionReusableView.h"
 #import "UIImageView+HighlightedWebCache.h"
 #import "HomeModel.h"
+#import "LocationManager.h"
 @interface HomeController ()<SDCycleScrollViewDelegate>
 {
  
     TopCollectionReusableView *topView;
     
     CGFloat height;
+    LocationManager *locationManger;
     
     int pageCount;
 }
@@ -71,11 +73,17 @@
     [super viewDidLoad];
     
     self.title =@"首页";
+    
     [self initCollectionView];
     [self getIconData];
     [self getDataforHDP];
     [self getCollections];
     
+}
+-(void)getLocation:(NSNotification *)info{
+    NSDictionary *dic = info.userInfo;
+    NSString *location = dic[@"location"];
+    topView.addressLB.text = location;
 }
 /*初始化CollectionView*/
 - (void)initCollectionView
@@ -108,11 +116,16 @@
         helpVC.urlstring = link;
         [weakSelf.navigationController pushViewController:helpVC animated:YES];
     };
+    topView.blockTap= ^(NSString *link, NSInteger index) {
+        HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+        helpVC.urlstring = link;
+        [weakSelf.navigationController pushViewController:helpVC animated:YES];
+    };
     height =  [topView getHeight];
     
     CGFloat tempHeight = 0;
-    if (iPhoneX||self.view.bounds.size.height>=896) {
-        tempHeight = 25;
+    if (iPhoneX||iPhoneXr||iPhoneXs||iPhoneX_Max) {
+        tempHeight = 44;
     }
     //创建布局对象
     UICollectionViewFlowLayout *flowLayOut = [[UICollectionViewFlowLayout alloc] init];
@@ -127,7 +140,7 @@
     flowLayOut.minimumInteritemSpacing = 5;
     
     //创建collectionView
-    _homeCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, -20-tempHeight, currentViewWidth, currentViewHeight-48+20+tempHeight) collectionViewLayout:flowLayOut];
+    _homeCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0-tempHeight, currentViewWidth, currentViewHeight-48+tempHeight) collectionViewLayout:flowLayOut];
     //_homeCollectionView.backgroundColor = kThemeColor;
     _homeCollectionView.backgroundColor = colorWithHexString(@"#f4f4f4");
     
@@ -161,6 +174,10 @@
         pageCount++;
         [self getCollections];
     }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLocation:) name:@"location" object:nil];
+    locationManger = [LocationManager shareManager];
+    [locationManger startGPS];
 }
 
 
@@ -223,7 +240,7 @@
         self.infoStr = result[@"data"][@"info"][@"info"];
         topView.yanxuanArr = self.yanxuanArr;
         topView.info = self.infoStr;
-        
+        topView.messageLB.text =[NSString stringWithFormat:@"消息(%@)",result[@"data"][@"get_num"]];
     } error:^(id result) {
         
     } failure:^(id result) {

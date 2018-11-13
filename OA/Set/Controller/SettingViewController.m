@@ -74,6 +74,7 @@
     UIImageView *setImgeV = [[UIImageView alloc]init];
     setImgeV.frame = CGRectMake(currentViewWidth-[AdaptInterface convertWidthWithWidth:35]*2-[AdaptInterface convertWidthWithWidth:20], [AdaptInterface convertHeightWithHeight:28], [AdaptInterface convertWidthWithWidth:35]*2+[AdaptInterface convertWidthWithWidth:5], [AdaptInterface convertWidthWithWidth:35]);
     setImgeV.image = [UIImage imageNamed:@"set"];
+    setImgeV.contentMode = UIViewContentModeScaleAspectFit;
     setImgeV.userInteractionEnabled = YES;
     [topGroundView addSubview:setImgeV];
     

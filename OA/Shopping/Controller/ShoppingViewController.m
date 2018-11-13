@@ -231,10 +231,11 @@
     //    else
     //    {
     int tempHeight = 0;
-    if (iPhoneX||self.view.bounds.size.height>=896) {
-        tempHeight = 25;
+    if (iPhoneX||iPhoneXr||iPhoneXs||iPhoneX_Max) {
+        tempHeight = 44;
     }
-    _webViews = [[UIWebView alloc]initWithFrame:CGRectMake(0, 20-tempHeight, currentViewWidth, currentViewHeight  -20- tempHeight)];
+    _webViews = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, currentViewWidth, currentViewHeight-tempHeight-48)];
+    _webViews.scrollView.backgroundColor =[UIColor whiteColor];
     _webViews.tag = 1;
     _webViews.scalesPageToFit = YES;
     NSString *userAgent = [_webViews stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];

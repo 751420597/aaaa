@@ -124,14 +124,26 @@
         case 0:
             cell.keyLB.text = @"账号";
             cell.valueTF.placeholder = @"请输入邮箱/手机号";
+            cell.seeBtn.hidden = YES;
             cell.btn.hidden = YES;
             break;
             
         case 1:
+        {
             cell.keyLB.text = @"密码";
             cell.valueTF.placeholder = @"请输入密码";
             cell.valueTF.secureTextEntry = YES;
             cell.btn.hidden = YES;
+            cell.seeBtn.hidden = NO;
+            __weak typeof(LoginCell) *weakCell = cell;
+            cell.block = ^(BOOL isSelect) {
+                if (isSelect) {
+                    weakCell.valueTF.secureTextEntry = NO;
+                }else{
+                    weakCell.valueTF.secureTextEntry = YES;
+                }
+            };
+        }
             break;
             
         case 2:
@@ -139,7 +151,7 @@
             cell.keyLB.text = @"验证码";
             cell.valueTF.placeholder = @"请输入邮箱/手机号";
             cell.btn.hidden = NO;
-            
+            cell.seeBtn.hidden = YES;
             int x = arc4random() % 100000;
             NSString *url = [NSString stringWithFormat:@"https://www.diyoupin.com/Mobile/User/verify/rand/%d.html",x];
             [HttpManager downloadFromUrl:url success:^(id result) {

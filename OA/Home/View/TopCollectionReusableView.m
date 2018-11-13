@@ -11,7 +11,7 @@
 
 @implementation TopCollectionReusableView
 
-@synthesize scrollLable,cycleScrollView,activeBtn0,activeBtn1,activeBtn2,nameItem0,nameItem1,nameItem2,nameItem3,nameItem4,nameItem5,nameItem6,nameItem7;
+@synthesize addressLB,messageLB, scrollLable,cycleScrollView,activeBtn0,activeBtn1,activeBtn2,nameItem0,nameItem1,nameItem2,nameItem3,nameItem4,nameItem5,nameItem6,nameItem7;
 -(instancetype)initWithFrame:(CGRect)frame{
     if([super initWithFrame:frame]){
         self.backgroundColor =[UIColor whiteColor];
@@ -19,22 +19,58 @@
         [self creatSubView];
         [self createSudokuView];
         [self creatActivityView];
-        //创建搜索框
-        UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        searchBtn.frame = CGRectMake([AdaptInterface convertWidthWithWidth:40], [AdaptInterface convertHeightWithHeight:20], currentViewWidth-[AdaptInterface convertWidthWithWidth:80], [AdaptInterface convertHeightWithHeight:30]);
-        [searchBtn setBackgroundColor:[UIColor whiteColor]];
-        [searchBtn setImage:[UIImage imageNamed:@"home_search"] forState:UIControlStateNormal];
-//        [searchBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -CGRectGetWidth(searchBtn.frame)/2-[AdaptInterface convertWidthWithWidth:110],0, 0)];
-        searchBtn.layer.cornerRadius = [AdaptInterface convertHeightWithHeight:15];
-        //searchBtn.alpha = 0.5;
-        [searchBtn setTitle:@"请输入您所搜索的商品" forState:0];
-        [searchBtn setTitleColor:[UIColor lightGrayColor] forState:0];
-        searchBtn.titleLabel.font =[UIFont systemFontOfSize:14.5];
-        searchBtn.tag = 111;
-        [searchBtn addTarget:self action:@selector(adAction:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:searchBtn];
+        [self createSearch];
     }
     return self;
+}
+-(void)createSearch{
+    UIView *searchView =[UIView new];
+    CGFloat tempHeight = [AdaptInterface convertHeightWithHeight:15];
+    if (iPhoneX||iPhoneXr||iPhoneXs||iPhoneX_Max) {
+        tempHeight = 44;
+    }
+    searchView.frame =CGRectMake(0, tempHeight, currentViewWidth, [AdaptInterface convertHeightWithHeight:30]);
+    [self addSubview:searchView];
+    
+    addressLB = [UILabel new];
+    addressLB.frame = CGRectMake(0, 0, [AdaptInterface convertWidthWithWidth:60], CGRectGetHeight(searchView.frame));
+    addressLB.text = @"地址";
+    addressLB.textAlignment = NSTextAlignmentRight;
+    addressLB.font =[UIFont systemFontOfSize:13];
+    addressLB.textColor =[UIColor whiteColor];
+    [searchView addSubview:addressLB];
+    
+    //创建搜索框
+    UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    searchBtn.frame = CGRectMake(CGRectGetMaxX(addressLB.frame)+1, 0, currentViewWidth-CGRectGetMaxX(addressLB.frame)-[AdaptInterface convertWidthWithWidth:90], CGRectGetHeight(searchView.frame));
+    [searchBtn setBackgroundColor:[UIColor whiteColor]];
+    searchBtn.center = CGPointMake(searchView.center.x, searchView.frame.size.height/2);
+    [searchBtn setImage:[UIImage imageNamed:@"home_search"] forState:UIControlStateNormal];
+    //        [searchBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -CGRectGetWidth(searchBtn.frame)/2-[AdaptInterface convertWidthWithWidth:110],0, 0)];
+    searchBtn.layer.cornerRadius = [AdaptInterface convertHeightWithHeight:15];
+    //searchBtn.alpha = 0.5;
+    [searchBtn setTitle:@"请输入您所搜索的商品" forState:0];
+    [searchBtn setTitleColor:[UIColor lightGrayColor] forState:0];
+    searchBtn.titleLabel.font =[UIFont systemFontOfSize:13.5];
+    searchBtn.tag = 111;
+    [searchBtn addTarget:self action:@selector(adAction:) forControlEvents:UIControlEventTouchUpInside];
+    [searchView addSubview:searchBtn];
+    
+    messageLB = [UILabel new];
+    messageLB.frame = CGRectMake(CGRectGetMaxX(searchBtn.frame)+1, 0, [AdaptInterface convertWidthWithWidth:65], CGRectGetHeight(searchView.frame));
+    UITapGestureRecognizer *tapGesturRecognizer=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
+    messageLB.userInteractionEnabled = YES;
+    [messageLB addGestureRecognizer:tapGesturRecognizer];
+    messageLB.text = @"消息(0)";
+    
+    messageLB.font =[UIFont systemFontOfSize:13];
+    messageLB.textColor=addressLB.textColor;
+    [searchView addSubview:messageLB];
+}
+-(void)tapAction:(id)tap{
+    if(self.blockTap){
+        self.blockTap(@"mobile/User/message", 0);
+    }
 }
 -(void)creatSubView{
     
@@ -369,10 +405,7 @@
             url = @"mobile/User/mobilemoney";
             break;
         case 3:
-        {
-            NSString *idStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"userID"];
-            url =[NSString stringWithFormat:@"mobile/Shop/share/id/%@",idStr] ;
-        }
+            url =@"mobile/Shop/share/id/3" ;
             break;
         case 4:
             url = @"Mobile/Goods/goodsList/id/1080";

@@ -25,80 +25,78 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self preferredStatusBarStyle];
+
+}
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [SVProgressHUD dismiss];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
     
     // Remove progress view
     // because UINavigationBar is shared with other ViewControllers
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0)
-    {
+//    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0)
+//    {
+        //1、加载空页面
         [_webViews stopLoading];
         _webViews.delegate = nil;
         
          [_progressView removeFromSuperview];
         _progressProxy.webViewProxyDelegate = nil;
         _progressProxy.progressDelegate = nil;
-    }
-    else
-    {
-        [_wkWebView stopLoading];
-        
-        [progressView removeFromSuperview];
-    }
+//    }
+//    else
+//    {
+//        [_wkWebView stopLoading];
+//
+//        [progressView removeFromSuperview];
+//    }
 }
 -(void)back{
     [_webViews goBack];
 }
 -(void)popAction{
+    [_webViews loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@""]]];
     if (IS_NOT_EMPTY(self.tag)) {
         [[NSNotificationCenter defaultCenter] postNotificationName:kGotoHome object:nil];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)creatBackBtn{
-    int tempHeight = 0;
+    int tempHeight = [AdaptInterface convertHeightWithHeight:20];
 
-    if (iPhoneX||self.view.bounds.size.height>=896) {
-        tempHeight = 20;
+    if (iPhoneX||iPhoneXr||iPhoneXs||iPhoneX_Max) {
+        tempHeight = 44;
     }
-    
+    int buttonHeight = 44;
+     if (iPhoneXr){
+        buttonHeight = 47;
+     }else if (iPhoneX_Max){
+          buttonHeight = 48;
+     }
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectZero;
     [button addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake([AdaptInterface convertWidthWithWidth:5], [AdaptInterface convertHeightWithHeight:(44-30)/2], [AdaptInterface convertWidthWithWidth:20], [AdaptInterface convertHeightWithHeight:20])];
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
-    imageView.image = [UIImage imageNamed:@"return"];
-    //imageView.userInteractionEnabled = YES;
-    [button addSubview:imageView];
-    button.frame = CGRectMake(0, [AdaptInterface convertHeightWithHeight:5]+2*tempHeight, [AdaptInterface convertWidthWithWidth:60], [AdaptInterface convertHeightWithHeight:44]);
-    [button sizeToFit];
+    button.frame = CGRectMake([AdaptInterface convertWidthWithWidth:10],tempHeight, [AdaptInterface convertWidthWithWidth:25], buttonHeight);
+    [button setImage:[UIImage imageNamed:@"return"] forState:0];
+    button.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [_webViews addSubview:button];
     
     UIButton *button2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    button2.frame = CGRectZero;
+    [button2 setImage:[UIImage imageNamed:@"tuichu"] forState:0];
+    button2.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [button2 addTarget:self action:@selector(popAction) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIImageView *imageView2 = [[UIImageView alloc] initWithFrame:CGRectMake([AdaptInterface convertWidthWithWidth:0], [AdaptInterface convertHeightWithHeight:(44-30)/2], [AdaptInterface convertWidthWithWidth:20], [AdaptInterface convertHeightWithHeight:20])];
-    imageView2.contentMode = UIViewContentModeScaleAspectFit;
-    imageView2.image = [UIImage imageNamed:@"tuichu"];
-    //imageView.userInteractionEnabled = YES;
-    [button2 addSubview:imageView2];
-    button2.frame = CGRectMake(CGRectGetMaxX(button.frame)-3, CGRectGetMinY(button.frame), CGRectGetWidth(button.frame), CGRectGetHeight(button.frame));
-    [button2 sizeToFit];
+    button2.frame = CGRectMake(CGRectGetMaxX(button.frame), CGRectGetMinY(button.frame), CGRectGetWidth(button.frame), CGRectGetHeight(button.frame));
     [_webViews addSubview:button2];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
+    [self preferredStatusBarStyle];
     // 导航栏左侧按钮
     [self creatBackBtn];
     [SVProgressHUD showWithStatus:@"请稍后..."];
@@ -106,6 +104,7 @@
    
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.html",kRequestIP,_urlstring]]];
     [request setValue:@"DAssist" forHTTPHeaderField:@"DTOAUTH"];
+    [request setValue:@"www.diyoupin.com" forHTTPHeaderField: @"Referer"];
     NSData *cookiesdata = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookie"];
     if([cookiesdata length]) {
         NSArray *cookies = [NSKeyedUnarchiver unarchiveObjectWithData:cookiesdata];
@@ -169,12 +168,12 @@
 //    else
 //    {
     int tempHeight = 0;
-    if (iPhoneX||self.view.bounds.size.height>=896) {
-        tempHeight = 25;
+    if (iPhoneX||iPhoneXr||iPhoneXs||iPhoneX_Max) {
+        tempHeight = 44;
     }
     
-    _webViews = [[UIWebView alloc]initWithFrame:CGRectMake(0, 20-tempHeight, currentViewWidth, currentViewHeight  -20-tempHeight)];
-        
+    _webViews = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, currentViewWidth, currentViewHeight-tempHeight)];
+    _webViews.scrollView.backgroundColor =[UIColor whiteColor];
         _webViews.scalesPageToFit = YES;
     NSString *userAgent = [_webViews stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
     if(![userAgent containsString:@"native/app"]){
@@ -235,14 +234,6 @@
     _urlstring = urlString;
 }
 
-/*
--(void)gotoFeedBack
-{
-    FeedBackViewController *feedVC = [[FeedBackViewController alloc] init];
-    [self.navigationController pushViewController:feedVC animated:YES];
-}
- */
-
 #pragma mark - NJKWebViewProgressDelegate
 -(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
 {
@@ -253,6 +244,10 @@
 }
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+   
     [SVProgressHUD dismiss];
     if ([self.title isEqualToString:@"<null>"] || self.title ==nil)
     {
@@ -325,9 +320,8 @@
 {
     NSString *requestSt=[[request URL] absoluteString];
     //将":"前后字符串切割为数组
-   
-   
-    if([requestSt isEqualToString:@"forapphome"])
+    
+    if([requestSt containsString:@"forapphome"])
     {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:kGotoHome object:nil];
@@ -335,7 +329,7 @@
         [self.navigationController popViewControllerAnimated:YES];
        
         return NO;
-    }else if([requestSt isEqualToString:@"forappstore"])
+    }else if([requestSt containsString:@"forappstore"])
     {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:kGotoStore object:nil];
@@ -343,7 +337,7 @@
         [self.navigationController popViewControllerAnimated:YES];
         
         return NO;
-    }else if([requestSt isEqualToString:@"forapplist"])
+    }else if([requestSt containsString:@"forapplist"])
     {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:kGotoList object:nil];
@@ -351,15 +345,15 @@
         [self.navigationController popViewControllerAnimated:YES];
         
         return NO;
-    }else if([requestSt isEqualToString:@"forappshopping"])
+    }else if([requestSt containsString:@"forappshopping"])
     {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:kGotoShopping object:nil];
-        
+
         [self.navigationController popViewControllerAnimated:YES];
-        
+
         return NO;
-    }else if([requestSt isEqualToString:@"forappuser"])
+    }else if([requestSt containsString:@"forappuser"])
     {
         
         [[NSNotificationCenter defaultCenter] postNotificationName:kGotoUser object:nil];

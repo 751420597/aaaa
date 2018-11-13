@@ -35,6 +35,18 @@
         make.height.mas_equalTo(self.keyLB);
     }];
     
+    self.seeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.seeBtn setImage:[UIImage imageNamed:@"Login_notSee"] forState:UIControlStateNormal];
+    self.seeBtn.contentMode = UIViewContentModeScaleAspectFit;
+    self.seeBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.seeBtn addTarget:self action:@selector(seeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.seeBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10)];
+    [self.contentView addSubview:self.seeBtn];
+    [self.seeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.contentView.mas_right).mas_offset(-15);
+        make.height.mas_equalTo(self.keyLB);
+    }];
+    
     self.btn =[UIButton buttonWithType:UIButtonTypeCustom];
     [self.contentView addSubview:self.btn];
     [self.btn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -44,6 +56,17 @@
     
 
     [self.btn addTarget:self action:@selector(changeImage) forControlEvents:UIControlEventTouchUpInside];
+}
+-(void)seeBtnClick:(UIButton *)btn{
+    isSelect = !isSelect;
+    if (isSelect) {
+        [self.seeBtn setImage:[UIImage imageNamed:@"Login_see"] forState:UIControlStateNormal];
+    }else{
+        [self.seeBtn setImage:[UIImage imageNamed:@"Login_notSee"] forState:UIControlStateNormal];
+    }
+    if (self.block) {
+        self.block(isSelect);
+    }
 }
 -(void)changeImage{
     NSHTTPCookie *cookie;

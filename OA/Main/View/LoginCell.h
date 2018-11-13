@@ -9,11 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "UIButton+WebCache.h"
 NS_ASSUME_NONNULL_BEGIN
-
+typedef  void (^Block)(BOOL isSelect);
 @interface LoginCell : UITableViewCell
+{
+    BOOL isSelect;
+}
 @property(nonatomic,strong)UILabel *keyLB;
 @property(nonatomic,strong)UITextField *valueTF;
 @property(nonatomic,strong)UIButton *btn;
+@property(nonatomic,strong)UIButton *seeBtn;
+@property(nonatomic,copy)Block block;
 @end
 
 NS_ASSUME_NONNULL_END

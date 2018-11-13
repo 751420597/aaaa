@@ -18,7 +18,8 @@ typedef  void (^Block)(NSString *link,NSInteger index);
 typedef  void (^BlockLink)(NSString *link,NSInteger index);
 typedef  void (^BlockSudokuLink)(NSString *link,NSInteger index);
 typedef  void (^BlockADLink)(NSString *link,NSInteger index);
-@interface TopCollectionReusableView : UIView<SDCycleScrollViewDelegate>
+typedef  void (^BlockTap)(NSString *link,NSInteger index);
+@interface TopCollectionReusableView : UIView<SDCycleScrollViewDelegate,UIGestureRecognizerDelegate>
 
 @property(nonatomic,strong)CBAutoScrollLabel * scrollLable;// 滚动字幕
 @property(nonatomic,strong)SDCycleScrollView *cycleScrollView;
@@ -48,10 +49,14 @@ typedef  void (^BlockADLink)(NSString *link,NSInteger index);
 @property(nonatomic,copy)BlockSudokuLink blockSudokuLink;
 @property(nonatomic,copy)NSString *info;
 @property(nonatomic,copy)BlockADLink blockAdLink;
-
+@property(nonatomic,copy)BlockTap blockTap;
 @property(nonatomic,strong)NSDictionary *dicYX1;
 @property(nonatomic,strong)NSDictionary *dicYX2;
 @property(nonatomic,strong)NSDictionary *dicYX3;
+
+@property(nonatomic,strong)UILabel *addressLB;
+@property(nonatomic,strong)UILabel *messageLB;
+
 -(CGFloat)getHeight;
 
 @end
