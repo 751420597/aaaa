@@ -98,7 +98,7 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
 #else
     dispatch_once(&once, ^{ sharedView = [[self alloc] initWithFrame:[[UIScreen mainScreen] bounds]]; });
 #endif
-    NSLog(@"%f",[[UIScreen mainScreen] bounds].size.width);
+   // NSLog(@"%f",[[UIScreen mainScreen] bounds].size.width);
     return sharedView;
 }
 
@@ -480,7 +480,7 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
             
             self.backgroundLayer = [CALayer layer];
             self.backgroundLayer.frame = self.bounds;
-            NSLog(@"%@",NSStringFromCGRect(self.layer.frame));
+            //NSLog(@"%@",NSStringFromCGRect(self.layer.frame));
             self.backgroundLayer.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5].CGColor;
             [self.backgroundLayer setNeedsDisplay];
             

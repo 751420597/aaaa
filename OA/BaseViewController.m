@@ -25,8 +25,8 @@
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];//进度轮转动的类型
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
     /** 添加手势滑动返回 */
-    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+//    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+//    self.navigationController.interactivePopGestureRecognizer.delegate = self;
 }
 #pragma mark 设置导航栏样式
 -(void) setNavigationBarTheme

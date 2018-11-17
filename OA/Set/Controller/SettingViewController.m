@@ -344,12 +344,12 @@
 }
 //全部订单
 -(void)tapAction:(id)tap{
-    HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+    PAWebView *helpVC =[[PAWebView alloc]init];
     helpVC.urlstring =  @"Mobile/User/order_list";
     [self.navigationController pushViewController:helpVC animated:YES];
 }
 -(void)tapAction2:(id)tap{
-    HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+    PAWebView *helpVC =[[PAWebView alloc]init];
     helpVC.urlstring =  @"Mobile/User/account";
     [self.navigationController pushViewController:helpVC animated:YES];
 }
@@ -357,84 +357,84 @@
     switch (btn.tag) {
         case 1:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"Mobile/User/collect_list";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 2:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"mobile/User/message";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 3:
         {
-            //            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            //            PAWebView *helpVC =[[PAWebView alloc]init];
             //            helpVC.urlstring =  @"";
             //            [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 4:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"Mobile/User/order_list/type/WAITPAY";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 5:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"Mobile/User/wait_receive/type/WAITRECEIVE";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 6:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"Mobile/User/comment/status/0";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 7:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"Mobile/User/return_goods_list/type/1";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 8:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"Mobile/User/account";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 9:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"Mobile/User/coupon";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 10:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"Mobile/Shop/intDetails/name/user";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 11:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"Mobile/User/userinfo";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 12:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"mobile/User/message";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
@@ -448,35 +448,35 @@
     switch (indexPath.row) {
         case 0:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"Mobile/User/level_add";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 1:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"Mobile/User/comment/status/1";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 2:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"Mobile/Activity/coupon_list";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 3:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"Mobile/User/visit_log";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
             break;
         case 4:
         {
-            HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+            PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =  @"Mobile/User/address_list";
             [self.navigationController pushViewController:helpVC animated:YES];
         }
@@ -490,7 +490,7 @@
     [HttpManager requestDataWithURL2:@"mobile/user/index" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
         
         self.view.userInteractionEnabled = YES;
-        NSString *sign =  result[@"data"][@"sign"];
+        //NSString *sign =  result[@"data"][@"sign"];
         NSDictionary *userDic = result[@"data"][@"user"];
         if (userDic ==nil) {
             //未登录
@@ -498,6 +498,7 @@
             [self presentViewController:navc animated:YES completion:nil];
             return ;
         }
+        [heardImgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,userDic[@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"user"]];
         nameLB.text = userDic[@"nickname"];
         myCollectionBT.numberLB.text =[NSString stringWithFormat:@"%@",userDic[@"collect_count"]] ;
         btn2.redLB.text =[NSString stringWithFormat:@"%@",userDic[@"waitComment"]]; //待评论

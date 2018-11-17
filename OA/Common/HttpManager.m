@@ -42,7 +42,7 @@
     }
     
     [manager.requestSerializer setValue:@"DAssist" forHTTPHeaderField:@"DTOAUTH"];
-    NSData *cookiesdata = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookie"];
+    NSData *cookiesdata = [[NSUserDefaults standardUserDefaults] objectForKey:PAWKCookiesKey];
     if([cookiesdata length]) {
         NSArray *cookies = [NSKeyedUnarchiver unarchiveObjectWithData:cookiesdata];
         NSHTTPCookie *cookie;
@@ -65,10 +65,10 @@
                 
                 NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: [NSURL URLWithString:fullURLString]];
                 NSData *data = [NSKeyedArchiver archivedDataWithRootObject:cookies];
-                [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"cookie"];
+                [[NSUserDefaults standardUserDefaults] setObject:data forKey:PAWKCookiesKey];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 id dict=[NSJSONSerialization  JSONObjectWithData:responseObject options:0 error:nil];
-                NSLog(@"获取到的数据为：%@",dict);;
+                //NSLog(@"获取到的数据为：%@",dict);;
                 int code0 = [dict[@"status"] intValue] ;
                  int code1 = [dict[@"code"] intValue] ;
                 [SVProgressHUD dismiss];
@@ -121,15 +121,27 @@
         operation =[manager POST:fullURLString parameters:params success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 
+                NSHTTPURLResponse *response=  (NSHTTPURLResponse *)task.response;
+                NSString * setCookie = [[NSUserDefaults standardUserDefaults]  objectForKey:@"setCookie"];
+                if(!setCookie){
+                    setCookie = @"";
+                }
+                    NSDictionary *dic = response.allHeaderFields;
+                NSString *cookie = dic[@"Set-Cookie"];
+                
+                    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@%@",setCookie,cookie] forKey:@"setCookie"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                
+               
                 NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: [NSURL URLWithString:fullURLString]];
                 NSData *data = [NSKeyedArchiver archivedDataWithRootObject:cookies];
-                [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"cookie"];
+                [[NSUserDefaults standardUserDefaults] setObject:data forKey:PAWKCookiesKey];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 id dict=[NSJSONSerialization  JSONObjectWithData:responseObject options:0 error:nil];
                 if ([dict isKindOfClass:[NSArray class]]) {
                     block(dict);
                 }else if([dict isKindOfClass:[NSDictionary class]]){
-                    NSLog(@"获取到的数据为：%@",dict[@"data"]);
+                   // NSLog(@"获取到的数据为：%@",dict[@"data"]);
                     //[AdaptInterface tipMessageTitle:dict[@"data"][@"user_id"] view:controller.view];
                     int code0 = [dict[@"status"] intValue] ;
                     int code1 = [dict[@"code"] intValue] ;

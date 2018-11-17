@@ -11,7 +11,8 @@
 #import "NJKWebViewProgressView.h"
 #import <WebKit/WebKit.h>
 
-@interface HelpCenterViewController : BaseViewController<UIWebViewDelegate,WKUIDelegate,WKNavigationDelegate,NJKWebViewProgressDelegate>
+@interface HelpCenterViewController1 : BaseViewController<UIWebViewDelegate,WKUIDelegate,WKNavigationDelegate,NJKWebViewProgressDelegate,
+WKScriptMessageHandler,WKScriptMessageHandler>
 @property (nonatomic, strong) NSString *urlstring;
 @property(nonatomic,strong) NSString *tag;
 @end

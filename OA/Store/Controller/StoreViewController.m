@@ -272,7 +272,7 @@
         default:
             break;
     }
-    HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+    PAWebView *helpVC =[[PAWebView alloc]init];
     helpVC.urlstring = url;
     [self.navigationController pushViewController:helpVC animated:YES];
 }
@@ -327,7 +327,7 @@
             break;
     }
     
-    HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+    PAWebView *helpVC =[[PAWebView alloc]init];
     helpVC.urlstring = url;
     [self.navigationController pushViewController:helpVC animated:YES];
 }
@@ -344,7 +344,7 @@
         NSString *time =[NSString stringWithFormat:@"%@",userdDic[@"reg_time"]] ;
         NSString *totalOrderNum =[NSString stringWithFormat:@"%@",result[@"data"][@"total"]] ;
         if ([totalOrderNum isEqualToString:@"(null)"]) {
-            HelpCenterViewController *vc = [[HelpCenterViewController alloc]init];
+            PAWebView *vc = [[PAWebView alloc]init];
             vc.urlstring = @"Mobile/User/level_add";
             vc.tag = @"store";
             [self.navigationController pushViewController:vc animated:YES];
@@ -354,6 +354,7 @@
         NSString *money = [NSString stringWithFormat:@"%@",result[@"data"][@"money"][@"achieve_money"]] ;
         NSString *total_shop = [NSString stringWithFormat:@"%@",result[@"data"][@"total_shop"]] ;
         NSString *jiFen = [NSString stringWithFormat:@"%@",result[@"data"][@"int"]] ;
+        [heardImgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,userdDic[@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"user"]];
         
         [chuangKeBTn setTitle:level_name forState:0];
         nameLB.text = userdDic[@"nickname"];

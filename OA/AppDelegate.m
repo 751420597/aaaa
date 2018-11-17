@@ -37,17 +37,19 @@
     return [WXApi handleOpenURL:url delegate:self];
 }
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-    
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"pay" object:nil userInfo:nil];
     return [WXApi handleOpenURL:url delegate:self];
 }
 // 从微信分享过后点击返回应用的时候调用
 - (void)onResp:(BaseResp *)resp {
     
     //把返回的类型转换成与发送时相对于的返回类型,这里为SendMessageToWXResp
-//    SendMessageToWXResp *sendResp = (SendMessageToWXResp *)resp;
+    SendMessageToWXResp *sendResp = (SendMessageToWXResp *)resp;
     
     //使用UIAlertView 显示回调信息
-//    NSString *str = [NSString stringWithFormat:@"%d",sendResp.errCode];
+    NSString *str = [NSString stringWithFormat:@"%d",sendResp.errCode];
+    
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"weiXinShare" object:nil userInfo:@{@"infor" :str}];
 //    [AdaptInterface tipMessageTitle:str view:self.window.rootViewController.view];
    
 }

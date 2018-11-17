@@ -146,7 +146,7 @@
     NSLog(@"+++++点击item响应的事件----");
     SubSortModel *model = self.subCategoryArr[indexPath.row];
     NSString *url = [NSString stringWithFormat:@"mobile/goods/goodsList/id/%@",model.id];
-    HelpCenterViewController *vc = [[HelpCenterViewController alloc]init];
+    PAWebView *vc = [[PAWebView alloc]init];
     vc.urlstring = url;
     [self.navigationController pushViewController:vc animated:YES];
     
@@ -174,7 +174,7 @@
     [searchBtn setTitle:@"请输入您所搜索的商品" forState:0];
     [searchBtn setTitleColor:[UIColor lightGrayColor] forState:0];
     searchBtn.titleLabel.font =[UIFont systemFontOfSize:14.5];
-    [searchBtn addTarget:self action:@selector(send) forControlEvents:UIControlEventTouchUpInside];
+    [searchBtn addTarget:self action:@selector(searchAction:) forControlEvents:UIControlEventTouchUpInside];
     [_topView addSubview:searchBtn];
     
 //    UIButton *screenButton =[UIButton buttonWithType:UIButtonTypeCustom];
@@ -187,40 +187,9 @@
 //    [_topView addSubview:screenButton];
     
 }
--(void)send{
-    static NSString *kLinkURL = @"http://www.jianshu.com/u/c693e77d617c";
-    
-    static NSString *kLinkTitle = @"我简书的主页";
-    static NSString *kLinkDescription = @"里面是一些自己总结的小知识点";
-    SendMessageToWXReq *req1 = [[SendMessageToWXReq alloc]init];
-    
-    // 是否是文档
-    req1.bText =  NO;
-    //    WXSceneSession  = 0,        /**< 聊天界面    */
-    //    WXSceneTimeline = 1,        /**< 朋友圈      */
-    //    WXSceneFavorite = 2,
-    req1.scene = WXSceneTimeline;
-    
-    //创建分享内容对象
-    WXMediaMessage *urlMessage = [WXMediaMessage message];
-    urlMessage.title = kLinkTitle;//分享标题
-    urlMessage.description = kLinkDescription;//分享描述
-    [urlMessage setThumbImage:[UIImage imageNamed:@"share"]];//分享图片,使用SDK的setThumbImage方法可压缩图片大小
-    
-    //创建多媒体对象
-    WXWebpageObject *webObj = [WXWebpageObject object];
-    webObj.webpageUrl = kLinkURL;//分享链接
-    
-    //完成发送对象实例
-    urlMessage.mediaObject = webObj;
-    req1.message = urlMessage;
-    
-    //发送分享信息
-    [WXApi sendReq:req1];
-    
-}
+
 -(void)searchAction:(UIButton *)btn{
-    HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+    PAWebView *helpVC =[[PAWebView alloc]init];
     helpVC.urlstring =  @"mobile/Goods/ajaxSearch";
     [self.navigationController pushViewController:helpVC animated:YES];
 }
@@ -269,7 +238,7 @@
     }];
 }
 -(void)linkAction{
-    HelpCenterViewController *helpVC =[[HelpCenterViewController alloc]init];
+    PAWebView *helpVC =[[PAWebView alloc]init];
     helpVC.urlstring =  imageDic[@"ad_link"];
     [self.navigationController pushViewController:helpVC animated:YES];
 }
