@@ -272,9 +272,16 @@
         default:
             break;
     }
-    PAWebView *helpVC =[[PAWebView alloc]init];
-    helpVC.urlstring = url;
-    [self.navigationController pushViewController:helpVC animated:YES];
+    if (@available(iOS 11.0, *)) {
+        PAWebView *helpVC =[[PAWebView alloc]init];
+        helpVC.urlstring = url;
+        [self.navigationController pushViewController:helpVC animated:YES];
+    }else{
+        HelpCenterViewController *helpVC = [[HelpCenterViewController alloc]init];
+        helpVC.urlstring = url;
+        [self.navigationController pushViewController:helpVC animated:YES];
+    }
+    
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 3;
@@ -327,9 +334,15 @@
             break;
     }
     
-    PAWebView *helpVC =[[PAWebView alloc]init];
-    helpVC.urlstring = url;
-    [self.navigationController pushViewController:helpVC animated:YES];
+    if (@available(iOS 11.0, *)) {
+        PAWebView *helpVC =[[PAWebView alloc]init];
+        helpVC.urlstring = url;
+        [self.navigationController pushViewController:helpVC animated:YES];
+    }else{
+        HelpCenterViewController *helpVC = [[HelpCenterViewController alloc]init];
+        helpVC.urlstring = url;
+        [self.navigationController pushViewController:helpVC animated:YES];
+    }
 }
 -(void)loadData{
     [HttpManager requestDataWithURL2:@"mobile/distribut/index" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
@@ -343,15 +356,27 @@
         NSString *level_name =result[@"data"][@"level_name"];
         NSString *time =[NSString stringWithFormat:@"%@",userdDic[@"reg_time"]] ;
         NSString *totalOrderNum =[NSString stringWithFormat:@"%@",result[@"data"][@"total"]] ;
+        
         if ([totalOrderNum isEqualToString:@"(null)"]) {
-            PAWebView *vc = [[PAWebView alloc]init];
-            vc.urlstring = @"Mobile/User/level_add";
-            vc.tag = @"store";
-            [self.navigationController pushViewController:vc animated:YES];
+            if (@available(iOS 11.0, *)) {
+                PAWebView *vc = [[PAWebView alloc]init];
+                vc.urlstring = @"Mobile/User/level_add";
+                vc.tag = @"store";
+                [self.navigationController pushViewController:vc animated:YES];
+            }else{
+                HelpCenterViewController *vc = [[HelpCenterViewController alloc]init];
+                vc.urlstring = @"Mobile/User/level_add";
+                vc.tag = @"store";
+                [self.navigationController pushViewController:vc animated:YES];
+            }
             return;
+        }
+        if([totalOrderNum isEqualToString:@"<null>"]){
+            totalOrderNum = @"0";
         }
         NSString *run_money = [NSString stringWithFormat:@"%@",result[@"data"][@"run_money"]] ;
         NSString *money = [NSString stringWithFormat:@"%@",result[@"data"][@"money"][@"achieve_money"]] ;
+        
         NSString *total_shop = [NSString stringWithFormat:@"%@",result[@"data"][@"total_shop"]] ;
         NSString *jiFen = [NSString stringWithFormat:@"%@",result[@"data"][@"int"]] ;
         [heardImgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,userdDic[@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"user"]];

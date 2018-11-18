@@ -144,11 +144,20 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"+++++点击item响应的事件----");
+  
     SubSortModel *model = self.subCategoryArr[indexPath.row];
     NSString *url = [NSString stringWithFormat:@"mobile/goods/goodsList/id/%@",model.id];
-    PAWebView *vc = [[PAWebView alloc]init];
-    vc.urlstring = url;
-    [self.navigationController pushViewController:vc animated:YES];
+    if (@available(iOS 11.0, *)) {
+        PAWebView *vc = [[PAWebView alloc]init];
+        vc.urlstring = url;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        HelpCenterViewController *vc = [[HelpCenterViewController alloc]init];
+        vc.urlstring = url;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
+    
     
 }
 
@@ -189,9 +198,17 @@
 }
 
 -(void)searchAction:(UIButton *)btn{
-    PAWebView *helpVC =[[PAWebView alloc]init];
-    helpVC.urlstring =  @"mobile/Goods/ajaxSearch";
-    [self.navigationController pushViewController:helpVC animated:YES];
+    
+    NSString *url =  @"mobile/Goods/ajaxSearch";
+    if (@available(iOS 11.0, *)) {
+        PAWebView *vc = [[PAWebView alloc]init];
+        vc.urlstring = url;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        HelpCenterViewController *vc = [[HelpCenterViewController alloc]init];
+        vc.urlstring = url;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 -(void)loadData{
     [HttpManager requestDataWithURL2:@"mobile/goods/categoryList" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
@@ -238,8 +255,15 @@
     }];
 }
 -(void)linkAction{
-    PAWebView *helpVC =[[PAWebView alloc]init];
-    helpVC.urlstring =  imageDic[@"ad_link"];
-    [self.navigationController pushViewController:helpVC animated:YES];
+    
+    if (@available(iOS 11.0, *)) {
+        PAWebView *helpVC =[[PAWebView alloc]init];
+        helpVC.urlstring =  imageDic[@"ad_link"];
+        [self.navigationController pushViewController:helpVC animated:YES];
+    }else{
+        HelpCenterViewController   *helpVC =[[HelpCenterViewController alloc]init];
+        helpVC.urlstring =  imageDic[@"ad_link"];
+        [self.navigationController pushViewController:helpVC animated:YES];
+    }
 }
 @end

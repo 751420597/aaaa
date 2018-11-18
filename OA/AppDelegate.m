@@ -37,7 +37,15 @@
     return [WXApi handleOpenURL:url delegate:self];
 }
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"pay" object:nil userInfo:nil];
+    NSDictionary *dic =options;
+    if([dic[@"UIApplicationOpenURLOptionsSourceApplicationKey"] isEqualToString:@"com.tencent.xin"]){
+        
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"wechatpay" object:nil userInfo:nil];
+        
+    }else if([dic[@"UIApplicationOpenURLOptionsSourceApplicationKey"] isEqualToString:@"com.alipay.iphoneclient"]){
+         [[NSNotificationCenter defaultCenter]postNotificationName:@"alipay" object:nil userInfo:nil];
+    }
+    
     return [WXApi handleOpenURL:url delegate:self];
 }
 // 从微信分享过后点击返回应用的时候调用
@@ -54,7 +62,9 @@
    
 }
 
-
+-(void)applicationDidReceiveMemoryWarning:(UIApplication *)application{
+     [[NSURLCache sharedURLCache] removeAllCachedResponses];
+}
 //- (void)configUSharePlatforms
 //{
 //    /* 设置微信的appKey和appSecret */

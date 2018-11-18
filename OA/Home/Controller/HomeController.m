@@ -93,35 +93,72 @@
     topView = [[TopCollectionReusableView alloc]initWithFrame:CGRectZero];
     __weak typeof(self) weakSelf = self;
     topView.block = ^(NSString *link, NSInteger index) {
-        PAWebView *helpVC =[[PAWebView alloc]init];
-        helpVC.urlstring = link;
-        [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        if (@available(iOS 11.0, *)) {
+            PAWebView *helpVC =[[PAWebView alloc]init];
+            helpVC.urlstring = link;
+            [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        }else{
+            HelpCenterViewController *helpVC = [[HelpCenterViewController alloc]init];
+            helpVC.urlstring = link;
+            [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        }
+        
     };
     topView.blockLink = ^(NSString *link, NSInteger index) {
-        PAWebView *helpVC =[[PAWebView alloc]init];
-        helpVC.urlstring = link;
-        [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        if (@available(iOS 11.0, *)) {
+            PAWebView *helpVC =[[PAWebView alloc]init];
+            helpVC.urlstring = link;
+            [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        }else{
+            HelpCenterViewController *helpVC = [[HelpCenterViewController alloc]init];
+            helpVC.urlstring = link;
+            [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        }
     };
     topView.blockSudokuLink = ^(NSString *link, NSInteger index) {
-        PAWebView *helpVC =[[PAWebView alloc]init];
-        helpVC.urlstring = link;
-        [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        if (@available(iOS 11.0, *)) {
+            PAWebView *helpVC =[[PAWebView alloc]init];
+            helpVC.urlstring = link;
+            [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        }else{
+            HelpCenterViewController *helpVC = [[HelpCenterViewController alloc]init];
+            helpVC.urlstring = link;
+            [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        }
     };
     
     topView.blockAdLink= ^(NSString *link, NSInteger index) {
-        PAWebView *helpVC =[[PAWebView alloc]init];
-        helpVC.urlstring = link;
-        [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        if (@available(iOS 11.0, *)) {
+            PAWebView *helpVC =[[PAWebView alloc]init];
+            helpVC.urlstring = link;
+            [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        }else{
+            HelpCenterViewController *helpVC = [[HelpCenterViewController alloc]init];
+            helpVC.urlstring = link;
+            [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        }
     };
     topView.blockAdLink= ^(NSString *link, NSInteger index) {
-        PAWebView *helpVC =[[PAWebView alloc]init];
-        helpVC.urlstring = link;
-        [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        if (@available(iOS 11.0, *)) {
+            PAWebView *helpVC =[[PAWebView alloc]init];
+            helpVC.urlstring = link;
+            [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        }else{
+            HelpCenterViewController *helpVC = [[HelpCenterViewController alloc]init];
+            helpVC.urlstring = link;
+            [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        }
     };
     topView.blockTap= ^(NSString *link, NSInteger index) {
-        PAWebView *helpVC =[[PAWebView alloc]init];
-        helpVC.urlstring = link;
-        [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        if (@available(iOS 11.0, *)) {
+            PAWebView *helpVC =[[PAWebView alloc]init];
+            helpVC.urlstring = link;
+            [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        }else{
+            HelpCenterViewController *helpVC = [[HelpCenterViewController alloc]init];
+            helpVC.urlstring = link;
+            [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        }
     };
     height =  [topView getHeight];
     
@@ -210,9 +247,15 @@
     cell.commodityPriceLabel.text = model.price;
      __weak typeof(self) weakSelf = self;
     cell.block = ^(NSString * _Nonnull link, NSInteger index) {
-        PAWebView *helpVC =[[PAWebView alloc]init];
-        helpVC.urlstring =[NSString stringWithFormat:@"Mobile/Goods/goodsList/id/%@", model.idStr2];
-        [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        if (@available(iOS 11.0, *)) {
+            PAWebView *helpVC =[[PAWebView alloc]init];
+            helpVC.urlstring =[NSString stringWithFormat:@"Mobile/Goods/goodsList/id/%@", model.idStr2];
+            [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        }else{
+            HelpCenterViewController *helpVC = [[HelpCenterViewController alloc]init];
+            helpVC.urlstring =[NSString stringWithFormat:@"Mobile/Goods/goodsList/id/%@", model.idStr2];
+            [weakSelf.navigationController pushViewController:helpVC animated:YES];
+        }
     };
     return cell;
     
@@ -231,9 +274,16 @@
     
     NSLog(@"+++++点击item响应的事件----");
     HomeModel *model=  self.favouriteGoodArr[indexPath.row];
-    PAWebView *helpVC =[[PAWebView alloc]init];
-    helpVC.urlstring = [NSString stringWithFormat:@"mobile/Goods/goodsInfo/id/%@",model.idStr];
-    [self.navigationController pushViewController:helpVC animated:YES];
+    if (@available(iOS 11.0, *)) {
+        PAWebView *helpVC =[[PAWebView alloc]init];
+        helpVC.urlstring = [NSString stringWithFormat:@"mobile/Goods/goodsInfo/id/%@",model.idStr];
+        [self.navigationController pushViewController:helpVC animated:YES];
+    }else{
+        HelpCenterViewController *helpVC = [[HelpCenterViewController alloc]init];
+        helpVC.urlstring = [NSString stringWithFormat:@"mobile/Goods/goodsInfo/id/%@",model.idStr];
+        [self.navigationController pushViewController:helpVC animated:YES];
+    }
+    
 }
 
 -(void)loadData{

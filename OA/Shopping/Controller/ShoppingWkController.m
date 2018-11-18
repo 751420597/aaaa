@@ -6,9 +6,9 @@
 //  Copyright © 2018年 xinpingTech. All rights reserved.
 //
 
-#import "ShoppingViewController.h"
+#import "ShoppingWkController.h"
 
-@interface ShoppingViewController ()
+@interface ShoppingWkController ()
 {
     UIWebView *_webViews;
     WKWebView *_wkWebView;
@@ -23,7 +23,7 @@
 @property (nonatomic,strong)NSArray *cookiesArr;
 @end
 
-@implementation ShoppingViewController
+@implementation ShoppingWkController
 -(void)loadData{
     NSDictionary *param = @{@"goods_num":@[@1],@"cart_select":@[@1]};
     [HttpManager requestDataWithURL2:@"mobile/cart/ajaxCartList" hasHttpHeaders:YES params:param withController:self httpMethod:@"POST" completion:^(id result) {
@@ -37,27 +37,9 @@
             NSArray *cartList =result[@"data"][@"cartList"];
             if(cartList.count>0){
                 self.urlstring = @"mobile/cart/cart";
+                [self loadRequset:self.urlstring];
                 
-                [self.webView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id result, NSError *error) {
-                    NSString *userAgent = result;
-                    if(![userAgent containsString:@"native/app"]){
-                        NSString *newUserAgent = [userAgent stringByAppendingString:@" native/app"];
-                        NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:newUserAgent, @"UserAgent", nil];
-                        [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
-                        //在网上找到的没有下面这句话，结果只是更改了本地的UserAgent，没修改网页的，导致一直有问题，好低级的错误，这个函数是9.0之后才出现的，在这之前，把这段代码放在WKWebView的alloc之前才会有效
-                        [[NSUserDefaults standardUserDefaults] synchronize];
-                        [self.webView setCustomUserAgent:newUserAgent];
-                        //加载请求必须同步在设置UA的后面，不然会第一次无效
-                    }
-                    //设置Heard
-                    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.html",kRequestIP,self.urlstring]]];
-                    //NSMutableURLRequest *request  = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.diyoupin.com/testCookies.php"]];
-                    [request setValue:@"DAssist" forHTTPHeaderField:@"DTOAUTH"];
-                    [request setValue:@"www.diyoupin.com" forHTTPHeaderField: @"Referer"];
-                    
-                    [self loadRequestURL:request];
-                }];
-               UIView *view  = [self.view viewWithTag:2];
+                UIView *view  = [self.view viewWithTag:2];
                 view.hidden = YES;
             }else{
                 UIView *view  = [self.view viewWithTag:2];

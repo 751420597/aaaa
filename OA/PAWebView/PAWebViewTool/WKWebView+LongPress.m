@@ -309,12 +309,12 @@ CGPoint touchPoint;
                                  }];
     
     
-    //看图模式
-    UIAlertAction *ActionIntoImageMode = [UIAlertAction actionWithTitle:@"进入看图模式" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        longPress ? longPress(NO) : NULL;
-        [self showAllImageFromHtmIndex:imgUrlString];
-    }];
-     
+//    //看图模式
+//    UIAlertAction *ActionIntoImageMode = [UIAlertAction actionWithTitle:@"进入看图模式" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        longPress ? longPress(NO) : NULL;
+//        [self showAllImageFromHtmIndex:imgUrlString];
+//    }];
+    
     
     //下载图片
     UIAlertAction *ActionloadImage = [UIAlertAction actionWithTitle:@"保存图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -329,10 +329,10 @@ CGPoint touchPoint;
         
     }];
     
-    //分享图片
-    UIAlertAction *ActionShareImage = [UIAlertAction actionWithTitle:@"分享图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        longPress ? longPress(NO) : NULL;
-    }];
+//    //分享图片
+//    UIAlertAction *ActionShareImage = [UIAlertAction actionWithTitle:@"分享图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        longPress ? longPress(NO) : NULL;
+//    }];
     
     //复制标题
     UIAlertAction *ActionCopyInnerTitle = [UIAlertAction actionWithTitle:@"复制链接文字" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -365,9 +365,9 @@ CGPoint touchPoint;
         [imgUrlString.lowercaseString hasSuffix:@"png"] ||
         [imgUrlString.lowercaseString hasSuffix:@"gif"])
     {
-        [showActionTip addAction:ActionIntoImageMode];
+      //  [showActionTip addAction:ActionIntoImageMode];
         [showActionTip addAction:ActionloadImage];
-        [showActionTip addAction:ActionShareImage];
+        //[showActionTip addAction:ActionShareImage];
         if (url) {
             [showActionTip addAction:ActionSacn];
         }

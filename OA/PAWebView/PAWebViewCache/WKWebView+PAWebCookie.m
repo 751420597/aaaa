@@ -194,11 +194,25 @@
     @autoreleasepool {
         NSMutableString *cookieSting = [NSMutableString string];
         NSArray *cookieArr = [self sharedHTTPCookieStorage];
-        for (NSHTTPCookie *cookie in cookieArr) {
+        NSMutableDictionary *cookieDic = [NSMutableDictionary dictionary];
+        
+        for (int i = (int)cookieArr.count -1; i>=0; i--) {
+            NSHTTPCookie *cookie = cookieArr[i];
             if ([cookie.domain containsString:domain]) {
-                [cookieSting appendString:[NSString stringWithFormat:@"document.cookie = '%@=%@';",cookie.name,cookie.value]];
+                [cookieDic setObject:cookie.value forKey:cookie.name];
             }
         }
+        for (NSString *key in cookieDic) {
+            NSString *appendString = [NSString stringWithFormat:@"document.cookie = '%@=%@';", key, [cookieDic valueForKey:key]];
+            [cookieSting appendString:appendString];
+        }
+        
+//
+//        for (NSHTTPCookie *cookie in cookieArr) {
+//            if ([cookie.domain containsString:domain]) {
+//                [cookieSting appendString:[NSString stringWithFormat:@"document.cookie = '%@=%@';",cookie.name,cookie.value]];
+//            }
+//        }
         return cookieSting;
     }
 }

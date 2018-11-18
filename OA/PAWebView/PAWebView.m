@@ -42,8 +42,9 @@ static MessageBlock messageCallback = nil;
     NSString *backUrl;
     NSString *backStr;
     NSString *shareStatus;
-    NSMutableURLRequest *requestAll;
-    NSMutableURLRequest *requestGoods;
+    NSString *requestSt;//
+    UIButton *backButton;
+    UIButton *returnButton;
 }
 @property (nonatomic, retain) PAWebViewMenu *menu;
 @property (nonatomic,   copy) MenuBlock menuBlock;
@@ -88,11 +89,12 @@ static MessageBlock messageCallback = nil;
    
     self.view.backgroundColor = [UIColor whiteColor];
     self.fd_interactivePopDisabled = YES;
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refresh:) name:@"weiXinShare" object:nil];
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getpPayResult) name:@"pay" object:nil];
-       
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getWXPayResult) name:@"wechatpay" object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getAliPayResult) name:@"alipay" object:nil];
         //设置UA
         [self.webView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id result, NSError *error) {
             NSString *userAgent = result;
@@ -107,17 +109,20 @@ static MessageBlock messageCallback = nil;
             }
             //设置Heard
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.html",kRequestIP,self.urlstring]]];
+        
             //NSMutableURLRequest *request  = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.diyoupin.com/testCookies.php"]];
             [request setValue:@"DAssist" forHTTPHeaderField:@"DTOAUTH"];
             [request setValue:@"www.diyoupin.com" forHTTPHeaderField: @"Referer"];
             
             [self loadRequestURL:request];
+            
         }];
-        
         
 //        [self.webView loadRequest:request];
         [self.view addSubview:self.webView];
-        [self creatBackBtn];
+        if(!self.isShopping){
+          [self creatBackBtn];
+        }
         [self configMenuItem];
     });
 }
@@ -127,9 +132,19 @@ static MessageBlock messageCallback = nil;
     [super viewWillAppear:animated];
     [self addBackButton];
 }
--(void)getpPayResult{
-    
+-(void)getWXPayResult{
+    NSString *str = @"showLayer('wxPay')";
+    [self.webView evaluateJavaScript:str completionHandler:^(id _Nullable response, NSError * _Nullable error) {
+        
+    }];
 }
+-(void)getAliPayResult{
+    NSString *str = @"showLayer('aliPay')";
+    [self.webView evaluateJavaScript:str completionHandler:^(id _Nullable response, NSError * _Nullable error) {
+       
+    }];
+}
+//分享后通知回调
 -(void)refresh:(NSNotification *)infor{
     if([infor.userInfo[@"infor"] isEqualToString:@"0"]){
         shareStatus = @"1";
@@ -143,7 +158,7 @@ static MessageBlock messageCallback = nil;
         alertJS = [NSString stringWithFormat:@"%@('%@')",backStr,shareStatus];
     }
     [self.webView evaluateJavaScript:alertJS completionHandler:^(id _Nullable response, NSError * _Nullable error) {
-        [self.webView goBack];
+        
     }];
     
 }
@@ -176,19 +191,27 @@ static MessageBlock messageCallback = nil;
     }else if (iPhoneX_Max){
         buttonHeight = 48;
     }
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    button.frame = CGRectMake([AdaptInterface convertWidthWithWidth:10],tempHeight, [AdaptInterface convertWidthWithWidth:30], buttonHeight);
-    [button setImage:[UIImage imageNamed:@"return"] forState:0];
-    button.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [_webView addSubview:button];
+    backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    backButton.frame = CGRectMake([AdaptInterface convertWidthWithWidth:10],tempHeight, [AdaptInterface convertWidthWithWidth:30], buttonHeight);
+    [backButton setImage:[UIImage imageNamed:@"return"] forState:0];
+    backButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [_webView addSubview:backButton];
     
-    UIButton *button2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button2 setImage:[UIImage imageNamed:@"tuichu"] forState:0];
-    button2.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [button2 addTarget:self action:@selector(popAction) forControlEvents:UIControlEventTouchUpInside];
-    button2.frame = CGRectMake([AdaptInterface convertWidthWithWidth:40], tempHeight, [AdaptInterface convertWidthWithWidth:30],buttonHeight);
-    [_webView addSubview:button2];
+    returnButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [returnButton setImage:[UIImage imageNamed:@"tuichu"] forState:0];
+    returnButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [returnButton addTarget:self action:@selector(popAction) forControlEvents:UIControlEventTouchUpInside];
+    returnButton.frame = CGRectMake([AdaptInterface convertWidthWithWidth:40], tempHeight, [AdaptInterface convertWidthWithWidth:30],buttonHeight);
+    [_webView addSubview:returnButton];
+}
+-(void)setIsShopping:(BOOL)isShopping{
+    int tempHeight = 0;
+    if (iPhoneX||iPhoneXr||iPhoneXs||iPhoneX_Max) {
+        tempHeight = 44;
+    }
+    _webView.frame =CGRectMake( 0, 0, WKSCREEN_WIDTH, WKSCREEN_HEIGHT -tempHeight-56);
+    _isShopping = isShopping;
 }
 -(WKWebView *)webView
 {
@@ -494,15 +517,25 @@ static MessageBlock messageCallback = nil;
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
     }
-    if (@available(iOS 11.0, *)) {
-        //浏览器自动存储cookie
-        NSMutableArray *cookies= [_webView sharedHTTPCookieStorage];
-        for (NSHTTPCookie *cookie in cookies) {
-            [_webView insertCookie:cookie];
-        }
+    
+    requestSt = navigationAction.request.URL.absoluteString;
+    if ([requestSt containsString:@"null"]) {
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
     }
-    NSString *requestSt = navigationAction.request.URL.absoluteString;
-    if ([requestSt containsString:@"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?"] ||[requestSt containsString:@"https://www.diyoupin.com/mobile/pay/ali?"]) {
+    if([requestSt containsString:@"mobile/User/logout"]){
+        [_webView clearWKCookies];
+    }
+    NSDictionary *dic =  navigationAction.request.allHTTPHeaderFields;
+    NSString *a =navigationAction.request.HTTPMethod;
+    NSLog(@"请求方法:%@",a);
+    NSString *doc = @"document.body.outerHTML";
+    [self.webView evaluateJavaScript:doc completionHandler:^(id _Nullable htmlStr, NSError * _Nullable error) {
+             if (error) {NSLog(@"JSError:%@",error);}
+//        NSLog(@"html:%@",htmlStr);
+    }];
+    
+    if ([requestSt containsString:@"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?"] ||[requestSt containsString:@"ali"]) {
         
         WebChatPayH5VIew *h5View = [[WebChatPayH5VIew alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
         //url是没有拼接redirect_url微信h5支付链接
@@ -511,6 +544,33 @@ static MessageBlock messageCallback = nil;
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
     }
+    
+     //注入 cookie
+    if (@available(iOS 11.0, *)) {
+        //浏览器自动存储cookie
+        NSMutableArray *cookies= [_webView sharedHTTPCookieStorage];
+        for (NSHTTPCookie *cookie in cookies) {
+            [_webView insertCookie:cookie];
+        }
+    }else{
+        [self.config.userContentController addUserScript:[webView searchCookieForUserScriptWithDomain:navigationAction.request.URL.host]];
+        if(dic[@"Cookie"] ==nil||[dic[@"Cookie"] isEqualToString:@""]){
+            if([requestSt containsString:@"about:blank"]){
+                decisionHandler(WKNavigationActionPolicyCancel);
+                return;
+            }
+            NSMutableURLRequest *newRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",requestSt]]];
+            //NSMutableURLRequest *request  = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.diyoupin.com/testCookies.php"]];
+            [newRequest setValue:@"DAssist" forHTTPHeaderField:@"DTOAUTH"];
+            [newRequest setValue:@"www.diyoupin.com" forHTTPHeaderField: @"Referer"];
+            [newRequest setValue:[webView phpCookieStringWithDomain:navigationAction.request.URL.host] forHTTPHeaderField:@"Cookie"];
+            
+            [self.webView loadRequest:newRequest];
+            decisionHandler(WKNavigationActionPolicyCancel);
+            return;
+        }
+    }
+   
     
     //将":"前后字符串切割为数组
     if([requestSt containsString:@"forappshare"]){
@@ -532,7 +592,7 @@ static MessageBlock messageCallback = nil;
         NSString *desc  =nil;
         UIImage *decodedImage = nil;
         NSArray *arr0 = [requestSt componentsSeparatedByString:@"/title/"];
-        requestAll =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@.html",arr0[0]] ]];
+        
         if(arr0.count>1){
             NSString *temptitle = arr0[1];
             NSArray *titleArr = [temptitle componentsSeparatedByString:@"/"];
@@ -666,6 +726,7 @@ static MessageBlock messageCallback = nil;
 {
     NSHTTPURLResponse *response = (NSHTTPURLResponse *)navigationResponse.response;
     NSArray *cookies =[NSHTTPCookie cookiesWithResponseHeaderFields:[response allHeaderFields] forURL:response.URL];
+    
     if (@available(iOS 11.0, *)) {
         //浏览器自动存储cookie
         
@@ -693,7 +754,9 @@ static MessageBlock messageCallback = nil;
 {
     
         NSLog(@"%@",webView.URL.absoluteString);
-    
+    if([requestSt containsString:@"forappshare"]){
+        [self.webView goBack];
+    }
     if ([webView.URL.absoluteString.lowercaseString isEqualToString:@"about:blank"]) {
         
 #pragma clang diagnostic push

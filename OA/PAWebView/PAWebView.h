@@ -35,6 +35,7 @@ typedef void (^MenuBlock)(UIAlertController *  alertController, UIAlertAction * 
 @property (nonatomic, assign) BOOL showLog;     //执行日志
 @property (nonatomic, strong) NSString *urlstring;
 @property(nonatomic,  strong) NSString *tag;
+@property (nonatomic, assign) BOOL isShopping;// 购物车
 
 + (instancetype)shareInstance;
 

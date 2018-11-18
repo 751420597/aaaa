@@ -35,6 +35,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"登录";
+    
+    [self clearCookie];
+    
     self.view.backgroundColor = [UIColor whiteColor];
     [IQKeyboardManager sharedManager].enableAutoToolbar = YES;
     [[IQKeyboardManager sharedManager] setEnable:YES];
@@ -43,6 +46,22 @@
     [self.view addGestureRecognizer:tapGesture];
     [self createBackItemWithTarget:self];
     [self _initMainView];
+}
+-(void)clearCookie{
+    if (@available(iOS 11.0, *)) {
+        NSSet *websiteDataTypes = [NSSet setWithObject:WKWebsiteDataTypeCookies];
+        NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
+        [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:^{
+        }];
+    }
+    
+    //删除NSHTTPCookieStorage中的cookies
+    NSHTTPCookieStorage *NSCookiesStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    [NSCookiesStore removeCookiesSinceDate:[NSDate dateWithTimeIntervalSince1970:0]];
+    
+    NSData *cookiesData = [NSKeyedArchiver archivedDataWithRootObject: @[]];
+    [[NSUserDefaults standardUserDefaults] setObject:cookiesData forKey:PAWKCookiesKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 -(void)pop{
     [[NSNotificationCenter defaultCenter] postNotificationName:kGotoHome object:nil];

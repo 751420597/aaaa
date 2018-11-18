@@ -22,7 +22,7 @@
 #import "SortViewController.h"
 #import "StoreViewController.h"
 #import "ShoppingViewController.h"
-
+#import "ShoppingWkController.h"
 @interface MainViewController ()
 {
     UIImageView *_tabBarView;
@@ -145,10 +145,18 @@
     [self addChildViewController:nav3];
     
     
-    ShoppingViewController *moreVC =[[ShoppingViewController alloc] init];
-    UINavigationController *nav4 =[[UINavigationController alloc] initWithRootViewController:moreVC];
-    nav4.delegate = self;
-    [self addChildViewController:nav4];
+    if (@available(iOS 11.0, *)) {
+        ShoppingViewController *moreVC =[[ShoppingViewController alloc] init];
+        UINavigationController *nav4 =[[UINavigationController alloc] initWithRootViewController:moreVC];
+        nav4.delegate = self;
+        [self addChildViewController:nav4];
+    }else{
+        ShoppingWkController *moreVC =[[ShoppingWkController alloc] init];
+        UINavigationController *nav4 =[[UINavigationController alloc] initWithRootViewController:moreVC];
+        nav4.delegate = self;
+        [self addChildViewController:nav4];
+    }
+    
     
     SettingViewController *setVC =[[SettingViewController alloc] init];
     UINavigationController *nav5 =[[UINavigationController alloc] initWithRootViewController:setVC];

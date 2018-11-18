@@ -11,8 +11,11 @@
 #import "NJKWebViewProgressView.h"
 #import <WebKit/WebKit.h>
 
-@interface HelpCenterViewController1 : BaseViewController<UIWebViewDelegate,WKUIDelegate,WKNavigationDelegate,NJKWebViewProgressDelegate,
+@interface HelpCenterViewController : BaseViewController<UIWebViewDelegate,WKUIDelegate,WKNavigationDelegate,NJKWebViewProgressDelegate,
 WKScriptMessageHandler,WKScriptMessageHandler>
-@property (nonatomic, strong) NSString *urlstring;
-@property(nonatomic,strong) NSString *tag;
+@property (nonatomic, copy) NSString *urlstring;
+@property(nonatomic,copy) NSString *tag;
+@property (nonatomic, assign) BOOL isShopping;// 购物车
+
+-(void)loadRequset:(NSString *)url;
 @end

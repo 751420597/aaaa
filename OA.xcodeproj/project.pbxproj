@@ -16,6 +16,8 @@
 		5F0DC72D219A90D00015F433 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F0DC72B219A90D00015F433 /* AlipaySDK.framework */; };
 		5F0DC72F219ADC380015F433 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F0DC72E219ADC380015F433 /* JavaScriptCore.framework */; };
 		5F1AA368218DAB6C00CC2386 /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1AA367218DAB6C00CC2386 /* HomeModel.m */; };
+		5F2B6AEB21A178DD001964FF /* HelpCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE5A452191080E0078E36F /* HelpCenterViewController.m */; };
+		5F2B6AEE21A1B17F001964FF /* ShoppingWkController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F2B6AED21A1B17F001964FF /* ShoppingWkController.m */; };
 		5F448F7D2199BBC400B2CACF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F448F7C2199BBC300B2CACF /* CoreGraphics.framework */; };
 		5F61138B219EB3F00097578C /* PAWebViewMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F611359219EB3F00097578C /* PAWebViewMenu.m */; };
 		5F61138C219EB3F00097578C /* NSURL+PATool.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F61135A219EB3F00097578C /* NSURL+PATool.m */; };
@@ -69,7 +71,6 @@
 		5FE77E37218750C5008AD1D3 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FE77E36218750C5008AD1D3 /* LoginView.m */; };
 		5FEAA470217F6D0F00BAD68B /* StoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEAA46F217F6D0F00BAD68B /* StoreCell.m */; };
 		5FEDA2342180B46200900EFD /* TopItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDA2332180B46200900EFD /* TopItemView.m */; };
-		5FEE5A472191080F0078E36F /* HelpCenterViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE5A452191080E0078E36F /* HelpCenterViewController1.m */; };
 		5FFFA87B2185CCB40024B975 /* Harpy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FFFA7332185CCB30024B975 /* Harpy.m */; };
 		5FFFA87C2185CCB40024B975 /* KDGoalBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FFFA7382185CCB30024B975 /* KDGoalBar.m */; };
 		5FFFA87D2185CCB40024B975 /* KDGoalBarPercentLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FFFA7392185CCB30024B975 /* KDGoalBarPercentLayer.m */; };
@@ -266,6 +267,8 @@
 		5F0DC72E219ADC380015F433 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		5F1AA366218DAB6C00CC2386 /* HomeModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HomeModel.h; path = OA/Main/Controller/HomeModel.h; sourceTree = SOURCE_ROOT; };
 		5F1AA367218DAB6C00CC2386 /* HomeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HomeModel.m; path = OA/Main/Controller/HomeModel.m; sourceTree = SOURCE_ROOT; };
+		5F2B6AEC21A1B17F001964FF /* ShoppingWkController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingWkController.h; sourceTree = "<group>"; };
+		5F2B6AED21A1B17F001964FF /* ShoppingWkController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppingWkController.m; sourceTree = "<group>"; };
 		5F448F7A2199BBB900B2CACF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		5F448F7C2199BBC300B2CACF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		5F448F7E2199BBF600B2CACF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -361,8 +364,8 @@
 		5FEAA46F217F6D0F00BAD68B /* StoreCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreCell.m; sourceTree = "<group>"; };
 		5FEDA2322180B46200900EFD /* TopItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TopItemView.h; path = OA/Store/View/TopItemView.h; sourceTree = SOURCE_ROOT; };
 		5FEDA2332180B46200900EFD /* TopItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TopItemView.m; path = OA/Store/View/TopItemView.m; sourceTree = SOURCE_ROOT; };
-		5FEE5A452191080E0078E36F /* HelpCenterViewController1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpCenterViewController1.m; sourceTree = "<group>"; };
-		5FEE5A462191080F0078E36F /* HelpCenterViewController1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpCenterViewController1.h; sourceTree = "<group>"; };
+		5FEE5A452191080E0078E36F /* HelpCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpCenterViewController.m; sourceTree = "<group>"; };
+		5FEE5A462191080F0078E36F /* HelpCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpCenterViewController.h; sourceTree = "<group>"; };
 		5FFFA7322185CCB30024B975 /* HarpyConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HarpyConstants.h; sourceTree = "<group>"; };
 		5FFFA7332185CCB30024B975 /* Harpy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Harpy.m; sourceTree = "<group>"; };
 		5FFFA7342185CCB30024B975 /* Harpy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Harpy.h; sourceTree = "<group>"; };
@@ -970,6 +973,8 @@
 			children = (
 				5F6D99FB2174DE2F005BAF52 /* ShoppingViewController.h */,
 				5F6D99FC2174DE2F005BAF52 /* ShoppingViewController.m */,
+				5F2B6AEC21A1B17F001964FF /* ShoppingWkController.h */,
+				5F2B6AED21A1B17F001964FF /* ShoppingWkController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1636,8 +1641,8 @@
 				5F6D99F02174DD3C005BAF52 /* Store */,
 				5F6D99F72174DDE4005BAF52 /* Shopping */,
 				62E52AB21CBE4E670065EBE1 /* Common */,
-				5FEE5A462191080F0078E36F /* HelpCenterViewController1.h */,
-				5FEE5A452191080E0078E36F /* HelpCenterViewController1.m */,
+				5FEE5A462191080F0078E36F /* HelpCenterViewController.h */,
+				5FEE5A452191080E0078E36F /* HelpCenterViewController.m */,
 				5F611353219EB3F00097578C /* PAWebView */,
 				5FCBDA34219DA0FB00CC77F1 /* WebChatPayH5VIew.h */,
 				5FCBDA33219DA0FA00CC77F1 /* WebChatPayH5VIew.m */,
@@ -1998,6 +2003,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F2B6AEB21A178DD001964FF /* HelpCenterViewController.m in Sources */,
 				5FFFA8E42185CCB40024B975 /* TAAnimatedDotView.m in Sources */,
 				5FFFA8942185CCB40024B975 /* GTMBase64.m in Sources */,
 				5FFFA8C62185CCB40024B975 /* HyPopMenuView.m in Sources */,
@@ -2121,7 +2127,6 @@
 				5FFFA8C42185CCB40024B975 /* UIColor+ImageGetColor.m in Sources */,
 				5FFFA8822185CCB40024B975 /* MJExtensionConst.m in Sources */,
 				5FFFA8E62185CCB40024B975 /* FMDatabaseQueue.m in Sources */,
-				5FEE5A472191080F0078E36F /* HelpCenterViewController1.m in Sources */,
 				5FFFA88F2185CCB40024B975 /* MJPhotoProgressView.m in Sources */,
 				5FFFA9222185CD3E0024B975 /* NSArray+MASAdditions.m in Sources */,
 				62E52AB01CBE4CAB0065EBE1 /* BaseViewController.m in Sources */,
@@ -2151,6 +2156,7 @@
 				5FE77E31218741BC008AD1D3 /* RegisterViewController.m in Sources */,
 				5FFFA8EE2185CCB40024B975 /* SDWebImageDecoder.m in Sources */,
 				5FFFA8C92185CCB40024B975 /* IQTitleBarButtonItem.m in Sources */,
+				5F2B6AEE21A1B17F001964FF /* ShoppingWkController.m in Sources */,
 				5FFFA8D42185CCB40024B975 /* IQKeyboardReturnKeyHandler.m in Sources */,
 				62E52AD11CBE51E90065EBE1 /* SortViewController.m in Sources */,
 				5FFFA8D12185CCB40024B975 /* IQUIScrollView+Additions.m in Sources */,

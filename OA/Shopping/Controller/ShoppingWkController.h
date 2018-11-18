@@ -6,12 +6,12 @@
 //  Copyright © 2018年 xinpingTech. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "HelpCenterViewController.h"
 #import <WebKit/WebKit.h>
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
-#import "PAWebView.h"
-@interface ShoppingViewController : PAWebView
+
+@interface ShoppingWkController : HelpCenterViewController
 
 @end
 

@@ -20,7 +20,7 @@
 #import "IQKeyboardManager.h"
 #import "UIButton+WebCache.h"
 #import "UIImageView+WebCache.h"
-//#import "PAWebView.h"
+#import "HelpCenterViewController.h"
 #import "PAWebView.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 #import "MJRefresh.h"
