@@ -53,10 +53,11 @@
                     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.html",kRequestIP,self.urlstring]]];
                     //NSMutableURLRequest *request  = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.diyoupin.com/testCookies.php"]];
                     [request setValue:@"DAssist" forHTTPHeaderField:@"DTOAUTH"];
-                    [request setValue:@"www.diyoupin.com" forHTTPHeaderField: @"Referer"];
-                    
+                    //[request setValue:@"www.diyoupin.com" forHTTPHeaderField: @"Referer"];
+                    self.isShopping = YES;
                     [self loadRequestURL:request];
                 }];
+               
                UIView *view  = [self.view viewWithTag:2];
                 view.hidden = YES;
             }else{
@@ -74,18 +75,18 @@
         
     }];
 }
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.navigationController.navigationBar.hidden = YES;
     [self loadData];
 //    [SVProgressHUD showWithStatus:@"请稍后"];
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.isShopping = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self createNativeView];

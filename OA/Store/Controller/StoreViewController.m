@@ -101,7 +101,7 @@
     }];
     
     timeLB = [UILabel new];
-    timeLB.textColor = [UIColor colorWithRed:128 green:128 blue:128 alpha:0.2];
+    timeLB.textColor = [UIColor colorWithRed:255 green:255 blue:255 alpha:0.5];
     timeLB.text = @"注册时间:";
     timeLB.font = [UIFont systemFontOfSize:16.5f];
     [topGroundView addSubview:timeLB];
@@ -144,7 +144,7 @@
     [moneyItemV0.numBT setTitle:@"0" forState:0];
     moneyItemV0.numBT.tag = 5;
     [moneyItemV0.numBT addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
-    moneyItemV0.numBT.titleLabel.font =[UIFont systemFontOfSize:23.f];
+    moneyItemV0.numBT.titleLabel.font =[UIFont systemFontOfSize:17.f];
     [backView addSubview:moneyItemV0];
 
     
@@ -153,7 +153,7 @@
     [moneyItemV1.numBT setTitle:@"0" forState:0];
     moneyItemV1.numBT.tag = 6;
     [moneyItemV1.numBT addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
-    moneyItemV1.numBT.titleLabel.font =[UIFont systemFontOfSize:23.f];
+    moneyItemV1.numBT.titleLabel.font =[UIFont systemFontOfSize:17.f];
     [backView addSubview:moneyItemV1];
     
     
@@ -162,7 +162,7 @@
     [moneyItemV2.numBT setTitle:@"0" forState:0];
     moneyItemV2.numBT.tag = 7;
     [moneyItemV2.numBT addTarget:self action:@selector(pushAction:) forControlEvents:UIControlEventTouchUpInside];
-    moneyItemV2.numBT.titleLabel.font =[UIFont systemFontOfSize:20.f];
+    moneyItemV2.numBT.titleLabel.font =[UIFont systemFontOfSize:17.f];
     [backView addSubview:moneyItemV2];
     
 }
@@ -376,13 +376,22 @@
         }
         NSString *run_money = [NSString stringWithFormat:@"%@",result[@"data"][@"run_money"]] ;
         NSString *money = [NSString stringWithFormat:@"%@",result[@"data"][@"money"][@"achieve_money"]] ;
+        if([money isEqualToString:@"<null>"]){
+            money = @"0";
+        }
+        if([run_money isEqualToString:@"<null>"]){
+            run_money = @"0";
+        }
+        
+        money = [NSString stringWithFormat:@"%.2f",money.floatValue];
+        run_money = [NSString stringWithFormat:@"%.2f",run_money.floatValue];
         
         NSString *total_shop = [NSString stringWithFormat:@"%@",result[@"data"][@"total_shop"]] ;
         NSString *jiFen = [NSString stringWithFormat:@"%@",result[@"data"][@"int"]] ;
         [heardImgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,userdDic[@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"user"]];
         
         [chuangKeBTn setTitle:level_name forState:0];
-        nameLB.text = userdDic[@"nickname"];
+        nameLB.text =[NSString stringWithFormat:@"%@ - %@",userdDic[@"nickname"],level_name] ;
         timeLB.text =[NSString stringWithFormat:@"注册时间:%@",[AdaptInterface getDataByTimeStamp:time withFormatter:@"yyyy-MM-dd"]];
         [moneyItemV0.numBT setTitle:totalOrderNum forState:0];
         [moneyItemV1.numBT setTitle:run_money forState:0];

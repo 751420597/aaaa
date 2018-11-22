@@ -97,18 +97,23 @@
 }
 -(void)selectIndex{
     [self selectedControllerAtIndex:0];
+    [_dockView setSelectedIndex:0];
 }
 -(void)selectIndexList{
      [self selectedControllerAtIndex:1];
+    [_dockView setSelectedIndex:1];
 }
 -(void)selectIndexShop{
      [self selectedControllerAtIndex:3];
+    [_dockView setSelectedIndex:3];
 }
 -(void)selectIndexStore{
      [self selectedControllerAtIndex:2];
+    [_dockView setSelectedIndex:2];
 }
 -(void)selectIndexUser{
      [self selectedControllerAtIndex:4];
+    [_dockView setSelectedIndex:4];
 }
 -(void) selectedControllerAtIndex:(int)index
 {

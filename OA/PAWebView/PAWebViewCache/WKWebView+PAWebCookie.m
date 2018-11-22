@@ -82,7 +82,7 @@
         }
         
         //存储最新有效的cookies
-        NSData *cookiesData = [NSKeyedArchiver archivedDataWithRootObject: cookies];
+        NSData *cookiesData = [NSKeyedArchiver archivedDataWithRootObject: cookiesArr];
         [[NSUserDefaults standardUserDefaults] setObject:cookiesData forKey:PAWKCookiesKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
         

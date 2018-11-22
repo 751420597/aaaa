@@ -101,7 +101,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.fd_interactivePopDisabled = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     [self preferredStatusBarStyle];
     // 导航栏左侧按钮
@@ -121,14 +121,14 @@
     //requestAll = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.diyoupin.com"]];
     
     [requestAll setValue:@"DAssist" forHTTPHeaderField:@"DTOAUTH"];
-    [requestAll setValue:@"www.diyoupin.com" forHTTPHeaderField: @"Referer"];
+    //[requestAll setValue:@"www.diyoupin.com" forHTTPHeaderField: @"Referer"];
     
 //    //配置对象
     int tempHeight = 0;
     if (iPhoneX||iPhoneXr||iPhoneXs||iPhoneX_Max) {
         tempHeight = 44;
     }
-        NSData *cookiesdata = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookie"];
+        NSData *cookiesdata = [[NSUserDefaults standardUserDefaults] objectForKey:PAWKCookiesKey];
         if([cookiesdata length]) {
             NSArray *cookies = [NSKeyedUnarchiver unarchiveObjectWithData:cookiesdata];
             for(NSHTTPCookie*cookie in cookies){
@@ -234,14 +234,14 @@
     //requestAll = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.diyoupin.com"]];
     
     [requestAll setValue:@"DAssist" forHTTPHeaderField:@"DTOAUTH"];
-    [requestAll setValue:@"www.diyoupin.com" forHTTPHeaderField: @"Referer"];
+    //[requestAll setValue:@"www.diyoupin.com" forHTTPHeaderField: @"Referer"];
     
     //    //配置对象
     int tempHeight = 0;
     if (iPhoneX||iPhoneXr||iPhoneXs||iPhoneX_Max) {
         tempHeight = 44;
     }
-    NSData *cookiesdata = [[NSUserDefaults standardUserDefaults] objectForKey:@"cookie"];
+    NSData *cookiesdata = [[NSUserDefaults standardUserDefaults] objectForKey:PAWKCookiesKey];
     if([cookiesdata length]) {
         NSArray *cookies = [NSKeyedUnarchiver unarchiveObjectWithData:cookiesdata];
         for(NSHTTPCookie*cookie in cookies){

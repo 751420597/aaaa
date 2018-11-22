@@ -122,15 +122,15 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 NSHTTPURLResponse *response=  (NSHTTPURLResponse *)task.response;
-                NSString * setCookie = [[NSUserDefaults standardUserDefaults]  objectForKey:@"setCookie"];
-                if(!setCookie){
-                    setCookie = @"";
-                }
-                    NSDictionary *dic = response.allHeaderFields;
-                NSString *cookie = dic[@"Set-Cookie"];
-                
-                    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@%@",setCookie,cookie] forKey:@"setCookie"];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
+//                NSString * setCookie = [[NSUserDefaults standardUserDefaults]  objectForKey:@"setCookie"];
+//                if(!setCookie){
+//                    setCookie = @"";
+//                }
+//                    NSDictionary *dic = response.allHeaderFields;
+//                NSString *cookie = dic[@"Set-Cookie"];
+//
+//                    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@%@",setCookie,cookie] forKey:@"setCookie"];
+//                    [[NSUserDefaults standardUserDefaults] synchronize];
                 
                
                 NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: [NSURL URLWithString:fullURLString]];
@@ -145,14 +145,15 @@
                     //[AdaptInterface tipMessageTitle:dict[@"data"][@"user_id"] view:controller.view];
                     int code0 = [dict[@"status"] intValue] ;
                     int code1 = [dict[@"code"] intValue] ;
+                    int code2 = [dict[@"errNo"] intValue] ;
                     [SVProgressHUD dismiss];
-                    if (code1 == 1||code0==1) {
+                    if (code1 == 1||code0==1 ||code2 ==1) {
                         block(dict);
                     }
                     else{
                         NSString *message =dict[@"msg"];
                         if(message.length<=0){
-                            [AdaptInterface tipMessageTitle:@"未知错误" view:controller.view];
+                            
                         }else{
                             [AdaptInterface tipMessageTitle:message view:controller.view];
                         }
@@ -224,7 +225,7 @@
         }else{
             NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: [NSURL URLWithString:urlString]];
             NSData *data = [NSKeyedArchiver archivedDataWithRootObject:cookies];
-            [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"cookie"];
+            [[NSUserDefaults standardUserDefaults] setObject:data forKey:PAWKCookiesKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
             success(filePath);
         }

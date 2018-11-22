@@ -1939,8 +1939,8 @@
 				TargetAttributes = {
 					62E528211CBE46C50065EBE1 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = 5734CG6EC9;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 7H2F44APL3;
+						ProvisioningStyle = Manual;
 					};
 					62E5283A1CBE46C50065EBE1 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -2338,8 +2338,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5734CG6EC9;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 7H2F44APL3;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2350,7 +2350,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OA/OA_Prefix.pch";
 				INFOPLIST_FILE = OA/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9;
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2364,9 +2364,9 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ubt.eld;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sinping.CRM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = 777;
 				VALID_ARCHS = "armv7 armv7s arm64 arm64e";
 			};
 			name = Debug;
@@ -2378,9 +2378,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5734CG6EC9;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 74Q6F8M3W4;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2391,7 +2391,7 @@
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OA/OA_Prefix.pch";
 				INFOPLIST_FILE = OA/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9;
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2405,9 +2405,9 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ubt.eld;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sinping.CRM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = CRM_InHouse;
 				VALID_ARCHS = "armv7 armv7s arm64 arm64e";
 			};
 			name = Release;

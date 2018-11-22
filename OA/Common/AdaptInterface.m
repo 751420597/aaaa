@@ -432,7 +432,7 @@
     if ([timestamp isKindOfClass:[NSNull class]]) {
         return @"";
     }
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timestamp doubleValue] / 1000];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timestamp doubleValue]];
     
     NSDateFormatter *df = [[NSDateFormatter alloc]init];//格式化
     

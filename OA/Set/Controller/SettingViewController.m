@@ -285,7 +285,7 @@
     
     moneyV2 =[[MoneyItemView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(moneyV1.frame), CGRectGetMinY(btn0.frame), CGRectGetWidth(moneyV0.frame), CGRectGetHeight(moneyV0.frame))];
     [moneyV2.numBT  setTitle:@"00.00" forState:0];
-    moneyV2.numBT.tag = 8;
+    moneyV2.numBT.tag = 10;
     [moneyV2.numBT addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     moneyV2.textLB.text = @"积分";
     [backView2 addSubview:moneyV2];
@@ -398,9 +398,15 @@
             break;
         case 3:
         {
-            //            PAWebView *helpVC =[[PAWebView alloc]init];
-            //            helpVC.urlstring =  @"";
-            //            [self.navigationController pushViewController:helpVC animated:YES];
+            [HttpManager requestDataWithURL2:@"mobile/user/userSign" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
+                [AdaptInterface tipMessageTitle:@"本次签到成功" view:self.view];
+                
+                signBT.numberLB.text = [NSString stringWithFormat:@"%@", result[@"continuous"]];
+            } error:^(id result) {
+                [AdaptInterface tipMessageTitle:@"今日已签到" view:self.view];
+            } failure:^(id result) {
+                
+            }];
         }
             break;
         case 4:
@@ -612,11 +618,13 @@
         }
         [heardImgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,userDic[@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"user"]];
         nameLB.text = userDic[@"nickname"];
+        signBT.numberLB.text =[NSString stringWithFormat:@"%@",result[@"data"][@"signContinuous"]] ;
+        
         myCollectionBT.numberLB.text =[NSString stringWithFormat:@"%@",userDic[@"collect_count"]] ;
         btn2.redLB.text =[NSString stringWithFormat:@"%@",userDic[@"waitComment"]]; //待评论
         btn0.redLB.text =[NSString stringWithFormat:@"%@",userDic[@"waitPay"]]; //待支付
-        btn3.redLB.text =[NSString stringWithFormat:@"%@",userDic[@"waitReceive"]];//退货
-        btn1.redLB.text = [NSString stringWithFormat:@"%@",userDic[@"waitSend"]];//待发货
+        btn3.redLB.text =[NSString stringWithFormat:@"%@",userDic[@"return_count"]];//退货
+        btn1.redLB.text = [NSString stringWithFormat:@"%@",userDic[@"waitReceive"]];//待发货
         if([userDic[@"waitComment"] intValue]!=0){
             [btn2 changeStatus:NO];
         }else{
@@ -629,13 +637,13 @@
             [btn0 changeStatus:YES];
         }
         
-        if([userDic[@"waitReceive"] intValue]!=0){
+        if([userDic[@"return_count"] intValue]!=0){
             [btn3 changeStatus:NO];
         }else{
             [btn3 changeStatus:YES];
         }
         
-        if([userDic[@"waitSend"] intValue]!=0){
+        if([userDic[@"waitReceive"] intValue]!=0){
             [btn1 changeStatus:NO];
         }else{
             [btn1 changeStatus:YES];

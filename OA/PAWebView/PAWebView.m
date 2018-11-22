@@ -89,12 +89,16 @@ static MessageBlock messageCallback = nil;
    
     self.view.backgroundColor = [UIColor whiteColor];
     self.fd_interactivePopDisabled = YES;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
+    self.navigationController.navigationBar.hidden = YES;
+   
         
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refresh:) name:@"weiXinShare" object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getWXPayResult) name:@"wechatpay" object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(getAliPayResult) name:@"alipay" object:nil];
+        
+//        [self.webView loadRequest:request];
+        [self.view addSubview:self.webView];
+        
         //设置UA
         [self.webView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id result, NSError *error) {
             NSString *userAgent = result;
@@ -107,24 +111,17 @@ static MessageBlock messageCallback = nil;
                 [self.webView setCustomUserAgent:newUserAgent];
                 //加载请求必须同步在设置UA的后面，不然会第一次无效
             }
-            //设置Heard
-            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.html",kRequestIP,self.urlstring]]];
-        
-            //NSMutableURLRequest *request  = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.diyoupin.com/testCookies.php"]];
-            [request setValue:@"DAssist" forHTTPHeaderField:@"DTOAUTH"];
-            [request setValue:@"www.diyoupin.com" forHTTPHeaderField: @"Referer"];
-            
-            [self loadRequestURL:request];
-            
         }];
-        
-//        [self.webView loadRequest:request];
-        [self.view addSubview:self.webView];
-        if(!self.isShopping){
-          [self creatBackBtn];
-        }
-        [self configMenuItem];
-    });
+    //设置Heard
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@.html",kRequestIP,self.urlstring]]];
+    
+    //NSMutableURLRequest *request  = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.diyoupin.com/testCookies.php"]];
+    [request setValue:@"DAssist" forHTTPHeaderField:@"DTOAUTH"];
+//    [request setValue:@"www.diyoupin.com" forHTTPHeaderField: @"Referer"];
+    
+    [self loadRequestURL:request];
+    [self creatBackBtn];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -210,8 +207,10 @@ static MessageBlock messageCallback = nil;
     if (iPhoneX||iPhoneXr||iPhoneXs||iPhoneX_Max) {
         tempHeight = 44;
     }
-    _webView.frame =CGRectMake( 0, 0, WKSCREEN_WIDTH, WKSCREEN_HEIGHT -tempHeight-56);
     _isShopping = isShopping;
+    
+    [returnButton removeFromSuperview];
+     _webView.frame =CGRectMake( 0, 0, WKSCREEN_WIDTH, WKSCREEN_HEIGHT -tempHeight-56);
 }
 -(WKWebView *)webView
 {
@@ -233,7 +232,7 @@ static MessageBlock messageCallback = nil;
         _webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal;
         _webView.scrollView.showsVerticalScrollIndicator = YES;
         _webView.scrollView.showsHorizontalScrollIndicator = NO;
-    
+
         if (@available(iOS 11.0, *)) {
             WKHTTPCookieStore *cookieStore = _webView.configuration.websiteDataStore.httpCookieStore;
             [_webView syncCookiesToWKHTTPCookieStore:cookieStore];
@@ -303,19 +302,21 @@ static MessageBlock messageCallback = nil;
  */
 - (void)loadRequestURL:(NSMutableURLRequest *)request
 {
-    _webView = _webView ? _webView : self.webView;
+    //_webView = _webView ? _webView : self.webView;
     NSString *Domain = request.URL.host;
 
-    /** 插入cookies JS */
-    if (Domain)[self.config.userContentController addUserScript:[_webView searchCookieForUserScriptWithDomain:Domain]];
     /** 插入cookies PHP */
     if (@available(iOS 11.0, *)) {
-        
+//        NSMutableArray *cookies= [_webView sharedHTTPCookieStorage];
+//        for (NSHTTPCookie *cookie in cookies) {
+//            [_webView insertCookie:cookie];
+//        }
     }else{
+         /** 插入cookies JS */
+        if (Domain)[self.config.userContentController addUserScript:[_webView searchCookieForUserScriptWithDomain:Domain]];
         if (Domain)[request setValue:[_webView phpCookieStringWithDomain:Domain] forHTTPHeaderField:@"Cookie"];
     }
     
-    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"about:blank"]]];//重置空白界面
     [_webView loadRequest:request];
 }
 
@@ -519,33 +520,13 @@ static MessageBlock messageCallback = nil;
     }
     
     requestSt = navigationAction.request.URL.absoluteString;
+    
     if ([requestSt containsString:@"null"]) {
         decisionHandler(WKNavigationActionPolicyCancel);
         return;
     }
-    if([requestSt containsString:@"mobile/User/logout"]){
-        [_webView clearWKCookies];
-    }
     NSDictionary *dic =  navigationAction.request.allHTTPHeaderFields;
-    NSString *a =navigationAction.request.HTTPMethod;
-    NSLog(@"请求方法:%@",a);
-    NSString *doc = @"document.body.outerHTML";
-    [self.webView evaluateJavaScript:doc completionHandler:^(id _Nullable htmlStr, NSError * _Nullable error) {
-             if (error) {NSLog(@"JSError:%@",error);}
-//        NSLog(@"html:%@",htmlStr);
-    }];
-    
-    if ([requestSt containsString:@"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?"] ||[requestSt containsString:@"ali"]) {
-        
-        WebChatPayH5VIew *h5View = [[WebChatPayH5VIew alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
-        //url是没有拼接redirect_url微信h5支付链接
-        [h5View loadingURL:requestSt withIsWebChatURL:NO];
-        [self.webView addSubview:h5View];
-        decisionHandler(WKNavigationActionPolicyCancel);
-        return;
-    }
-    
-     //注入 cookie
+    //注入 cookie
     if (@available(iOS 11.0, *)) {
         //浏览器自动存储cookie
         NSMutableArray *cookies= [_webView sharedHTTPCookieStorage];
@@ -562,13 +543,34 @@ static MessageBlock messageCallback = nil;
             NSMutableURLRequest *newRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",requestSt]]];
             //NSMutableURLRequest *request  = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://www.diyoupin.com/testCookies.php"]];
             [newRequest setValue:@"DAssist" forHTTPHeaderField:@"DTOAUTH"];
-            [newRequest setValue:@"www.diyoupin.com" forHTTPHeaderField: @"Referer"];
+            //[newRequest setValue:@"www.diyoupin.com" forHTTPHeaderField: @"Referer"];
             [newRequest setValue:[webView phpCookieStringWithDomain:navigationAction.request.URL.host] forHTTPHeaderField:@"Cookie"];
             
             [self.webView loadRequest:newRequest];
             decisionHandler(WKNavigationActionPolicyCancel);
             return;
         }
+    }
+    if([requestSt isEqualToString:@"https://www.diyoupin.com/mobile/User/logout.html"]){
+        [_webView clearWKCookies];
+    }
+    
+    NSString *a =navigationAction.request.HTTPMethod;
+    NSLog(@"请求方法:%@",a);
+    NSString *doc = @"document.body.outerHTML";
+    [self.webView evaluateJavaScript:doc completionHandler:^(id _Nullable htmlStr, NSError * _Nullable error) {
+             if (error) {NSLog(@"JSError:%@",error);}
+//        NSLog(@"html:%@",htmlStr);
+    }];
+    
+    if ([requestSt containsString:@"https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb?"] ||[requestSt containsString:@"ali"]) {
+        
+        WebChatPayH5VIew *h5View = [[WebChatPayH5VIew alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
+        //url是没有拼接redirect_url微信h5支付链接
+        [h5View loadingURL:requestSt withIsWebChatURL:NO];
+        [self.webView addSubview:h5View];
+        decisionHandler(WKNavigationActionPolicyCancel);
+        return;
     }
    
     
@@ -729,7 +731,10 @@ static MessageBlock messageCallback = nil;
     
     if (@available(iOS 11.0, *)) {
         //浏览器自动存储cookie
-        
+        NSMutableArray *cookies= [_webView sharedHTTPCookieStorage];
+        for (NSHTTPCookie *cookie in cookies) {
+            [_webView insertCookie:cookie];
+        }
     }else
     {
         //存储cookies
@@ -953,7 +958,7 @@ static MessageBlock messageCallback = nil;
 /** 进度条 */
 - (UIProgressView *)wkProgressView {
     if (!_wkProgressView) {
-        CGFloat progressBarHeight = [AdaptInterface convertHeightWithHeight:3.5];
+        CGFloat progressBarHeight = 3.5;
         CGRect barFrame = CGRectMake(0,  0, WKSCREEN_WIDTH, progressBarHeight);
         _wkProgressView = [[UIProgressView alloc] initWithFrame:barFrame];
         _wkProgressView.tintColor = [UIColor colorWithRed:50.0/255 green:135.0/255 blue:255.0/255 alpha:1.0];

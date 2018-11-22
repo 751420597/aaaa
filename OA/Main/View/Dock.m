@@ -29,11 +29,11 @@
     if (self) {
         
 
-        [self addDockItemWithIcon:@"1(2)" withSelect:@"2(2)" withTitle:@"首页" withMark:1];
-        [self addDockItemWithIcon:@"3(2)" withSelect:@"4(2)" withTitle:@"分类" withMark:2];
-        [self addDockItemWithIcon:@"5(2)" withSelect:@"6" withTitle:@"小店" withMark:3];
-        [self addDockItemWithIcon:@"7" withSelect:@"8" withTitle:@"购物车" withMark:4];
-        [self addDockItemWithIcon:@"9" withSelect:@"10" withTitle:@"我的" withMark:5];
+        [self addDockItemWithIcon:@"1-1" withSelect:@"11" withTitle:@"首页" withMark:1];
+        [self addDockItemWithIcon:@"2-1" withSelect:@"22" withTitle:@"分类" withMark:2];
+        [self addDockItemWithIcon:@"3-1" withSelect:@"33" withTitle:@"小店" withMark:3];
+        [self addDockItemWithIcon:@"4-1" withSelect:@"44" withTitle:@"购物车" withMark:4];
+        [self addDockItemWithIcon:@"5-1" withSelect:@"55" withTitle:@"我的" withMark:5];
     }
     return self;
 }
@@ -65,13 +65,19 @@
 
 -(void) itemClick:(DockItem *)item
 {
-    
+    // 1.设置当前的选择状态为NO
+    currentItem.selected = NO;
+    currentItem.backgroundColor =[UIColor clearColor];
+    // 2.设置刚点击的状态为选中
+    item.selected = YES;
+    // 3.设置按钮背景
+    //item.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"tabbar_slider.png"]];
+    // 4.设置当前状态为选中的状态
+    currentItem = item;
     // 5.通知控制器
     if (_dockItemClick) {
         _dockItemClick((int)item.tag);
     }
-    
-    
 }
 #pragma mark 重写设置选中索引的方法
 - (void)setSelectedIndex:(int)selectedIndex
