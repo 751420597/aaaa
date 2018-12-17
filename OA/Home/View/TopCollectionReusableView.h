@@ -54,6 +54,8 @@ typedef  void (^BlockTap)(NSString *link,NSInteger index);
 @property(nonatomic,strong)NSDictionary *dicYX2;
 @property(nonatomic,strong)NSDictionary *dicYX3;
 
+@property(nonatomic,strong)NSArray *threeAdArr;
+
 @property(nonatomic,strong)UILabel *addressLB;
 @property(nonatomic,strong)UILabel *messageLB;
 

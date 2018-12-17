@@ -20,6 +20,7 @@
     UITableView *_tableView;
     LoginView *autoLoginView;
     BOOL isSelect;
+    NSString *autoLogin;
 }
 
 
@@ -48,7 +49,7 @@
     [self _initMainView];
 }
 -(void)clearCookie{
-    if (@available(iOS 11.0, *)) {
+    if (@available(iOS 14.0, *)) {
         NSSet *websiteDataTypes = [NSSet setWithObject:WKWebsiteDataTypeCookies];
         NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
         [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:^{
@@ -99,8 +100,10 @@
     
     
     autoLoginView =[[LoginView alloc]initWithFrame:CGRectMake(CGRectGetMinX(self.loginBtn.frame), CGRectGetMaxY(self.loginBtn.frame)+[AdaptInterface convertHeightWithHeight:40], [AdaptInterface convertWidthWithWidth:120], [AdaptInterface convertHeightWithHeight:20])];
-    autoLoginView.imgView.image = [UIImage imageNamed:@"checkbox_unsel"];
+    autoLoginView.imgView.image = [UIImage imageNamed:@"check_box"];
     [autoLoginView.keyBtn setTitle:@"自动登录" forState:0];
+    isSelect = YES;
+    autoLogin = @"1";
     [autoLoginView.keyBtn addTarget:self action:@selector(change) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:autoLoginView];
     
@@ -120,8 +123,10 @@
 -(void)change{
     isSelect = !isSelect;
     if(isSelect){
+        autoLogin = @"1";
         autoLoginView.imgView.image = [UIImage imageNamed:@"check_box"];
     }else{
+        autoLogin = @"0";
         autoLoginView.imgView.image = [UIImage imageNamed:@"checkbox_unsel"];
     }
 }
@@ -168,7 +173,7 @@
         case 2:
         {
             cell.keyLB.text = @"验证码";
-            cell.valueTF.placeholder = @"请输入邮箱/手机号";
+            cell.valueTF.placeholder = @"请输入验证码";
             cell.btn.hidden = NO;
             cell.seeBtn.hidden = YES;
             int x = arc4random() % 100000;
@@ -211,7 +216,7 @@
 
     if ([AdaptInterface isConnected])
     {
-        NSDictionary *param = @{@"username":phone,@"password":passWord,@"verify_code":code};
+        NSDictionary *param = @{@"username":phone,@"password":passWord,@"verify_code":code,@"autologin":autoLogin};
         [HttpManager requestDataWithURL2:@"mobile/user/do_login" hasHttpHeaders:YES params:param withController:self httpMethod:@"POST" completion:^(id result) {
             NSDictionary *data = result[@"result"];
             NSString *userID = data[@"user_id"];

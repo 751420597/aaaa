@@ -24,7 +24,7 @@
 {
     @autoreleasepool {
         
-        if (@available(iOS 11.0, *)) {
+        if (@available(iOS 14.0, *)) {
             WKHTTPCookieStore *cookieStore = self.configuration.websiteDataStore.httpCookieStore;
             [cookieStore setCookie:cookie completionHandler:nil];
         }
@@ -34,15 +34,15 @@
         
         NSMutableArray *TempCookies = [NSMutableArray array];
         NSMutableArray *localCookies =[NSKeyedUnarchiver unarchiveObjectWithData: [[NSUserDefaults standardUserDefaults] objectForKey: PAWKCookiesKey]];
-        for (int i = 0; i < localCookies.count; i++) {
-            NSHTTPCookie *TempCookie = [localCookies objectAtIndex:i];
-            if ([cookie.name isEqualToString:TempCookie.name] &&
-                [cookie.domain isEqualToString:TempCookie.domain]) {
-                [localCookies removeObject:TempCookie];
-                i--;
-                break;
-            }
-        }
+//        for (int i = 0; i < localCookies.count; i++) {
+//            NSHTTPCookie *TempCookie = [localCookies objectAtIndex:i];
+//            if ([cookie.name isEqualToString:TempCookie.name] &&
+//                [cookie.domain isEqualToString:TempCookie.domain]) {
+//                [localCookies removeObject:TempCookie];
+//                i--;
+//                break;
+//            }
+//        }
         [TempCookies addObject:cookie];
         [TempCookies addObjectsFromArray:localCookies];
         
@@ -65,34 +65,34 @@
         /** 获取自定义存储的cookies */
         NSMutableArray *cookies = [NSKeyedUnarchiver unarchiveObjectWithData: [[NSUserDefaults standardUserDefaults] objectForKey: PAWKCookiesKey]];
         
-        //删除过期的cookies
-        for (int i = 0; i < cookies.count; i++) {
-            NSHTTPCookie *cookie = [cookies objectAtIndex:i];
-            if (!cookie.expiresDate) {
-                [cookiesArr addObject:cookie]; //当cookie布设置国旗时间时，视cookie的有效期为长期有效。
-                continue;
-            }
-            if ([cookie.expiresDate compare:self.currentTime]) {
-                [cookiesArr addObject:cookie];
-            }else
-            {
-                [cookies removeObject:cookie]; //清除过期的cookie。
-                i--;
-            }
-        }
+//        //删除过期的cookies
+//        for (int i = 0; i < cookies.count; i++) {
+//            NSHTTPCookie *cookie = [cookies objectAtIndex:i];
+//            if (!cookie.expiresDate) {
+//                [cookiesArr addObject:cookie]; //当cookie布设置国旗时间时，视cookie的有效期为长期有效。
+//                continue;
+//            }
+//            if ([cookie.expiresDate compare:self.currentTime]) {
+//                [cookiesArr addObject:cookie];
+//            }else
+//            {
+//                [cookies removeObject:cookie]; //清除过期的cookie。
+//                i--;
+//            }
+//        }
         
         //存储最新有效的cookies
-        NSData *cookiesData = [NSKeyedArchiver archivedDataWithRootObject: cookiesArr];
-        [[NSUserDefaults standardUserDefaults] setObject:cookiesData forKey:PAWKCookiesKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+//        NSData *cookiesData = [NSKeyedArchiver archivedDataWithRootObject: cookiesArr];
+//        [[NSUserDefaults standardUserDefaults] setObject:cookiesData forKey:PAWKCookiesKey];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
         
-        return cookiesArr;
+        return cookies;
     }
 }
 
 - (void)clearWKCookies
 {
-    if (@available(iOS 11.0, *)) {
+    if (@available(iOS 14.0, *)) {
         NSSet *websiteDataTypes = [NSSet setWithObject:WKWebsiteDataTypeCookies];
         NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
         [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:^{
@@ -110,7 +110,7 @@
 
 - (void)deleteWKCookie:(NSHTTPCookie *)cookie completionHandler:(nullable void (^)(void))completionHandler;
 {
-    if (@available(iOS 11.0, *)) {
+    if (@available(iOS 14.0, *)) {
         
         //删除WKHTTPCookieStore中的cookies
         WKHTTPCookieStore *cookieStore = self.configuration.websiteDataStore.httpCookieStore;
@@ -141,7 +141,7 @@
 
 - (void)deleteWKCookiesByHost:(NSURL *)host completionHandler:(nullable void (^)(void))completionHandler{
     
-    if (@available(iOS 11.0, *)) {
+    if (@available(iOS 14.0, *)) {
         //删除WKHTTPCookieStore中的cookies
         WKHTTPCookieStore *cookieStore = self.configuration.websiteDataStore.httpCookieStore;
         [cookieStore getAllCookies:^(NSArray<NSHTTPCookie *> * cookies) {

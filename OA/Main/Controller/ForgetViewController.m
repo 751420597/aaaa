@@ -8,7 +8,7 @@
 
 #import "ForgetViewController.h"
 #import "UIButton+WebCache.h"
-#import "GetPassWordController.h"
+#import "VerifyController.h"
 @interface ForgetViewController ()<UITextFieldDelegate>
 /**
  手机号
@@ -116,7 +116,8 @@
         NSDictionary *params = @{@"username":_phoneTF.text,@"verify_code":_verCodeTF.text};
         [HttpManager requestDataWithURL2:@"mobile/user/forget_pwd" hasHttpHeaders:YES params:params withController:self httpMethod:@"POST" completion:^(id result) {
             
-            GetPassWordController *vc =[GetPassWordController new];
+            VerifyController *vc =[VerifyController new];
+            vc.phone = _phoneTF.text;
             [self.navigationController pushViewController:vc animated:YES];
         } error:^(id result) {
             

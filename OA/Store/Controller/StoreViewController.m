@@ -272,7 +272,7 @@
         default:
             break;
     }
-    if (@available(iOS 11.0, *)) {
+    if (@available(iOS 14.0, *)) {
         PAWebView *helpVC =[[PAWebView alloc]init];
         helpVC.urlstring = url;
         [self.navigationController pushViewController:helpVC animated:YES];
@@ -334,7 +334,7 @@
             break;
     }
     
-    if (@available(iOS 11.0, *)) {
+    if (@available(iOS 14.0, *)) {
         PAWebView *helpVC =[[PAWebView alloc]init];
         helpVC.urlstring = url;
         [self.navigationController pushViewController:helpVC animated:YES];
@@ -358,7 +358,7 @@
         NSString *totalOrderNum =[NSString stringWithFormat:@"%@",result[@"data"][@"total"]] ;
         
         if ([totalOrderNum isEqualToString:@"(null)"]) {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *vc = [[PAWebView alloc]init];
                 vc.urlstring = @"Mobile/User/level_add";
                 vc.tag = @"store";

@@ -18,4 +18,5 @@ WKScriptMessageHandler,WKScriptMessageHandler>
 @property (nonatomic, assign) BOOL isShopping;// 购物车
 
 -(void)loadRequset:(NSString *)url;
+-(void)tapAction;
 @end

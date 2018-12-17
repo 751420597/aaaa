@@ -47,7 +47,7 @@
     self.imgBtn.frame = CGRectMake(CGRectGetMaxX(tableView.frame)+[AdaptInterface convertWidthWithWidth:7],CGRectGetMinY(tableView.frame)+1, currentViewWidth-CGRectGetMaxX(tableView.frame)-[AdaptInterface convertWidthWithWidth:14], [AdaptInterface convertHeightWithHeight:130]);
     self.imgBtn.backgroundColor =[UIColor whiteColor];
     self.imgBtn.userInteractionEnabled = NO;
-    [self.imgBtn addTarget:self action:@selector(linkAction) forControlEvents:UIControlEventTouchUpInside];
+    //[self.imgBtn addTarget:self action:@selector(linkAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.imgBtn];
     
     nameLB = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMinX(self.imgBtn.frame), CGRectGetMaxY(self.imgBtn.frame)+[AdaptInterface convertWidthWithWidth:5], CGRectGetWidth(self.imgBtn.frame), [AdaptInterface convertHeightWithHeight:40])];
@@ -147,7 +147,7 @@
   
     SubSortModel *model = self.subCategoryArr[indexPath.row];
     NSString *url = [NSString stringWithFormat:@"mobile/goods/goodsList/id/%@",model.id];
-    if (@available(iOS 11.0, *)) {
+    if (@available(iOS 14.0, *)) {
         PAWebView *vc = [[PAWebView alloc]init];
         vc.urlstring = url;
         [self.navigationController pushViewController:vc animated:YES];
@@ -200,7 +200,7 @@
 -(void)searchAction:(UIButton *)btn{
     
     NSString *url =  @"mobile/Goods/ajaxSearch";
-    if (@available(iOS 11.0, *)) {
+    if (@available(iOS 14.0, *)) {
         PAWebView *vc = [[PAWebView alloc]init];
         vc.urlstring = url;
         [self.navigationController pushViewController:vc animated:YES];
@@ -256,7 +256,7 @@
 }
 -(void)linkAction{
     
-    if (@available(iOS 11.0, *)) {
+    if (@available(iOS 14.0, *)) {
         PAWebView *helpVC =[[PAWebView alloc]init];
         helpVC.urlstring =  imageDic[@"ad_link"];
         [self.navigationController pushViewController:helpVC animated:YES];

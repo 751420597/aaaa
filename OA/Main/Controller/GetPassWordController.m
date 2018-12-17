@@ -7,13 +7,8 @@
 //
 
 #import "GetPassWordController.h"
-
+#import "LoginViewController.h"
 @interface GetPassWordController ()
-
-/**
-旧密码
- */
-@property(nonatomic,strong) UITextField *phoneTF;
 
 @property(nonatomic,strong) UITextField *passWordTF;
 
@@ -24,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"找回密码";
+    self.title = @"重置密码";
     [self createBackItemWithTarget:self];
     self.view.backgroundColor = kThemeColor;
     
@@ -42,9 +37,6 @@
     if ([_passWordTF isFirstResponder])
     {
         [_passWordTF resignFirstResponder];
-    }else if ([_phoneTF isFirstResponder])
-    {
-        [_phoneTF resignFirstResponder];
     }else if ([_comitPassWordTF isFirstResponder]){
         [_comitPassWordTF resignFirstResponder];
     }
@@ -55,24 +47,9 @@
  */
 - (void)_initMainView
 {
-    //手机号
-    _phoneTF = [[UITextField alloc] initWithFrame:CGRectMake((currentViewWidth-[AdaptInterface convertWidthWithWidth:300])/2,  [AdaptInterface convertHeightWithHeight:50]+65, [AdaptInterface convertWidthWithWidth:300], [AdaptInterface convertHeightWithHeight:45])];
-    _phoneTF.layer.cornerRadius = [AdaptInterface convertWidthWithWidth:5];
-    _phoneTF.backgroundColor =[UIColor whiteColor];
-    _phoneTF.returnKeyType = UIReturnKeyDone;
-    _phoneTF.keyboardType = UIKeyboardTypeNumberPad;
-    _phoneTF.delegate = self;
-    _phoneTF.font = [UIFont fontWithName:@"Helvetica" size:16.f];
-    //UITextField设置placeholder颜色
-    _phoneTF.placeholder = @"请输入原密码";
-    _phoneTF.textAlignment = NSTextAlignmentLeft;
-    _phoneTF.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [AdaptInterface convertWidthWithWidth:15], 0)];
-    //设置显示模式为永远显示(默认不显示)
-    _phoneTF.leftViewMode = UITextFieldViewModeAlways;
-    [self.view addSubview:_phoneTF];
     
     //姓名
-    _passWordTF = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMinX(_phoneTF.frame), CGRectGetMaxY(_phoneTF.frame)+[AdaptInterface convertHeightWithHeight:30], [AdaptInterface convertWidthWithWidth:300], [AdaptInterface convertHeightWithHeight:45])];
+    _passWordTF = [[UITextField alloc] initWithFrame:CGRectMake((currentViewWidth-[AdaptInterface convertWidthWithWidth:300])/2,  [AdaptInterface convertHeightWithHeight:50], [AdaptInterface convertWidthWithWidth:300], [AdaptInterface convertHeightWithHeight:45])];
     _passWordTF.layer.cornerRadius = [AdaptInterface convertWidthWithWidth:5];
     _passWordTF.backgroundColor =[UIColor whiteColor];
     _passWordTF.returnKeyType = UIReturnKeyDone;
@@ -80,7 +57,7 @@
     _passWordTF.delegate = self;
     _passWordTF.font = [UIFont fontWithName:@"Helvetica" size:16.f];
     //UITextField设置placeholder颜色
-    _passWordTF.placeholder = @"请设置6-20位登录密码";
+    _passWordTF.placeholder = @"新密码";
     _passWordTF.textAlignment = NSTextAlignmentLeft;
     _passWordTF.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [AdaptInterface convertWidthWithWidth:15], 0)];
     //设置显示模式为永远显示(默认不显示)
@@ -88,7 +65,7 @@
     [self.view addSubview:_passWordTF];
     
     //确认密码
-    _comitPassWordTF = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMinX(_phoneTF.frame), CGRectGetMaxY(_passWordTF.frame)+[AdaptInterface convertHeightWithHeight:30], [AdaptInterface convertWidthWithWidth:300], [AdaptInterface convertHeightWithHeight:45])];
+    _comitPassWordTF = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMinX(_passWordTF.frame), CGRectGetMaxY(_passWordTF.frame)+[AdaptInterface convertHeightWithHeight:30], [AdaptInterface convertWidthWithWidth:300], [AdaptInterface convertHeightWithHeight:45])];
     _comitPassWordTF.layer.cornerRadius = [AdaptInterface convertWidthWithWidth:5];
     _comitPassWordTF.backgroundColor =[UIColor whiteColor];
     _comitPassWordTF.returnKeyType = UIReturnKeyDone;
@@ -105,7 +82,7 @@
     
     //注册按钮
     UIButton *registerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    registerBtn.frame = CGRectMake(CGRectGetMinX(_phoneTF.frame), CGRectGetMaxY(_comitPassWordTF.frame) + [AdaptInterface convertHeightWithHeight:24], [AdaptInterface convertWidthWithWidth:300], [AdaptInterface convertHeightWithHeight:40]);
+    registerBtn.frame = CGRectMake(CGRectGetMinX(_passWordTF.frame), CGRectGetMaxY(_comitPassWordTF.frame) + [AdaptInterface convertHeightWithHeight:24], [AdaptInterface convertWidthWithWidth:300], [AdaptInterface convertHeightWithHeight:40]);
     registerBtn.backgroundColor = [UIColor redColor];
     [registerBtn setTitle:@"确认" forState:UIControlStateNormal];
     registerBtn.titleLabel.textColor = [UIColor whiteColor];
@@ -120,9 +97,23 @@
 -(void)getPassWord{
     if ([AdaptInterface isConnected])
     {
-        NSDictionary *param = @{@"old_password":_phoneTF.text,@"new_password":_passWordTF.text,@"confirm_password":_comitPassWordTF.text};
-        [HttpManager requestDataWithURL2:@"mobile/user/password" hasHttpHeaders:YES params:param withController:self httpMethod:@"POST" completion:^(id result) {
+        NSDictionary *param = @{@"password":_passWordTF.text,@"password2":_comitPassWordTF.text,@"is_set":@"1"};
+        [HttpManager requestDataWithURL2:@"mobile/user/set_pwd" hasHttpHeaders:YES params:param withController:self httpMethod:@"POST" completion:^(id result) {
             [AdaptInterface tipMessageTitle:@"修改成功" view: self.view];
+            [self clearCookie];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                UINavigationController *naviVc = self.navigationController;//self.navigationController表示本界面
+                NSMutableArray *viewControllers = [[NSMutableArray alloc] init];//初始化一个vc的数组,用于存放跳转本界面以来的所有vc
+                for (UIViewController *vc in [naviVc viewControllers]) {//遍历一路跳转到本界面以来的所有界面
+                    [viewControllers addObject:vc];//将遍历出来的界面存放入数组
+                    
+                    //判断要回退的指定界面是否与遍历的界面相同,ZYYSeconedViewController也可以替换为ZYYThirdViewController
+                    if ([vc isKindOfClass:[LoginViewController class]]) {
+                        [self.navigationController popToViewController:vc animated:YES];//执行回退动作
+                    }
+                }
+            });
+            
         } error:^(id result) {
             
         } failure:^(id result) {
@@ -135,5 +126,20 @@
         return;
     }
 }
-
+-(void)clearCookie{
+    if (@available(iOS 14.0, *)) {
+        NSSet *websiteDataTypes = [NSSet setWithObject:WKWebsiteDataTypeCookies];
+        NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
+        [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:^{
+        }];
+    }
+    
+    //删除NSHTTPCookieStorage中的cookies
+    NSHTTPCookieStorage *NSCookiesStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    [NSCookiesStore removeCookiesSinceDate:[NSDate dateWithTimeIntervalSince1970:0]];
+    
+    NSData *cookiesData = [NSKeyedArchiver archivedDataWithRootObject: @[]];
+    [[NSUserDefaults standardUserDefaults] setObject:cookiesData forKey:PAWKCookiesKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 @end

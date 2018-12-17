@@ -70,6 +70,7 @@
 		5FE77E34218749E7008AD1D3 /* LoginCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FE77E33218749E7008AD1D3 /* LoginCell.m */; };
 		5FE77E37218750C5008AD1D3 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FE77E36218750C5008AD1D3 /* LoginView.m */; };
 		5FEAA470217F6D0F00BAD68B /* StoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEAA46F217F6D0F00BAD68B /* StoreCell.m */; };
+		5FEB639921B56A3F00F888FD /* VerifyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEB639821B56A3F00F888FD /* VerifyController.m */; };
 		5FEDA2342180B46200900EFD /* TopItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEDA2332180B46200900EFD /* TopItemView.m */; };
 		5FFFA87B2185CCB40024B975 /* Harpy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FFFA7332185CCB30024B975 /* Harpy.m */; };
 		5FFFA87C2185CCB40024B975 /* KDGoalBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FFFA7382185CCB30024B975 /* KDGoalBar.m */; };
@@ -362,6 +363,8 @@
 		5FE77E36218750C5008AD1D3 /* LoginView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginView.m; sourceTree = "<group>"; };
 		5FEAA46E217F6D0F00BAD68B /* StoreCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoreCell.h; sourceTree = "<group>"; };
 		5FEAA46F217F6D0F00BAD68B /* StoreCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreCell.m; sourceTree = "<group>"; };
+		5FEB639721B56A3F00F888FD /* VerifyController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerifyController.h; sourceTree = "<group>"; };
+		5FEB639821B56A3F00F888FD /* VerifyController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerifyController.m; sourceTree = "<group>"; };
 		5FEDA2322180B46200900EFD /* TopItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TopItemView.h; path = OA/Store/View/TopItemView.h; sourceTree = SOURCE_ROOT; };
 		5FEDA2332180B46200900EFD /* TopItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = TopItemView.m; path = OA/Store/View/TopItemView.m; sourceTree = SOURCE_ROOT; };
 		5FEE5A452191080E0078E36F /* HelpCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpCenterViewController.m; sourceTree = "<group>"; };
@@ -1708,6 +1711,8 @@
 				5FE77E2F218741BC008AD1D3 /* RegisterViewController.m */,
 				5F8A38FE2189EF3100C30E31 /* ForgetViewController.h */,
 				5F8A38FF2189EF3100C30E31 /* ForgetViewController.m */,
+				5FEB639721B56A3F00F888FD /* VerifyController.h */,
+				5FEB639821B56A3F00F888FD /* VerifyController.m */,
 				5FA81F86218EDC0300F00DA4 /* GetPassWordController.h */,
 				5FA81F87218EDC0300F00DA4 /* GetPassWordController.m */,
 			);
@@ -1939,8 +1944,8 @@
 				TargetAttributes = {
 					62E528211CBE46C50065EBE1 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = 7H2F44APL3;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = 74Q6F8M3W4;
+						ProvisioningStyle = Automatic;
 					};
 					62E5283A1CBE46C50065EBE1 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -2119,6 +2124,7 @@
 				5FFFA8A02185CCB40024B975 /* MJRefreshAutoGifFooter.m in Sources */,
 				62E52AD41CBE51FC0065EBE1 /* SettingViewController.m in Sources */,
 				5FFFA8F02185CCB40024B975 /* SDWebImageDownloader.m in Sources */,
+				5FEB639921B56A3F00F888FD /* VerifyController.m in Sources */,
 				5FFFA8F12185CCB40024B975 /* UIImage+GIF.m in Sources */,
 				5FFFA8CB2185CCB40024B975 /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				5FFFA8D72185CCB40024B975 /* AFURLConnectionOperation.m in Sources */,
@@ -2338,48 +2344,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 7H2F44APL3;
-				ENABLE_BITCODE = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/share_ios_6.9.5/UMSocialUI",
-					"$(PROJECT_DIR)/share_ios_6.9.5",
-					"$(PROJECT_DIR)/OA/Lib/Alipay",
-					"$(PROJECT_DIR)/OA/Lib",
-				);
-				GCC_PREFIX_HEADER = "$(SRCROOT)/OA/OA_Prefix.pch";
-				INFOPLIST_FILE = OA/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/OA/Lib/WeChatSDK1.8.3_NoPay",
-					"$(PROJECT_DIR)/share_ios_6.9.5/SocialLibraries/WeChat",
-					"$(PROJECT_DIR)/share_ios_6.9.5/SocialLibraries/Sina",
-					"$(PROJECT_DIR)/share_ios_6.9.5/SocialLibraries/QQ",
-				);
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sinping.CRM;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = 777;
-				VALID_ARCHS = "armv7 armv7s arm64 arm64e";
-			};
-			name = Debug;
-		};
-		62E528471CBE46C50065EBE1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 74Q6F8M3W4;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2407,7 +2372,48 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinping.CRM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = CRM_InHouse;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				VALID_ARCHS = "armv7 armv7s arm64 arm64e";
+			};
+			name = Debug;
+		};
+		62E528471CBE46C50065EBE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 74Q6F8M3W4;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/share_ios_6.9.5/UMSocialUI",
+					"$(PROJECT_DIR)/share_ios_6.9.5",
+					"$(PROJECT_DIR)/OA/Lib/Alipay",
+					"$(PROJECT_DIR)/OA/Lib",
+				);
+				GCC_PREFIX_HEADER = "$(SRCROOT)/OA/OA_Prefix.pch";
+				INFOPLIST_FILE = OA/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OA/Lib/WeChatSDK1.8.3_NoPay",
+					"$(PROJECT_DIR)/share_ios_6.9.5/SocialLibraries/WeChat",
+					"$(PROJECT_DIR)/share_ios_6.9.5/SocialLibraries/Sina",
+					"$(PROJECT_DIR)/share_ios_6.9.5/SocialLibraries/QQ",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sinping.CRM;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VALID_ARCHS = "armv7 armv7s arm64 arm64e";
 			};
 			name = Release;

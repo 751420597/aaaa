@@ -345,7 +345,7 @@
 //全部订单
 -(void)tapAction:(id)tap{
     
-    if (@available(iOS 11.0, *)) {
+    if (@available(iOS 14.0, *)) {
         PAWebView *helpVC =[[PAWebView alloc]init];
         helpVC.urlstring =  @"Mobile/User/order_list";
         [self.navigationController pushViewController:helpVC animated:YES];
@@ -357,7 +357,7 @@
 }
 -(void)tapAction2:(id)tap{
     
-    if (@available(iOS 11.0, *)) {
+    if (@available(iOS 14.0, *)) {
         PAWebView *helpVC =[[PAWebView alloc]init];
         helpVC.urlstring =  @"Mobile/User/account";
         [self.navigationController pushViewController:helpVC animated:YES];
@@ -371,7 +371,7 @@
     switch (btn.tag) {
         case 1:
         {
-           if (@available(iOS 11.0, *)) {
+           if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring =  @"Mobile/User/collect_list";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -385,7 +385,7 @@
             break;
         case 2:
         {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"mobile/User/message";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -412,7 +412,7 @@
         case 4:
         {
         
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring =@"Mobile/User/order_list/type/WAITPAY";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -425,11 +425,11 @@
             break;
         case 5:
         {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/wait_receive/type/WAITRECEIVE";
                 [self.navigationController pushViewController:helpVC animated:YES];
-            }else{
+           }else{
                 HelpCenterViewController *helpVC = [[HelpCenterViewController alloc]init];
                 helpVC.urlstring = @"Mobile/User/wait_receive/type/WAITRECEIVE";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -438,7 +438,7 @@
             break;
         case 6:
         {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/comment/status/0";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -451,7 +451,7 @@
             break;
         case 7:
         {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/return_goods_list/type/1";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -464,7 +464,7 @@
             break;
         case 8:
         {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/account";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -477,7 +477,7 @@
             break;
         case 9:
         {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/coupon";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -490,7 +490,7 @@
             break;
         case 10:
         {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/Shop/intDetails/name/user";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -503,7 +503,7 @@
             break;
         case 11:
         {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/userinfo";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -516,7 +516,7 @@
             break;
         case 12:
         {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"mobile/User/message";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -536,7 +536,7 @@
     switch (indexPath.row) {
         case 0:
         {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/level_add";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -549,7 +549,7 @@
             break;
         case 1:
         {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/comment/status/1";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -562,7 +562,7 @@
             break;
         case 2:
         {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/Activity/coupon_list";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -575,7 +575,7 @@
             break;
         case 3:
         {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/visit_log";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -588,7 +588,7 @@
             break;
         case 4:
         {
-            if (@available(iOS 11.0, *)) {
+            if (@available(iOS 14.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/address_list";
                 [self.navigationController pushViewController:helpVC animated:YES];

@@ -71,6 +71,7 @@
     [self getIconData];
     [self getDataforHDP];
     [self getCollections];
+    [self getThreeAD];
     if(topView&&topView.scrollLable){
         [topView.scrollLable refreshLabels];
     }
@@ -93,7 +94,7 @@
     topView = [[TopCollectionReusableView alloc]initWithFrame:CGRectZero];
     __weak typeof(self) weakSelf = self;
     topView.block = ^(NSString *link, NSInteger index) {
-        if (@available(iOS 11.0, *)) {
+        if (@available(iOS 14.0, *)) {
             PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring = link;
             [weakSelf.navigationController pushViewController:helpVC animated:YES];
@@ -105,7 +106,7 @@
         
     };
     topView.blockLink = ^(NSString *link, NSInteger index) {
-        if (@available(iOS 11.0, *)) {
+        if (@available(iOS 14.0, *)) {
             PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring = link;
             [weakSelf.navigationController pushViewController:helpVC animated:YES];
@@ -116,7 +117,7 @@
         }
     };
     topView.blockSudokuLink = ^(NSString *link, NSInteger index) {
-        if (@available(iOS 11.0, *)) {
+        if (@available(iOS 14.0, *)) {
             PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring = link;
             [weakSelf.navigationController pushViewController:helpVC animated:YES];
@@ -128,7 +129,7 @@
     };
     
     topView.blockAdLink= ^(NSString *link, NSInteger index) {
-        if (@available(iOS 11.0, *)) {
+        if (@available(iOS 14.0, *)) {
             PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring = link;
             [weakSelf.navigationController pushViewController:helpVC animated:YES];
@@ -139,7 +140,7 @@
         }
     };
     topView.blockAdLink= ^(NSString *link, NSInteger index) {
-        if (@available(iOS 11.0, *)) {
+        if (@available(iOS 14.0, *)) {
             PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring = link;
             [weakSelf.navigationController pushViewController:helpVC animated:YES];
@@ -150,7 +151,7 @@
         }
     };
     topView.blockTap= ^(NSString *link, NSInteger index) {
-        if (@available(iOS 11.0, *)) {
+        if (@available(iOS 14.0, *)) {
             PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring = link;
             [weakSelf.navigationController pushViewController:helpVC animated:YES];
@@ -247,7 +248,7 @@
     cell.commodityPriceLabel.text = model.price;
      __weak typeof(self) weakSelf = self;
     cell.block = ^(NSString * _Nonnull link, NSInteger index) {
-        if (@available(iOS 11.0, *)) {
+        if (@available(iOS 14.0, *)) {
             PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =[NSString stringWithFormat:@"Mobile/Goods/goodsList/id/%@", model.idStr2];
             [weakSelf.navigationController pushViewController:helpVC animated:YES];
@@ -274,7 +275,7 @@
     
     NSLog(@"+++++点击item响应的事件----");
     HomeModel *model=  self.favouriteGoodArr[indexPath.row];
-    if (@available(iOS 11.0, *)) {
+    if (@available(iOS 14.0, *)) {
         PAWebView *helpVC =[[PAWebView alloc]init];
         helpVC.urlstring = [NSString stringWithFormat:@"mobile/Goods/goodsInfo/id/%@",model.idStr];
         [self.navigationController pushViewController:helpVC animated:YES];
@@ -292,7 +293,14 @@
         self.infoStr = result[@"data"][@"info"][@"info"];
         topView.yanxuanArr = self.yanxuanArr;
         topView.info = self.infoStr;
-        topView.messageLB.text =[NSString stringWithFormat:@"消息(%@)",result[@"data"][@"get_num"]];
+        NSString *userStr =[NSString stringWithFormat:@"%@",result[@"data"][@"user_id"]]  ;
+        if(userStr==nil ||userStr.longLongValue ==0 ){
+            topView.messageLB.text =[NSString stringWithFormat:@"未登录"];
+        }else{
+            topView.userInteractionEnabled = YES;
+            topView.messageLB.text =[NSString stringWithFormat:@"消息(%@)",result[@"data"][@"get_num"]];
+        }
+        
     } error:^(id result) {
         
     } failure:^(id result) {
@@ -365,6 +373,19 @@
         self.dicYX3 =[NSDictionary dictionary] ;
         self.dicYX3= result[0];
         topView.dicYX3 = self.dicYX3;
+    } error:^(id result) {
+        
+    } failure:^(id result) {
+        
+    }];
+}
+//获取三栏广告w数据
+-(void)getThreeAD{
+    [HttpManager requestDataWithURL2:@"Home/Api/getAdData" hasHttpHeaders:YES params:@{@"pid":@(51317),@"limit":@(3)} withController:self httpMethod:@"POST" completion:^(id result) {
+        
+        NSArray *arr = result;
+        topView.threeAdArr = arr;
+        
     } error:^(id result) {
         
     } failure:^(id result) {

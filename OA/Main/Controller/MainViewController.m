@@ -150,7 +150,7 @@
     [self addChildViewController:nav3];
     
     
-    if (@available(iOS 11.0, *)) {
+    if (@available(iOS 14.0, *)) {
         ShoppingViewController *moreVC =[[ShoppingViewController alloc] init];
         UINavigationController *nav4 =[[UINavigationController alloc] initWithRootViewController:moreVC];
         nav4.delegate = self;

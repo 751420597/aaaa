@@ -89,6 +89,7 @@
     NSDictionary *dic = self.adArr[index];
     NSString *linkStr = dic[@"ad_link"];
      linkStr = [linkStr stringByReplacingOccurrencesOfString:@"https://www.diyoupin.com/" withString:@""];
+    linkStr = [linkStr stringByReplacingOccurrencesOfString:@".html" withString:@""];
     if (self.block) {
         _block(linkStr,index);
     }
@@ -186,7 +187,7 @@
     activeBtn0.frame = CGRectMake([AdaptInterface convertWidthWithWidth:15], CGRectGetMaxY(scrollLable.frame)+3+[AdaptInterface convertHeightWithHeight:5], (currentViewWidth-[AdaptInterface convertWidthWithWidth:60])/3, [AdaptInterface convertHeightWithHeight:150]);
     activeBtn0.tag = 100;
     //activeBtn0.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [activeBtn0 setImage:[UIImage imageNamed:@"indexc1"] forState:0];
+    //[activeBtn0 setImage:[UIImage imageNamed:@"indexc1"] forState:0];
     [activeBtn0 addTarget:self action:@selector(adAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:activeBtn0];
     
@@ -194,14 +195,14 @@
     activeBtn1.frame = CGRectMake([AdaptInterface convertWidthWithWidth:15]+CGRectGetMaxX(activeBtn0.frame), CGRectGetMinY(activeBtn0.frame), CGRectGetWidth(activeBtn0.frame), CGRectGetHeight(activeBtn0.frame));
     activeBtn1.tag = 101;
     //activeBtn1.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [activeBtn1 setImage:[UIImage imageNamed:@"indexc2"] forState:0];
+    //[activeBtn1 setImage:[UIImage imageNamed:@"indexc2"] forState:0];
     [activeBtn1 addTarget:self action:@selector(adAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:activeBtn1];
     
     activeBtn2 =[UIButton buttonWithType:UIButtonTypeCustom];
     activeBtn2.frame = CGRectMake([AdaptInterface convertWidthWithWidth:15]+CGRectGetMaxX(activeBtn1.frame), CGRectGetMinY(activeBtn0.frame), CGRectGetWidth(activeBtn0.frame), CGRectGetHeight(activeBtn0.frame));
 
-    [activeBtn2 setImage:[UIImage imageNamed:@"indexc3"] forState:0];
+    //[activeBtn2 setImage:[UIImage imageNamed:@"indexc3"] forState:0];
     //activeBtn2.imageView.contentMode = UIViewContentModeScaleAspectFit;
     activeBtn2.tag = 102;
     [activeBtn2 addTarget:self action:@selector(adAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -435,13 +436,13 @@
     NSString *url = @"";
     switch (btn.tag) {
         case 100:
-                url = @"/Mobile/Goods/goodsList/id/1115";
+                url = self.threeAdArr[0][@"ad_link"];
             break;
         case 101:
-            url = @"/Mobile/Goods/goodsList/id/1116";
+            url = self.threeAdArr[1][@"ad_link"];
             break;
         case 102:
-            url = @"/Mobile/Goods/goodsList/id/1117";
+            url = self.threeAdArr[2][@"ad_link"];
             break;
         case 111:
             url = @"mobile/Goods/ajaxSearch";
@@ -457,5 +458,19 @@
 -(void)setInfo:(NSString *)info{
     
     scrollLable.text = info;
+}
+-(void)setThreeAdArr:(NSArray *)threeAdArr{
+    _threeAdArr = threeAdArr;
+    if(threeAdArr.count >0) {
+        
+        NSDictionary *dic0 = threeAdArr[0];
+        [activeBtn0 sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,dic0[@"ad_code"]]] forState:0];
+        
+        NSDictionary *dic1 = threeAdArr[1];
+        [activeBtn1 sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,dic1[@"ad_code"]]] forState:0];
+        
+        NSDictionary *dic2 = threeAdArr[2];
+        [activeBtn2 sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,dic2[@"ad_code"]]] forState:0];
+    }
 }
 @end

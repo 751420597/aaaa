@@ -39,10 +39,10 @@
                 self.urlstring = @"mobile/cart/cart";
                 [self loadRequset:self.urlstring];
                 
-                UIView *view  = [self.view viewWithTag:2];
+                UIView *view  = [self.view viewWithTag:200];
                 view.hidden = YES;
             }else{
-                UIView *view  = [self.view viewWithTag:2];
+                UIView *view  = [self.view viewWithTag:200];
                 view.hidden = NO;
                 [self.view bringSubviewToFront:view];
                 
@@ -76,7 +76,7 @@
 -(void)createNativeView{
     backView = [UIView new];
     backView.frame = self.view.bounds;
-    backView.tag = 2;
+    backView.tag = 200;
     backView.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:backView];
     
@@ -105,6 +105,10 @@
 -(void)goShipping{
     [[NSNotificationCenter defaultCenter] postNotificationName:kGotoHome object:nil];
 }
-
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [super tapAction];
+}
 
 @end

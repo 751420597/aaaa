@@ -233,7 +233,7 @@ static MessageBlock messageCallback = nil;
         _webView.scrollView.showsVerticalScrollIndicator = YES;
         _webView.scrollView.showsHorizontalScrollIndicator = NO;
 
-        if (@available(iOS 11.0, *)) {
+        if (@available(iOS 14.0, *)) {
             WKHTTPCookieStore *cookieStore = _webView.configuration.websiteDataStore.httpCookieStore;
             [_webView syncCookiesToWKHTTPCookieStore:cookieStore];
         }
@@ -306,16 +306,16 @@ static MessageBlock messageCallback = nil;
     NSString *Domain = request.URL.host;
 
     /** 插入cookies PHP */
-    if (@available(iOS 11.0, *)) {
+//    if (@available(iOS 14.0, *)) {
 //        NSMutableArray *cookies= [_webView sharedHTTPCookieStorage];
 //        for (NSHTTPCookie *cookie in cookies) {
 //            [_webView insertCookie:cookie];
 //        }
-    }else{
+//    }else{
          /** 插入cookies JS */
         if (Domain)[self.config.userContentController addUserScript:[_webView searchCookieForUserScriptWithDomain:Domain]];
         if (Domain)[request setValue:[_webView phpCookieStringWithDomain:Domain] forHTTPHeaderField:@"Cookie"];
-    }
+//    }
     
     [_webView loadRequest:request];
 }
@@ -527,13 +527,18 @@ static MessageBlock messageCallback = nil;
     }
     NSDictionary *dic =  navigationAction.request.allHTTPHeaderFields;
     //注入 cookie
-    if (@available(iOS 11.0, *)) {
-        //浏览器自动存储cookie
-        NSMutableArray *cookies= [_webView sharedHTTPCookieStorage];
-        for (NSHTTPCookie *cookie in cookies) {
-            [_webView insertCookie:cookie];
-        }
-    }else{
+//    if (@available(iOS 14.0, *)) {
+//        //浏览器自动存储cookie
+//        NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: navigationAction.request.URL];
+//        //浏览器自动存储cookie
+//        for (NSHTTPCookie *cookie in cookies) {
+//            [webView insertCookie:cookie];
+//        }
+//        NSMutableArray *cookies2= [_webView sharedHTTPCookieStorage];
+//        for (NSHTTPCookie *cookie in cookies2) {
+//            [webView insertCookie:cookie];
+//        }
+//    }else{
         [self.config.userContentController addUserScript:[webView searchCookieForUserScriptWithDomain:navigationAction.request.URL.host]];
         if(dic[@"Cookie"] ==nil||[dic[@"Cookie"] isEqualToString:@""]){
             if([requestSt containsString:@"about:blank"]){
@@ -550,10 +555,11 @@ static MessageBlock messageCallback = nil;
             decisionHandler(WKNavigationActionPolicyCancel);
             return;
         }
-    }
+//    }
     if([requestSt isEqualToString:@"https://www.diyoupin.com/mobile/User/logout.html"]){
         [_webView clearWKCookies];
     }
+    
     
     NSString *a =navigationAction.request.HTTPMethod;
     NSLog(@"请求方法:%@",a);
@@ -727,16 +733,16 @@ static MessageBlock messageCallback = nil;
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler
 {
     NSHTTPURLResponse *response = (NSHTTPURLResponse *)navigationResponse.response;
-    NSArray *cookies =[NSHTTPCookie cookiesWithResponseHeaderFields:[response allHeaderFields] forURL:response.URL];
-    
-    if (@available(iOS 11.0, *)) {
-        //浏览器自动存储cookie
-        NSMutableArray *cookies= [_webView sharedHTTPCookieStorage];
-        for (NSHTTPCookie *cookie in cookies) {
-            [_webView insertCookie:cookie];
-        }
-    }else
-    {
+    //NSArray *cookies =[NSHTTPCookie cookiesWithResponseHeaderFields:[response allHeaderFields] forURL:response.URL];
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: response.URL];
+//    if (@available(iOS 14.0, *)) {
+//        //浏览器自动存储cookie
+//
+//        for (NSHTTPCookie *cookie in cookies) {
+//            [_webView insertCookie:cookie];
+//        }
+//    }else
+//    {
         //存储cookies
         dispatch_sync(dispatch_get_global_queue(0, 0), ^{
 
@@ -751,7 +757,7 @@ static MessageBlock messageCallback = nil;
                 
             }
         });
-    }
+//    }
     decisionHandler(WKNavigationResponsePolicyAllow);
 }
 
