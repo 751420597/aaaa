@@ -146,8 +146,9 @@
                     int code0 = [dict[@"status"] intValue] ;
                     int code1 = [dict[@"code"] intValue] ;
                     int code2 = [dict[@"errNo"] intValue] ;
+                    
                     [SVProgressHUD dismiss];
-                    if (code1 == 1||code0==1 ||code2 ==1) {
+                    if (code1 == 1||code0==1 ||code2 ==1 ||dict[@"iosApplying"] !=nil) {
                         block(dict);
                     }
                     else{

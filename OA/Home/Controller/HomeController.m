@@ -80,8 +80,20 @@
     [super viewDidLoad];
     
     self.title =@"首页";
+    [HttpManager requestDataWithURL2:@"Home/Api/isIOSApplying" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
+        NSDictionary *data = result;
+        NSString *isIos = data[@"iosApplying"];
+        NSUserDefaults *user =[NSUserDefaults standardUserDefaults];
+        [user setObject:isIos forKey:kiosApplying];
+        [user synchronize];
+        
+        [self initCollectionView];
+    } error:^(id result) {
+        
+    } failure:^(id result) {
+        
+    }];
     
-    [self initCollectionView];
 }
 -(void)getLocation:(NSNotification *)info{
     NSDictionary *dic = info.userInfo;
@@ -91,10 +103,11 @@
 /*初始化CollectionView*/
 - (void)initCollectionView
 {
+    
     topView = [[TopCollectionReusableView alloc]initWithFrame:CGRectZero];
     __weak typeof(self) weakSelf = self;
     topView.block = ^(NSString *link, NSInteger index) {
-        if (@available(iOS 14.0, *)) {
+        if (@available(iOS 19.0, *)) {
             PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring = link;
             [weakSelf.navigationController pushViewController:helpVC animated:YES];
@@ -106,7 +119,7 @@
         
     };
     topView.blockLink = ^(NSString *link, NSInteger index) {
-        if (@available(iOS 14.0, *)) {
+        if (@available(iOS 19.0, *)) {
             PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring = link;
             [weakSelf.navigationController pushViewController:helpVC animated:YES];
@@ -117,7 +130,7 @@
         }
     };
     topView.blockSudokuLink = ^(NSString *link, NSInteger index) {
-        if (@available(iOS 14.0, *)) {
+        if (@available(iOS 19.0, *)) {
             PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring = link;
             [weakSelf.navigationController pushViewController:helpVC animated:YES];
@@ -129,7 +142,7 @@
     };
     
     topView.blockAdLink= ^(NSString *link, NSInteger index) {
-        if (@available(iOS 14.0, *)) {
+        if (@available(iOS 19.0, *)) {
             PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring = link;
             [weakSelf.navigationController pushViewController:helpVC animated:YES];
@@ -140,7 +153,7 @@
         }
     };
     topView.blockAdLink= ^(NSString *link, NSInteger index) {
-        if (@available(iOS 14.0, *)) {
+        if (@available(iOS 19.0, *)) {
             PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring = link;
             [weakSelf.navigationController pushViewController:helpVC animated:YES];
@@ -151,7 +164,7 @@
         }
     };
     topView.blockTap= ^(NSString *link, NSInteger index) {
-        if (@available(iOS 14.0, *)) {
+        if (@available(iOS 19.0, *)) {
             PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring = link;
             [weakSelf.navigationController pushViewController:helpVC animated:YES];
@@ -248,7 +261,7 @@
     cell.commodityPriceLabel.text = model.price;
      __weak typeof(self) weakSelf = self;
     cell.block = ^(NSString * _Nonnull link, NSInteger index) {
-        if (@available(iOS 14.0, *)) {
+        if (@available(iOS 19.0, *)) {
             PAWebView *helpVC =[[PAWebView alloc]init];
             helpVC.urlstring =[NSString stringWithFormat:@"Mobile/Goods/goodsList/id/%@", model.idStr2];
             [weakSelf.navigationController pushViewController:helpVC animated:YES];
@@ -275,7 +288,7 @@
     
     NSLog(@"+++++点击item响应的事件----");
     HomeModel *model=  self.favouriteGoodArr[indexPath.row];
-    if (@available(iOS 14.0, *)) {
+    if (@available(iOS 19.0, *)) {
         PAWebView *helpVC =[[PAWebView alloc]init];
         helpVC.urlstring = [NSString stringWithFormat:@"mobile/Goods/goodsInfo/id/%@",model.idStr];
         [self.navigationController pushViewController:helpVC animated:YES];
@@ -310,6 +323,13 @@
 //获取幻灯片
 -(void)getDataforHDP{
     [HttpManager requestDataWithURL2:@"Home/Api/getAdData" hasHttpHeaders:YES params:@{@"pid":@(2),@"limit":@(3)} withController:self httpMethod:@"POST" completion:^(id result) {
+        
+        if([result isKindOfClass:[NSArray class]]){
+            NSArray *arr = result;
+            if(arr.count==0){
+                return ;
+            }
+        }
         self.adArr = result;
         topView.adArr = self.adArr;
     } error:^(id result) {
@@ -321,6 +341,12 @@
 //获取品牌
 -(void)getIconData{
     [HttpManager requestDataWithURL2:@"Home/Api/getBrandList" hasHttpHeaders:YES params:@{@"limit":@(8)} withController:self httpMethod:@"POST" completion:^(id result) {
+        if([result isKindOfClass:[NSArray class]]){
+            NSArray *arr = result;
+            if(arr.count==0){
+                return ;
+            }
+        }
         self.iconeArr = result;
         topView.iconeArr = self.iconeArr;
     } error:^(id result) {
@@ -348,6 +374,12 @@
 //获取严选
 -(void)getDataforYX1{
     [HttpManager requestDataWithURL2:@"Home/Api/getAdData" hasHttpHeaders:YES params:@{@"pid":@(303)} withController:self httpMethod:@"POST" completion:^(id result) {
+        if([result isKindOfClass:[NSArray class]]){
+            NSArray *arr = result;
+            if(arr.count==0){
+                return ;
+            }
+        }
         self.dicYX1 =[NSDictionary dictionary] ;
         self.dicYX1 = result[0];
         topView.dicYX1 = self.dicYX1;
@@ -359,6 +391,12 @@
 }
 -(void)getDataforYX2{
     [HttpManager requestDataWithURL2:@"Home/Api/getAdData" hasHttpHeaders:YES params:@{@"pid":@(304)} withController:self httpMethod:@"POST" completion:^(id result) {
+        if([result isKindOfClass:[NSArray class]]){
+            NSArray *arr = result;
+            if(arr.count==0){
+                return ;
+            }
+        }
         self.dicYX2 =[NSDictionary dictionary] ;
         self.dicYX2 = result[0];
         topView.dicYX2 = self.dicYX2;
@@ -370,6 +408,12 @@
 }
 -(void)getDataforYX3{
     [HttpManager requestDataWithURL2:@"Home/Api/getAdData" hasHttpHeaders:YES params:@{@"pid":@(305)} withController:self httpMethod:@"POST" completion:^(id result) {
+        if([result isKindOfClass:[NSArray class]]){
+            NSArray *arr = result;
+            if(arr.count==0){
+                return ;
+            }
+        }
         self.dicYX3 =[NSDictionary dictionary] ;
         self.dicYX3= result[0];
         topView.dicYX3 = self.dicYX3;
@@ -383,6 +427,12 @@
 -(void)getThreeAD{
     [HttpManager requestDataWithURL2:@"Home/Api/getAdData" hasHttpHeaders:YES params:@{@"pid":@(51317),@"limit":@(3)} withController:self httpMethod:@"POST" completion:^(id result) {
         
+        if([result isKindOfClass:[NSArray class]]){
+            NSArray *arr = result;
+            if(arr.count==0){
+                return ;
+            }
+        }
         NSArray *arr = result;
         topView.threeAdArr = arr;
         

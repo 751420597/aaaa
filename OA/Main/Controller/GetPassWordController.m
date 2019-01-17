@@ -127,7 +127,7 @@
     }
 }
 -(void)clearCookie{
-    if (@available(iOS 14.0, *)) {
+    if (@available(iOS 19.0, *)) {
         NSSet *websiteDataTypes = [NSSet setWithObject:WKWebsiteDataTypeCookies];
         NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
         [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:^{

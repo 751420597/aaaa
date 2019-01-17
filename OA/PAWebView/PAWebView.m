@@ -233,7 +233,7 @@ static MessageBlock messageCallback = nil;
         _webView.scrollView.showsVerticalScrollIndicator = YES;
         _webView.scrollView.showsHorizontalScrollIndicator = NO;
 
-        if (@available(iOS 14.0, *)) {
+        if (@available(iOS 19.0, *)) {
             WKHTTPCookieStore *cookieStore = _webView.configuration.websiteDataStore.httpCookieStore;
             [_webView syncCookiesToWKHTTPCookieStore:cookieStore];
         }
@@ -306,7 +306,7 @@ static MessageBlock messageCallback = nil;
     NSString *Domain = request.URL.host;
 
     /** 插入cookies PHP */
-//    if (@available(iOS 14.0, *)) {
+//    if (@available(iOS 19.0, *)) {
 //        NSMutableArray *cookies= [_webView sharedHTTPCookieStorage];
 //        for (NSHTTPCookie *cookie in cookies) {
 //            [_webView insertCookie:cookie];
@@ -527,7 +527,7 @@ static MessageBlock messageCallback = nil;
     }
     NSDictionary *dic =  navigationAction.request.allHTTPHeaderFields;
     //注入 cookie
-//    if (@available(iOS 14.0, *)) {
+//    if (@available(iOS 19.0, *)) {
 //        //浏览器自动存储cookie
 //        NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: navigationAction.request.URL];
 //        //浏览器自动存储cookie
@@ -735,7 +735,7 @@ static MessageBlock messageCallback = nil;
     NSHTTPURLResponse *response = (NSHTTPURLResponse *)navigationResponse.response;
     //NSArray *cookies =[NSHTTPCookie cookiesWithResponseHeaderFields:[response allHeaderFields] forURL:response.URL];
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL: response.URL];
-//    if (@available(iOS 14.0, *)) {
+//    if (@available(iOS 19.0, *)) {
 //        //浏览器自动存储cookie
 //
 //        for (NSHTTPCookie *cookie in cookies) {

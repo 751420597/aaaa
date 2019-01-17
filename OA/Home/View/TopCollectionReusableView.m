@@ -105,8 +105,16 @@
     [self addSubview:v0];
     
     OderItemView *v1 = [[OderItemView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(v0.frame), CGRectGetMaxY(cycleScrollView.frame), currentViewWidth/4, currentViewWidth/4)];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *isIos = [user objectForKey:kiosApplying];
+    if ([isIos isEqualToString:@"1"]) {
+        v1.textLB.text = @"秒杀特惠";
+        [v1.imgView setImage:[UIImage imageNamed:@"推广海报"] forState:0];
+    }else{
     v1.textLB.text = @"充值中心";
     [v1.imgView setImage:[UIImage imageNamed:@"充值中心"] forState:0];
+    }
+    
     v1.imgView.tag = 2;
     [v1.imgView addTarget:self action:@selector(pushSudoku:)  forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:v1];
@@ -403,7 +411,16 @@
             url = @"Mobile/User/level_add";
             break;
         case 2:
-            url = @"mobile/User/mobilemoney";
+        {
+            NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+            NSString *isIos = [user objectForKey:kiosApplying];
+            if ([isIos isEqualToString:@"1"]) {
+                url = @"/Mobile/Goods/goodsList/id/1116";
+            }else{
+                url = @"mobile/User/mobilemoney";
+            }
+            
+        }
             break;
         case 3:
             url =@"mobile/Shop/share/id/3" ;

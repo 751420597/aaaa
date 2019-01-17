@@ -401,6 +401,7 @@
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
+    
     NSString *requestSt=[[request URL] absoluteString];
     
     NSString *userAgent = [_webViews stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
@@ -425,16 +426,27 @@
         backUrl = @"";
         return YES;
     }
-    
+    UIButton *button = [_webViews viewWithTag:1];
+    UIButton *button2 = [_webViews viewWithTag:2];
     if ([requestSt rangeOfString:@"weixin://wap/pay"].location != NSNotFound || [requestSt rangeOfString:@"alipay://"].location != NSNotFound) {
         
         if([requestSt rangeOfString:@"alipay://"].location != NSNotFound){
             if([requestSt containsString:@"alipays"]){
+               
                 requestSt = [requestSt stringByReplacingOccurrencesOfString:@"alipays" withString:@"www.diyoupin.com"];
+                if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:requestSt]]){
+                    
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:requestSt] options:@{} completionHandler:^(BOOL success) {
+                        [webView goBack];
+                    } ];
+                }else{
+                    button.hidden = YES;
+                    [button2 setImage:[UIImage imageNamed:@"退出"] forState:0];
+                    CGRect fr = button2.frame;
+                    button2.frame = CGRectMake(fr.origin.x + 18, fr.origin.y, fr.size.width, fr.size.height);
+                    
+                }
                 
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:requestSt] options:@{} completionHandler:^(BOOL success) {
-                    [webView goBack];
-                } ];
                 return NO;
             }
         }else if([requestSt rangeOfString:@"weixin://"].location != NSNotFound){
@@ -450,8 +462,14 @@
                         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
                         //设置授权域名
                         [request setValue:@"www.diyoupin.com://" forHTTPHeaderField: @"Referer"];
-                        [webView loadRequest:request];
-                        [webView goBack];
+                        if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:requestSt]]){
+                            
+                            [webView loadRequest:request];
+                            [webView goBack];
+                        }else{
+                            [AdaptInterface tipMessageTitle:@"请先安装微信客户端!" view:self.view];
+                        }
+                        
                     });
                 });
                 return NO;
@@ -588,8 +606,6 @@
     //发送分享信息
     if([WXApi openWXApp]){
          [WXApi sendReq:req1];
-    }else{
-        [AdaptInterface tipMessageTitle:@"请检查是否安装了微信客户端!" view: self.view];
     }
    
     

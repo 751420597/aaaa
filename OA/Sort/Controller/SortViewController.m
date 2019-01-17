@@ -147,7 +147,7 @@
   
     SubSortModel *model = self.subCategoryArr[indexPath.row];
     NSString *url = [NSString stringWithFormat:@"mobile/goods/goodsList/id/%@",model.id];
-    if (@available(iOS 14.0, *)) {
+    if (@available(iOS 19.0, *)) {
         PAWebView *vc = [[PAWebView alloc]init];
         vc.urlstring = url;
         [self.navigationController pushViewController:vc animated:YES];
@@ -200,7 +200,7 @@
 -(void)searchAction:(UIButton *)btn{
     
     NSString *url =  @"mobile/Goods/ajaxSearch";
-    if (@available(iOS 14.0, *)) {
+    if (@available(iOS 19.0, *)) {
         PAWebView *vc = [[PAWebView alloc]init];
         vc.urlstring = url;
         [self.navigationController pushViewController:vc animated:YES];
@@ -245,6 +245,12 @@
 //获取幻灯片
 -(void)getDataforHDP{
     [HttpManager requestDataWithURL2:@"Home/Api/getAdData" hasHttpHeaders:YES params:@{@"pid":@(400),@"limit":@(1)} withController:self httpMethod:@"POST" completion:^(id result) {
+        if([result isKindOfClass:[NSArray class]]){
+            NSArray *arr = result;
+            if(arr.count==0){
+                return ;
+            }
+        }
         imageDic =result[0];
         [self.imgBtn sd_setBackgroundImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kRequestIP,imageDic[@"ad_code"]]] forState:0];
         self.imgBtn.userInteractionEnabled = YES;
@@ -256,7 +262,7 @@
 }
 -(void)linkAction{
     
-    if (@available(iOS 14.0, *)) {
+    if (@available(iOS 19.0, *)) {
         PAWebView *helpVC =[[PAWebView alloc]init];
         helpVC.urlstring =  imageDic[@"ad_link"];
         [self.navigationController pushViewController:helpVC animated:YES];

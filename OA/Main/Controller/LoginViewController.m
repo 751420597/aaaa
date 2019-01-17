@@ -49,7 +49,7 @@
     [self _initMainView];
 }
 -(void)clearCookie{
-    if (@available(iOS 14.0, *)) {
+    if (@available(iOS 19.0, *)) {
         NSSet *websiteDataTypes = [NSSet setWithObject:WKWebsiteDataTypeCookies];
         NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
         [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:^{
@@ -225,7 +225,8 @@
             
             [UIApplication sharedApplication].delegate.window.rootViewController = [[MainViewController alloc] init];
         } error:^(id result) {
-            
+            LoginCell *cell2 = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+            [cell2 changeImage];
         } failure:^(id result) {
             
         }];

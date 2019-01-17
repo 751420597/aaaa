@@ -66,7 +66,7 @@
 }
 
 -(void)creatTopView{
-    topGroundView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, currentViewWidth, [AdaptInterface convertHeightWithHeight:155])];
+    topGroundView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, currentViewWidth, [AdaptInterface convertHeightWithHeight:145])];
     topGroundView.image = [UIImage imageNamed:@"我的"];
     topGroundView.userInteractionEnabled = YES;
     [self.view addSubview:topGroundView];
@@ -90,7 +90,7 @@
     [messageBtn addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
     [topGroundView addSubview:messageBtn];
     
-    heardImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, [AdaptInterface convertWidthWithWidth:60], [AdaptInterface convertWidthWithWidth:60])];
+    heardImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, [AdaptInterface convertWidthWithWidth:55], [AdaptInterface convertWidthWithWidth:55])];
     heardImgView.center = CGPointMake([AdaptInterface convertWidthWithWidth:60], topGroundView.frame.size.height/2);
     heardImgView.layer.cornerRadius = heardImgView.frame.size.width/2;
     heardImgView.layer.masksToBounds = YES;
@@ -150,7 +150,7 @@
 }
 
 -(void)createTradView{
-    backView =[[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(topGroundView_2.frame)+[AdaptInterface convertHeightWithHeight:10], currentViewWidth, [AdaptInterface convertHeightWithHeight:110])];
+    backView =[[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(topGroundView_2.frame)+[AdaptInterface convertHeightWithHeight:10], currentViewWidth, [AdaptInterface convertHeightWithHeight:110] -10)];
     backView.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:backView];
     
@@ -192,7 +192,7 @@
         make.height.mas_offset(1);
     }];
     
-    btn0 =[[OderItemView alloc]initWithFrame:CGRectMake([AdaptInterface convertWidthWithWidth:15], CGRectGetMaxY(imagView.frame)+[AdaptInterface convertHeightWithHeight:11], (currentViewWidth-75)/4, (currentViewWidth-100)/4)];
+    btn0 =[[OderItemView alloc]initWithFrame:CGRectMake([AdaptInterface convertWidthWithWidth:15], CGRectGetMaxY(imagView.frame)+[AdaptInterface convertHeightWithHeight:11], (currentViewWidth-75)/4, (currentViewWidth-100)/4-10)];
     [btn0.imgView setImage:[UIImage imageNamed:@"待付款"] forState:0];
     btn0.imgView.tag = 4;
     [btn0.imgView addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -225,7 +225,7 @@
     
 }
 -(void)createMyWalletView{
-    backView2 =[[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(backView.frame)+[AdaptInterface convertHeightWithHeight:10], currentViewWidth, [AdaptInterface convertHeightWithHeight:110])];
+    backView2 =[[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(backView.frame)+[AdaptInterface convertHeightWithHeight:10], currentViewWidth, [AdaptInterface convertHeightWithHeight:100])];
     backView2.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:backView2];
     
@@ -267,7 +267,7 @@
         make.height.mas_offset(1);
     }];
     
-    moneyV0 =[[MoneyItemView alloc]initWithFrame:CGRectMake([AdaptInterface convertWidthWithWidth:15], CGRectGetMaxY(imagView.frame)+[AdaptInterface convertHeightWithHeight:11], (currentViewWidth-30)/3, [AdaptInterface convertHeightWithHeight:75])];
+    moneyV0 =[[MoneyItemView alloc]initWithFrame:CGRectMake([AdaptInterface convertWidthWithWidth:15], CGRectGetMaxY(imagView.frame)+[AdaptInterface convertHeightWithHeight:11], (currentViewWidth-30)/3, [AdaptInterface convertHeightWithHeight:65])];
     [moneyV0.numBT  setTitle:@"00.00" forState:0];
     moneyV0.numBT.tag = 8;
     [moneyV0.numBT addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -299,6 +299,76 @@
     _tableView.scrollEnabled = NO;
     [self.view addSubview:_tableView];
     
+    
+    UILabel *tempLabel = [UILabel new];
+    tempLabel.text = @"及";
+    tempLabel.font = [UIFont systemFontOfSize:12.5f];
+    [self.view addSubview:tempLabel];
+    [tempLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_offset(0);
+        make.centerY.mas_equalTo(_tableView.mas_bottom).mas_offset(15);
+    }];
+    
+    UILabel *linkLb0 = [UILabel new];
+    linkLb0.text = @"《迪优品用户协议》";
+    linkLb0.font = tempLabel.font;
+    linkLb0.textColor = [UIColor blueColor];
+    NSMutableAttributedString *content = [[NSMutableAttributedString alloc] initWithString:linkLb0.text];
+    NSRange contentRange = {0, [content length]};
+    [content addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange];
+    linkLb0.attributedText = content;
+    //添加点击事件
+    linkLb0.userInteractionEnabled = true;
+    UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showXieYi)];
+    linkLb0.tag = 200;
+    [linkLb0 addGestureRecognizer:tapGes];
+    [self.view addSubview:linkLb0];
+    [linkLb0 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(tempLabel.mas_left);
+         make.centerY.mas_equalTo(tempLabel.mas_centerY);
+    }];
+    
+    UILabel *linkLb1 = [UILabel new];
+    linkLb1.text = @"《迪优品隐私政策》";
+    linkLb1.font = linkLb0.font;
+     linkLb1.tag = 201;
+    linkLb1.textColor = [UIColor blueColor];
+    NSMutableAttributedString *content1 = [[NSMutableAttributedString alloc] initWithString:linkLb0.text];
+    NSRange contentRange1 = {0, [content1 length]};
+    [content1 addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange1];
+    linkLb1.attributedText = content1;
+    //添加点击事件
+    linkLb1.userInteractionEnabled = true;
+    UITapGestureRecognizer* tapGes1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showYinSi)];
+    [linkLb1 addGestureRecognizer:tapGes1];
+    [self.view addSubview:linkLb1];
+    [linkLb1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(tempLabel.mas_right);
+        make.centerY.mas_equalTo(linkLb0.mas_centerY);
+    }];
+    
+}
+-(void)showXieYi{
+    if (@available(iOS 19.0, *)) {
+        PAWebView *helpVC =[[PAWebView alloc]init];
+        helpVC.urlstring = @"xieyi2";
+        [self.navigationController pushViewController:helpVC animated:YES];
+    }else{
+        HelpCenterViewController *helpVC = [[HelpCenterViewController alloc]init];
+        helpVC.urlstring = @"xieyi2";
+        [self.navigationController pushViewController:helpVC animated:YES];
+    }
+}
+-(void)showYinSi{
+    if (@available(iOS 19.0, *)) {
+        PAWebView *helpVC =[[PAWebView alloc]init];
+        helpVC.urlstring = @"xieyi1";
+        [self.navigationController pushViewController:helpVC animated:YES];
+    }else{
+        HelpCenterViewController *helpVC = [[HelpCenterViewController alloc]init];
+        helpVC.urlstring = @"xieyi1";
+        [self.navigationController pushViewController:helpVC animated:YES];
+    }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 5;
@@ -345,7 +415,7 @@
 //全部订单
 -(void)tapAction:(id)tap{
     
-    if (@available(iOS 14.0, *)) {
+    if (@available(iOS 19.0, *)) {
         PAWebView *helpVC =[[PAWebView alloc]init];
         helpVC.urlstring =  @"Mobile/User/order_list";
         [self.navigationController pushViewController:helpVC animated:YES];
@@ -357,7 +427,7 @@
 }
 -(void)tapAction2:(id)tap{
     
-    if (@available(iOS 14.0, *)) {
+    if (@available(iOS 19.0, *)) {
         PAWebView *helpVC =[[PAWebView alloc]init];
         helpVC.urlstring =  @"Mobile/User/account";
         [self.navigationController pushViewController:helpVC animated:YES];
@@ -371,7 +441,7 @@
     switch (btn.tag) {
         case 1:
         {
-           if (@available(iOS 14.0, *)) {
+           if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring =  @"Mobile/User/collect_list";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -385,7 +455,7 @@
             break;
         case 2:
         {
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"mobile/User/message";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -412,7 +482,7 @@
         case 4:
         {
         
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring =@"Mobile/User/order_list/type/WAITPAY";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -425,7 +495,7 @@
             break;
         case 5:
         {
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/wait_receive/type/WAITRECEIVE";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -438,7 +508,7 @@
             break;
         case 6:
         {
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/comment/status/0";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -451,7 +521,7 @@
             break;
         case 7:
         {
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/return_goods_list/type/1";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -464,7 +534,7 @@
             break;
         case 8:
         {
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/account";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -477,7 +547,7 @@
             break;
         case 9:
         {
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/coupon";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -490,7 +560,7 @@
             break;
         case 10:
         {
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/Shop/intDetails/name/user";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -503,7 +573,7 @@
             break;
         case 11:
         {
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/userinfo";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -516,7 +586,7 @@
             break;
         case 12:
         {
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"mobile/User/message";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -536,7 +606,7 @@
     switch (indexPath.row) {
         case 0:
         {
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/level_add";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -549,7 +619,7 @@
             break;
         case 1:
         {
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/comment/status/1";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -562,7 +632,7 @@
             break;
         case 2:
         {
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/Activity/coupon_list";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -575,7 +645,7 @@
             break;
         case 3:
         {
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/visit_log";
                 [self.navigationController pushViewController:helpVC animated:YES];
@@ -588,7 +658,7 @@
             break;
         case 4:
         {
-            if (@available(iOS 14.0, *)) {
+            if (@available(iOS 19.0, *)) {
                 PAWebView *helpVC =[[PAWebView alloc]init];
                 helpVC.urlstring = @"Mobile/User/address_list";
                 [self.navigationController pushViewController:helpVC animated:YES];

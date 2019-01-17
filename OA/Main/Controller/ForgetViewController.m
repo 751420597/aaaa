@@ -120,7 +120,7 @@
             vc.phone = _phoneTF.text;
             [self.navigationController pushViewController:vc animated:YES];
         } error:^(id result) {
-            
+            [self changeImage];
         } failure:^(id result) {
             
         }];

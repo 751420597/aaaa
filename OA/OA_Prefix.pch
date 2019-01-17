@@ -56,7 +56,7 @@
 #define PAWKCookiesKey @"org.skyfox.PAWKShareInstanceCookies"
 //项目访问路径
 #define kRequestIP @"https://www.diyoupin.com/"
-
+#define kiosApplying @"iosApplying"
 #define kThemeColor colorWithHexString(@"#ebefed")
 #define kSystemFontOfSize(A) [UIFont systemFontOfSize:A]
 #define iosVersion [[[UIDevice currentDevice] systemVersion] floatValue]

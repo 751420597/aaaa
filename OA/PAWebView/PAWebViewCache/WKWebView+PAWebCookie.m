@@ -24,7 +24,7 @@
 {
     @autoreleasepool {
         
-        if (@available(iOS 14.0, *)) {
+        if (@available(iOS 19.0, *)) {
             WKHTTPCookieStore *cookieStore = self.configuration.websiteDataStore.httpCookieStore;
             [cookieStore setCookie:cookie completionHandler:nil];
         }
@@ -92,7 +92,7 @@
 
 - (void)clearWKCookies
 {
-    if (@available(iOS 14.0, *)) {
+    if (@available(iOS 19.0, *)) {
         NSSet *websiteDataTypes = [NSSet setWithObject:WKWebsiteDataTypeCookies];
         NSDate *dateFrom = [NSDate dateWithTimeIntervalSince1970:0];
         [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:websiteDataTypes modifiedSince:dateFrom completionHandler:^{
@@ -110,7 +110,7 @@
 
 - (void)deleteWKCookie:(NSHTTPCookie *)cookie completionHandler:(nullable void (^)(void))completionHandler;
 {
-    if (@available(iOS 14.0, *)) {
+    if (@available(iOS 19.0, *)) {
         
         //删除WKHTTPCookieStore中的cookies
         WKHTTPCookieStore *cookieStore = self.configuration.websiteDataStore.httpCookieStore;
@@ -141,7 +141,7 @@
 
 - (void)deleteWKCookiesByHost:(NSURL *)host completionHandler:(nullable void (^)(void))completionHandler{
     
-    if (@available(iOS 14.0, *)) {
+    if (@available(iOS 19.0, *)) {
         //删除WKHTTPCookieStore中的cookies
         WKHTTPCookieStore *cookieStore = self.configuration.websiteDataStore.httpCookieStore;
         [cookieStore getAllCookies:^(NSArray<NSHTTPCookie *> * cookies) {

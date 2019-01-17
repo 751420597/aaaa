@@ -15,7 +15,31 @@
 @end
 
 @implementation BaseViewController
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    if ([AdaptInterface isConnected])
+    {
+    
+        [HttpManager requestDataWithURL2:@"Home/Api/isIOSApplying" hasHttpHeaders:YES params:nil withController:self httpMethod:@"POST" completion:^(id result) {
+            NSDictionary *data = result;
+            NSString *isIos = data[@"iosApplying"];
+            NSUserDefaults *user =[NSUserDefaults standardUserDefaults];
+            [user setObject:isIos forKey:kiosApplying];
+            [user synchronize];
+        } error:^(id result) {
+            
+        } failure:^(id result) {
+            
+        }];
+    }
+    else
+    {
+        [AdaptInterface tipMessageTitle:@"无网络连接" view:self.view];
+        return;
+    }
 
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = kThemeColor;

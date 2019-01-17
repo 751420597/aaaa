@@ -66,7 +66,7 @@
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:newUrl] options:@{} completionHandler:^(BOOL success) {
                         
                     } ];
-                    return NO;
+                    return YES;
                 }
             }
             
