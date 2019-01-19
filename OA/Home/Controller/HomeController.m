@@ -88,10 +88,39 @@
         [user synchronize];
         
         [self initCollectionView];
+        
+        [self getDataforYX1];
+        [self getDataforYX2];
+        [self getDataforYX3];
+        [self getIconData];
+        [self getDataforHDP];
+        [self getThreeAD];
     } error:^(id result) {
         
+        NSUserDefaults *user =[NSUserDefaults standardUserDefaults];
+        [user setObject:@"1" forKey:kiosApplying];
+        [user synchronize];
+        
+        [self initCollectionView];
+        [self getDataforYX1];
+        [self getDataforYX2];
+        [self getDataforYX3];
+        [self getIconData];
+        [self getDataforHDP];
+        [self getThreeAD];
     } failure:^(id result) {
         
+        NSUserDefaults *user =[NSUserDefaults standardUserDefaults];
+        [user setObject:@"1" forKey:kiosApplying];
+        [user synchronize];
+        
+        [self initCollectionView];
+        [self getDataforYX1];
+        [self getDataforYX2];
+        [self getDataforYX3];
+        [self getIconData];
+        [self getDataforHDP];
+        [self getThreeAD];
     }];
     
 }
@@ -327,9 +356,11 @@
         if([result isKindOfClass:[NSArray class]]){
             NSArray *arr = result;
             if(arr.count==0){
+                NSLog(@"getDataforHDP _ 0");
                 return ;
             }
         }
+        NSLog(@"getDataforHDP");
         self.adArr = result;
         topView.adArr = self.adArr;
     } error:^(id result) {
@@ -344,9 +375,11 @@
         if([result isKindOfClass:[NSArray class]]){
             NSArray *arr = result;
             if(arr.count==0){
+                NSLog(@"getIconData _ 0");
                 return ;
             }
         }
+        NSLog(@"getIconData");
         self.iconeArr = result;
         topView.iconeArr = self.iconeArr;
     } error:^(id result) {
@@ -377,9 +410,11 @@
         if([result isKindOfClass:[NSArray class]]){
             NSArray *arr = result;
             if(arr.count==0){
+                NSLog(@"getDataforYX1 _ 0");
                 return ;
             }
         }
+        NSLog(@"getDataforYX1");
         self.dicYX1 =[NSDictionary dictionary] ;
         self.dicYX1 = result[0];
         topView.dicYX1 = self.dicYX1;
